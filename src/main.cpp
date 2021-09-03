@@ -1,10 +1,13 @@
 #include <iostream>
 #include <QScreen>
 #include <QApplication>
+#include <window/main_window.h>
 #include <settings/settings_window.h>
 
 int main(int argc, char* argv[]) {
     QApplication app(argc, argv);
-    Settings::Window window_settings(1, 1);
+    Settings::Window window_settings(0.85, 0.75);
+    MainWindow main_window(&window_settings);
+    main_window.show();
     return app.exec();
 }

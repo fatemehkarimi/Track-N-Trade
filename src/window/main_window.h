@@ -6,10 +6,13 @@
 
 class MainWindow {
 public:
-    MainWindow();
+    MainWindow(Settings::Window* window_setting);
+    void setUpWindow();
+    void show();
 
 private:
-QWidget* window;
+    QWidget* window;
+    Settings::Window* settings;
 };
 
 #endif
