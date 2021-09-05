@@ -1,4 +1,4 @@
-QT += core widgets gui
+QT += core widgets gui network
 TEMPLATE = app
 TARGET  = TrackNTrade
 

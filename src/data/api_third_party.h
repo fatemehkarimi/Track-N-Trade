@@ -1,5 +1,5 @@
-#ifndef THIRD_PARTY_API
-#define THIRD_PARTY_API
+#ifndef API_THIRD_PARTY
+#define API_THIRD_PARTY
 
 #include <QList>
 #include "api.h"

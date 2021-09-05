@@ -1,5 +1,3 @@
-#include <iostream>
-#include <QScreen>
 #include <QApplication>
 #include <window/main_window.h>
 #include <settings/settings_window.h>
