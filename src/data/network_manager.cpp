@@ -1,8 +1,9 @@
 #include <QNetworkReply>
 #include "network_manager.h"
 
-NetworkManager::NetworkManager() {
-    _network = new QNetworkAccessManager();
+NetworkManager::NetworkManager(JsonReceiver* receiver) {
+    this->_network = new QNetworkAccessManager();
+    this->receiver = receiver;
 }
 
 void NetworkManager::fetchJson(QString url) {
@@ -20,6 +21,7 @@ void NetworkManager::finished() {
     QByteArray response = pendingReply->readAll();
     QJsonDocument doc = QJsonDocument::fromJson(response);
     QJsonObject json = doc.object();
+    receiver->jsonReady(json);
 
     QMetaObject::Connection c = pendingConnections.pop();
     QObject::disconnect(c);
