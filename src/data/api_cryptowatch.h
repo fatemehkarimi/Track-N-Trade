@@ -13,9 +13,8 @@ class CryptowatchApi : public JsonReceiver,
     Q_OBJECT
 public:
     explicit CryptowatchApi();
-    Exchange currentExchange() override;
-    void setExchangeByName(QString name) override;
-    QList <Exchange> exchangeList() override;
+    Exchange getExchange(QString exchange_symbol) override;
+    QMap <QString, Exchange> exchangeList() override;
 
 private slots:
     void exchangeListReady(QJsonObject);
@@ -25,7 +24,7 @@ private:
 
     CryptowatchConfig api_config;
     NetworkManager* network_manager;
-    QList <Exchange> exchange_list;
+    QMap <QString, Exchange> exchange_list;
     QStack <QMetaObject::Connection> connection_list;
 };
 

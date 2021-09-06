@@ -8,7 +8,8 @@ CryptowatchApi::CryptowatchApi() {
 void CryptowatchApi::getExchangeList() {
     network_manager->fetchJson(api_config.getExchangeListPath());
     QMetaObject::Connection c = QObject::connect(
-        this, &CryptowatchApi::jsonReady, this, &CryptowatchApi::exchangeListReady);
+        this, &CryptowatchApi::jsonReady,
+        this, &CryptowatchApi::exchangeListReady);
 
     connection_list.push(c);
 }
@@ -19,18 +20,25 @@ void CryptowatchApi::exchangeListReady(QJsonObject json) {
         QObject::disconnect(c);
     }
 
-    qDebug() << QJsonDocument(json).toJson(QJsonDocument::Compact);
+    QJsonArray exchange_array = json["result"].toArray();
+    foreach (const QJsonValue& value, exchange_array) {
+        QJsonObject obj = value.toObject();
+        QString symbol = obj["symbol"].toString();
+        QString name = obj["name"].toString();
+        QString route = obj["route"].toString();
+        bool active = obj["active"].toBool();
+
+        if(active) {
+            Exchange e(name, symbol);
+            exchange_list[symbol] = e;
+        }
+    }
 }
 
-Exchange CryptowatchApi::currentExchange() {
+Exchange CryptowatchApi::getExchange(QString exchange_symbol) {
 
 }
 
-QList <Exchange> CryptowatchApi::exchangeList() {
+QMap <QString, Exchange> CryptowatchApi::exchangeList() {
     return exchange_list;
 }
-
-void CryptowatchApi::setExchangeByName(QString name) {
-
-}
-

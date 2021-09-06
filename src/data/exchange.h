@@ -8,14 +8,16 @@
 class Exchange
 {
 public:
-    Exchange(QString name, QList <Coin> coin_list);
+    Exchange(QString name, QString symbol);
 
     QString name();
+    QString symbol();
     QList <Coin> coinList();
     Coin getCoin(QString coin_name);
 
 private:
     QString _name;
+    QString _symbol;
     QList <Coin> _coinList;
 };
 

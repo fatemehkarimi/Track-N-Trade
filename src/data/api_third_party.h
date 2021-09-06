@@ -8,9 +8,8 @@
 class ThirdPartyApi : public Api
 {
 public:
-    virtual Exchange currentExchange() = 0;
-    virtual void setExchangeByName(QString name) = 0;
-    virtual QList <Exchange> exchangeList() = 0;
+    virtual Exchange getExchange(QString exchange_symbol) = 0;
+    virtual QMap <QString, Exchange> exchangeList() = 0;
 };
 
 #endif

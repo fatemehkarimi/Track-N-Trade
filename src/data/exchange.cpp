@@ -1,12 +1,16 @@
 #include "exchange.h"
 
-Exchange::Exchange(QString name, QList <Coin> coin_list) {
+Exchange::Exchange(QString name, QString symbol) {
     _name = name;
-    _coinList = coin_list;
+    _symbol = symbol;
 }
 
 QString Exchange::name() {
     return _name;
+}
+
+QString Exchange::symbol() {
+    return _symbol;
 }
 
 Coin Exchange::getCoin(QString coin_name) {
