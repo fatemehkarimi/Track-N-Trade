@@ -1,9 +1,11 @@
-#ifndef CONFIG_CRYPTOWATCH_H
-#define CONFIG_CRYPTOWATCH_H
+#ifndef ROUTES_CRYPTOWATCH_H
+#define ROUTES_CRYPTOWATCH_H
 
 #include <QString>
+#include "routes.h"
 
-class CryptowatchConfig {
+class CryptowatchRoutes : public Routes
+{
 public:
     QString getBasePath() {
         return basePath;
@@ -17,13 +19,14 @@ public:
         return getExchangeListPath() + "/" + exchange_symbol;
     }
 
-    QString getExchangeMarketsPaht(QString exchange_symbol) {
-        return getBasePath() + "/markets/" + exchange_symbol;
+    QString getExchangeMarketsPath(QString exchange_symbol) {
+        return getBasePath() + marketsPath + "/" + exchange_symbol;
     }
 
 private:
     QString basePath = "https://api.cryptowat.ch";
     QString exchangeListPath = "/exchanges";
+    QString marketsPath = "/markets";
 };
 
 #endif

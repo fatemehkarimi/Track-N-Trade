@@ -1,24 +1,28 @@
 #ifndef EXCHANGE_H
 #define EXCHANGE_H
 
-#include <QList>
+#include <QMap>
 #include <QString>
 #include "coin.h"
 
 class Exchange
 {
 public:
-    Exchange(QString name, QString symbol);
+    virtual QString getName() = 0;
+    virtual QString getSymbol() = 0;
+    virtual void getCoin() = 0;
+    virtual void getCoinList() = 0;
+    virtual void getDefaultExchange() = 0;
+    virtual void setDefaultExchange(QString exchange_symbol) = 0;
+    virtual void getExchange(QString exchange_symbol) = 0;
+    virtual void getExchangeList() = 0;
 
-    QString name();
-    QString symbol();
-    QList <Coin> coinList();
-    Coin getCoin(QString coin_name);
-
-private:
-    QString _name;
-    QString _symbol;
-    QList <Coin> _coinList;
+signals:
+    void coinReady(Coin);
+    void coinListReady(QMap <QString, Coin>);
+    void defaultExchangeReady(Exchange*);
+    void exchangeReady(Exchange*);
+    void exchangeListReady(QMap <QString, Exchange*>);
 };
 
 #endif
