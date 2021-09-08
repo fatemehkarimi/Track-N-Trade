@@ -6,11 +6,10 @@
 #include "routes.h"
 #include "exchange.h"
 #include "network_manager.h"
-#include "json_receiver.h"
 
-class CompositeExchange : public JsonReceiver,
-    public Exchange
+class CompositeExchange : public Exchange
 {
+    Q_OBJECT
 public:
     explicit CompositeExchange(Routes* api_routes);
     QString getName() override;

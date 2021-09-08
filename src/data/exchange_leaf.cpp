@@ -5,7 +5,7 @@ LeafExchange::LeafExchange(Routes* api_routes,
     : name(exchange_name),
     symbol(exchange_symbol),
     routes(api_routes) {
-    network_manager = new NetworkManager(this);
+    networkManager = new NetworkManager();
 }
 
 QString LeafExchange::getName() {
@@ -21,13 +21,13 @@ void LeafExchange::getCoin(QString coin_symbol) {
 }
 
 void LeafExchange::getCoinList() {
-    QObject::connect(this, &LeafExchange::jsonReady,
+    QObject::connect(networkManager, &NetworkManager::jsonReady,
                     this, &LeafExchange::getCoinListJson);
-    network_manager->fetchJson(routes->getExchangeMarketsPath(symbol));
+    networkManager->fetchJson(routes->getExchangeMarketsPath(symbol));
 }
 
 void LeafExchange::getCoinListJson(QJsonObject json) {
-    QObject::connect(this, &LeafExchange::jsonReady,
+    QObject::connect(networkManager, &NetworkManager::jsonReady,
                     this, &LeafExchange::getCoinListJson);
     
     QJsonArray coin_array = json["result"].toArray();

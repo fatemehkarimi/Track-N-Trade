@@ -3,11 +3,9 @@
 
 #include "routes.h"
 #include "exchange.h"
-#include "json_receiver.h"
 #include "network_manager.h"
 
-class LeafExchange : public JsonReceiver,
-    public Exchange
+class LeafExchange : public Exchange
 {
 public:
     explicit LeafExchange(Routes* api_routes,
@@ -28,7 +26,7 @@ private:
     QString name;
     QString symbol;
     Routes* routes;
-    NetworkManager* network_manager;
+    NetworkManager* networkManager;
 };
 
 #endif

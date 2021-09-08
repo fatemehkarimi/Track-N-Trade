@@ -1,12 +1,14 @@
 #ifndef EXCHANGE_H
 #define EXCHANGE_H
 
+#include <QtWidgets>
 #include <QMap>
 #include <QString>
 #include "coin.h"
 
-class Exchange
+class Exchange : public QObject
 {
+    Q_OBJECT
 public:
     virtual QString getName() = 0;
     virtual QString getSymbol() = 0;

@@ -1,15 +1,18 @@
 #include "exchange_composite.h"
+#include "exchange_leaf.h"
+
 
 CompositeExchange::CompositeExchange(Routes* api_routes) {
     routes = api_routes;
-    networkManager = new NetworkManager(this);
-    QObject::connect(this, &CompositeExchange::jsonReady,
+    networkManager = new NetworkManager();
+
+    QObject::connect(networkManager, &NetworkManager::jsonReady,
                     this, &CompositeExchange::getExchangeListJson);
     networkManager->fetchJson(routes->getExchangeListPath());
 }
 
 void CompositeExchange::getExchangeListJson(QJsonObject json) {
-    QObject::disconnect(this, &CompositeExchange::jsonReady,
+    QObject::disconnect(networkManager, &NetworkManager::jsonReady,
                         this, &CompositeExchange::getExchangeListJson);
 
     QJsonArray exchange_array = json["result"].toArray();
@@ -20,11 +23,13 @@ void CompositeExchange::getExchangeListJson(QJsonObject json) {
         QString route = obj["route"].toString();
         bool active = obj["active"].toBool();
 
-        // if(active) {
-        //     Exchange e(name, symbol);
-        //     exchange_list[symbol] = e;
-        // }
+        if(!active)
+            continue;
+
+        LeafExchange* exchange = new LeafExchange(routes, name, symbol);
+        exchangeList[name] = exchange;
     }
+    emit Exchange::exchangeListReady(exchangeList);
 }
 
 QString CompositeExchange::getName() {

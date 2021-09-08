@@ -5,20 +5,20 @@
 #include <QtNetwork>
 #include <QStack>
 
-#include "json_receiver.h"
-
 class NetworkManager : public QObject
 {
     Q_OBJECT
 public:
-    NetworkManager(JsonReceiver* receiver);
+    NetworkManager();
     void fetchJson(QString url);
 
 private slots:
     void finished();
 
+signals:
+    void jsonReady(QJsonObject);
+
 private:
-    JsonReceiver* receiver;
     QNetworkAccessManager* _network;
     QNetworkReply* pendingReply;
     QStack <QMetaObject::Connection> pendingConnections;
