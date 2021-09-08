@@ -8,8 +8,8 @@
 #include "network_manager.h"
 #include "json_receiver.h"
 
-class CompositeExchange : public Exchange,
-    public JsonReceiver
+class CompositeExchange : public JsonReceiver,
+    public Exchange
 {
 public:
     explicit CompositeExchange(Routes* api_routes);

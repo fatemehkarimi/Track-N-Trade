@@ -1,6 +1,8 @@
 #ifndef ROUTES_H
 #define ROUTES_H
 
+#include <QString>
+
 class Routes {
 public:
     virtual QString getBasePath() = 0;
