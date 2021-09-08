@@ -29,7 +29,7 @@ void CompositeExchange::getExchangeListJson(QJsonObject json) {
         LeafExchange* exchange = new LeafExchange(routes, name, symbol);
         exchangeList[name] = exchange;
     }
-    emit Exchange::exchangeListReady(exchangeList);
+    emit exchangeListReady(exchangeList);
 }
 
 QString CompositeExchange::getName() {

@@ -36,8 +36,6 @@ void LeafExchange::getCoinListJson(QJsonObject json) {
         QString pair = obj["pair"].toString();
         bool active = obj["active"].toBool();
 
-        qDebug() << "information = " << pair << " " << active;
-
         if(!active)
             continue;
     }
