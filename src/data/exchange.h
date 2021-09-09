@@ -14,8 +14,6 @@ public:
     virtual QString getSymbol() = 0;
     virtual void getCoin(QString coin_symbol) = 0;
     virtual void getCoinList() = 0;
-    virtual void getDefaultExchange() = 0;
-    virtual void setDefaultExchange(QString exchange_symbol) = 0;
     virtual void getExchange(QString exchange_symbol) = 0;
     virtual void getExchangeList() = 0;
 

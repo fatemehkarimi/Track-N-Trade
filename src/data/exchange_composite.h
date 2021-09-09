@@ -16,8 +16,6 @@ public:
     QString getSymbol() override;
     void getCoin(QString coin_symbol) override;
     void getCoinList() override;
-    void getDefaultExchange() override;
-    void setDefaultExchange(QString exchange_symbol) override;
     void getExchange(QString exchange_symbol) override;
     void getExchangeList() override;
 

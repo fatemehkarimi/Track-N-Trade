@@ -9,11 +9,11 @@ CompositeExchange::CompositeExchange(Routes* api_routes) {
 }
 
 QString CompositeExchange::getName() {
-
+    return nullptr;
 }
 
 QString CompositeExchange::getSymbol() {
-
+    return nullptr;
 }
 
 void CompositeExchange::getCoin(QString symbol) {
@@ -21,14 +21,6 @@ void CompositeExchange::getCoin(QString symbol) {
 }
 
 void CompositeExchange::getCoinList() {
-
-}
-
-void CompositeExchange::getDefaultExchange() {
-
-}
-
-void CompositeExchange::setDefaultExchange(QString exchange_symbol) {
 
 }
 
