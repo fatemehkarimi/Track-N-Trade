@@ -41,7 +41,7 @@ void LeafExchange::getCoinListJson(QJsonObject json) {
     }
 }
 
-void LeafExchange::getExchange(QString exchange_symbol) {
+void LeafExchange::getExchange(QString exchange_name) {
 
 }
 

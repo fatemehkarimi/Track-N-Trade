@@ -24,7 +24,7 @@ void CompositeExchange::getCoinList() {
 
 }
 
-void CompositeExchange::getExchange(QString exchange_symbol) {
+void CompositeExchange::getExchange(QString exchange_name) {
 
 }
 
