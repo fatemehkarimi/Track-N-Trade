@@ -12,16 +12,12 @@ public:
     NetworkManager();
     void fetchJson(QString url);
 
-private slots:
-    void finished();
-
 signals:
     void jsonReady(QJsonObject);
 
 private:
     QNetworkAccessManager* _network;
-    QNetworkReply* pendingReply;
-    QStack <QMetaObject::Connection> pendingConnections;
+    QStack <QNetworkReply*> reply_list;
 };
 
 #endif

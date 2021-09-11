@@ -7,22 +7,15 @@ NetworkManager::NetworkManager() {
 
 void NetworkManager::fetchJson(QString url) {
     QNetworkRequest request(QUrl{url});
-    pendingReply = _network->get(request);
-
+    QNetworkReply* reply = _network->get(request);
     QMetaObject::Connection c1 = QObject::connect(
-        pendingReply, &QNetworkReply::finished,
-        this, &NetworkManager::finished);
-    
-    pendingConnections.push(c1);
-}
-
-void NetworkManager::finished() {
-    QByteArray response = pendingReply->readAll();
-    QJsonDocument doc = QJsonDocument::fromJson(response);
-    QJsonObject json = doc.object();
-    emit jsonReady(json);
-
-    QMetaObject::Connection c = pendingConnections.pop();
-    QObject::disconnect(c);
-    pendingReply->deleteLater();
+        reply, &QNetworkReply::finished,
+        this, [=](){
+            QByteArray response = reply->readAll();
+            QJsonDocument doc = QJsonDocument::fromJson(response);
+            QJsonObject json = doc.object();
+            QString ans = doc.toJson(QJsonDocument::Compact);
+            emit jsonReady(json);
+            reply->deleteLater();
+        });
 }
