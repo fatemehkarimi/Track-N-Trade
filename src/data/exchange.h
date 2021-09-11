@@ -18,8 +18,8 @@ public:
     virtual void getExchangeList() = 0;
 
 signals:
-    void coinReady(Coin);
-    void coinListReady(QMap <QString, Coin>);
+    void coinReady(Coin*);
+    void coinListReady(QMap <QString, Coin*>);
     void exchangeReady(Exchange*);
     void exchangeListReady(QMap <QString, Exchange*>);
 };

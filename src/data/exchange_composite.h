@@ -21,10 +21,12 @@ public:
 
 private slots:
     void getExchangeListJson(QJsonObject json);
+    void getCoinListJson(QJsonObject json);
 
 private:
     Routes* routes;
     QMap <QString, Exchange*> exchangeList;
+    QMap <QString, Coin*> assets;
     NetworkManager* networkManager;
 };
 
