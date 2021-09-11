@@ -42,9 +42,10 @@ void LeafExchange::getCoinListJson(QJsonObject json) {
 }
 
 void LeafExchange::getExchange(QString exchange_name) {
-
+    emit exchangeReady(nullptr);
 }
 
 void LeafExchange::getExchangeList() {
-
+    QMap <QString, Exchange*> empty_list;
+    emit exchangeListReady(empty_list);
 }

@@ -1,6 +1,7 @@
 #ifndef EXCHANGE_LEAF_H
 #define EXCHANGE_LEAF_H
 
+#include "coin.h"
 #include "routes.h"
 #include "exchange.h"
 #include "network_manager.h"
@@ -24,6 +25,7 @@ private:
     QString name;
     QString symbol;
     Routes* routes;
+    QMap <QString, Coin*> coinList;
     NetworkManager* networkManager;
 };
 
