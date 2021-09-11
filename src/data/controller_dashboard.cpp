@@ -15,7 +15,7 @@ void DashboardController::setExchange(QString exchange_name) {
 }
 
 void DashboardController::exchangeFetched(Exchange* exchange) {
-    QObject::connect(refExchange, &Exchange::exchangeReady,
+    QObject::disconnect(refExchange, &Exchange::exchangeReady,
                     this, &DashboardController::exchangeFetched);
     selectedExchange = exchange;
     emit selectedExchangeChanged();
