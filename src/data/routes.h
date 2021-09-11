@@ -9,5 +9,6 @@ public:
     virtual QString getExchangeListPath() = 0;
     virtual QString getExchangeDetailPath(QString exchange_symbol) = 0;
     virtual QString getExchangeMarketsPath(QString exchange_symbol) = 0;
+    virtual QString getAssets() = 0;
 };
 #endif
