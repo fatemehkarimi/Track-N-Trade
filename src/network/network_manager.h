@@ -17,7 +17,6 @@ signals:
 
 private:
     QNetworkAccessManager* _network;
-    QStack <QNetworkReply*> reply_list;
 };
 
 #endif
