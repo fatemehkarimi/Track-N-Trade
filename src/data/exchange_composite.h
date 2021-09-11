@@ -5,7 +5,7 @@
 #include <QJsonObject>
 #include "routes.h"
 #include "exchange.h"
-#include "network_manager.h"
+#include <network/network_manager.h>
 
 class CompositeExchange : public Exchange
 {

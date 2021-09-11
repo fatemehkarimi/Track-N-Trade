@@ -4,7 +4,7 @@
 #include "coin.h"
 #include "routes.h"
 #include "exchange.h"
-#include "network_manager.h"
+#include <network/network_manager.h>
 
 class LeafExchange : public Exchange
 {

@@ -1,5 +1,5 @@
 #include <QNetworkReply>
-#include "network_manager.h"
+#include <network/network_manager.h>
 
 NetworkManager::NetworkManager() {
     this->_network = new QNetworkAccessManager();
