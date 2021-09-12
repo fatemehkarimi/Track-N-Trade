@@ -31,6 +31,18 @@ bool CryptowatchParser::parseExchangeMarketsJson(QJsonObject json) {
 
 }
 
-bool CryptowatchParser::parseAssetsJson(QJsonObject json) {
+bool CryptowatchParser::parseAssetsJson(QJsonObject json,
+    QMap <QString, Coin*>* coinList) {
+    QJsonArray coin_array = json["result"].toArray();
+    QJsonDocument doc(json);
+    foreach(const QJsonValue& value, coin_array) {
+        QJsonObject obj = value.toObject();
+        QString symbol = obj["symbol"].toString();
+        QString name = obj["name"].toString();
+        bool fiat = obj["fiat"].toBool();
 
+        Coin* coin = new Coin(name, symbol, fiat, "");
+        (*coinList)[name] = coin;
+    }
+    return true;
 }

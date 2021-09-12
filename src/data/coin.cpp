@@ -1,8 +1,9 @@
 #include "coin.h"
 
-Coin::Coin(QString name, QString symbol, QString logo_path) {
+Coin::Coin(QString name, QString symbol, bool fiat, QString logo_path) {
     _name = name;
     _symbol = symbol;
+    _fiat = fiat;
     _logo.load(logo_path);
 }
 

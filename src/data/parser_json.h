@@ -13,7 +13,7 @@ public:
         QMap <QString, Exchange*>*) = 0;
     virtual bool parseExchangeDetailJson(QJsonObject) = 0;
     virtual bool parseExchangeMarketsJson(QJsonObject) = 0;
-    virtual bool parseAssetsJson(QJsonObject) = 0;
+    virtual bool parseAssetsJson(QJsonObject, QMap <QString, Coin*>* coinList) = 0;
 };
 
 

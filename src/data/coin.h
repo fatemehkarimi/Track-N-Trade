@@ -7,7 +7,7 @@
 class Coin
 {
 public:
-    Coin(QString name, QString symbol, QString logo_path);
+    Coin(QString name, QString symbol, bool _fiat, QString logo_path);
     QString name();
     QString symbol();
     QPixmap logo();
@@ -15,6 +15,7 @@ public:
 private:
     QString _name;
     QString _symbol;
+    bool _fiat;
     QPixmap _logo;
 };
 

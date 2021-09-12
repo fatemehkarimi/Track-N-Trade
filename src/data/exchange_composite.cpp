@@ -29,6 +29,7 @@ void CompositeExchange::getCoinList() {
 
 void CompositeExchange::parseJson(QString url, QJsonObject json) {
     if(url == routes->getExchangeListPath()) {
+        // TODO objects must be deleted
         exchangeList.clear();
         QFuture <bool> future = QtConcurrent::run(parser,
             &JsonParser::parseExchangeListJson, json, routes, &exchangeList);
@@ -36,6 +37,15 @@ void CompositeExchange::parseJson(QString url, QJsonObject json) {
         bool parsed = future.result();
         if(parsed)
             emit exchangeListReady(exchangeList);
+    }
+    else if(url == routes->getAssets()) {
+        assets.clear();
+        QFuture <bool> future = QtConcurrent::run(parser,
+            &JsonParser::parseAssetsJson, json, &assets);
+        
+        bool parsed = future.result();
+        if(parsed) 
+            emit coinListReady(assets);
     }
 }
 
