@@ -21,31 +21,13 @@ void LeafExchange::getCoin(QString coin_symbol) {
 }
 
 void LeafExchange::getCoinList() {
-    QObject::connect(networkManager, &NetworkManager::jsonReady,
-                    this, &LeafExchange::getCoinListJson);
-    networkManager->fetchJson(routes->getExchangeMarketsPath(symbol));
 }
 
 void LeafExchange::getCoinListJson(QJsonObject json) {
-    QObject::connect(networkManager, &NetworkManager::jsonReady,
-                    this, &LeafExchange::getCoinListJson);
-    
-    QJsonArray coin_array = json["result"].toArray();
-    foreach(const QJsonValue& value, coin_array) {
-        QJsonObject obj = value.toObject();
-        QString pair = obj["pair"].toString();
-        bool active = obj["active"].toBool();
-
-        if(!active)
-            continue;
-    }
 }
 
 void LeafExchange::getExchange(QString exchange_name) {
-    emit exchangeReady(nullptr);
 }
 
 void LeafExchange::getExchangeList() {
-    QMap <QString, Exchange*> empty_list;
-    emit exchangeListReady(empty_list);
 }

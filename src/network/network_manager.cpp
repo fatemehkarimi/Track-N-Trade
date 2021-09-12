@@ -14,7 +14,7 @@ void NetworkManager::fetchJson(QString url) {
             QByteArray response = reply->readAll();
             QJsonDocument doc = QJsonDocument::fromJson(response);
             QJsonObject json = doc.object();
-            emit jsonReady(json);
+            emit jsonReady(reply->url().toString(), json);
             reply->deleteLater();
         });
 }

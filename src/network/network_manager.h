@@ -13,7 +13,7 @@ public:
     void fetchJson(QString url);
 
 signals:
-    void jsonReady(QJsonObject);
+    void jsonReady(QString url, QJsonObject);
 
 private:
     QNetworkAccessManager* _network;
