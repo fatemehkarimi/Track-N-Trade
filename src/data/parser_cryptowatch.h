@@ -10,7 +10,7 @@ public:
     bool parseExchangeListJson(QJsonObject, Routes* routes,
         QMap <QString, Exchange*>* exchangeList) override;
     bool parseExchangeDetailJson(QJsonObject json) override;
-    bool parseExchangeMarketsJson(QJsonObject json) override;
+    bool parseExchangeMarketsJson(QJsonObject json, QMap <QString, Coin*>*) override;
     bool parseAssetsJson(QJsonObject json,
         QMap <QString, Coin*>* coinList) override;
 };

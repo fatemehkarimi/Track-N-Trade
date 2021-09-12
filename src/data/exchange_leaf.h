@@ -4,12 +4,13 @@
 #include "coin.h"
 #include "routes.h"
 #include "exchange.h"
+#include "parser_json.h"
 #include <network/network_manager.h>
 
 class LeafExchange : public Exchange
 {
 public:
-    explicit LeafExchange(Routes* api_routes,
+    explicit LeafExchange(Routes* api_routes, JsonParser* json_parser,
                         QString exchange_name, QString exchange_symbol);
     QString getName() override;
     QString getSymbol() override;
@@ -19,12 +20,13 @@ public:
     void getExchangeList() override;
     
 private slots:
-    void getCoinListJson(QJsonObject json);
+    void parseJson(QString url, QJsonObject json);
 
 private:
     QString name;
     QString symbol;
     Routes* routes;
+    JsonParser* parser;
     QMap <QString, Coin*> coinList;
     NetworkManager* networkManager;
 };

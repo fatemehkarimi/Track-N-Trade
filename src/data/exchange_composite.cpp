@@ -10,6 +10,7 @@ CompositeExchange::CompositeExchange(Routes* api_routes, JsonParser* json_parser
     QObject::connect(networkManager, &NetworkManager::jsonReady,
                     this, &CompositeExchange::parseJson);
     getExchangeList();
+    getCoinList();
 }
 
 QString CompositeExchange::getName() {

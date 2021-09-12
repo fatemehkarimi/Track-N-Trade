@@ -17,7 +17,8 @@ bool CryptowatchParser::parseExchangeListJson(QJsonObject json, Routes* routes,
         if(!active)
             continue;
 
-        LeafExchange* exchange = new LeafExchange(routes, name, symbol);
+        //TODO: fix passing routes and parser to exchange
+        LeafExchange* exchange = new LeafExchange(routes, this, name, symbol);
         (*exchangeList)[name] = exchange;
     }
     return true;
@@ -27,14 +28,27 @@ bool CryptowatchParser::parseExchangeDetailJson(QJsonObject json) {
 
 }
 
-bool CryptowatchParser::parseExchangeMarketsJson(QJsonObject json) {
+bool CryptowatchParser::parseExchangeMarketsJson(QJsonObject json, 
+    QMap <QString, Coin*>* coinList) {
+    QJsonArray coin_array = json["result"].toArray();
+    foreach(const QJsonValue& value, coin_array) {
+        QJsonObject obj = value.toObject();
+        QString pair = obj["pair"].toString();
+        bool active = obj["active"].toBool();
 
+        if(!active)
+            continue;
+
+        if(pair.endsWith("usd")) {
+            //TODO: ask the root class for pointer to coin;
+        }
+    }
+    return true;
 }
 
 bool CryptowatchParser::parseAssetsJson(QJsonObject json,
     QMap <QString, Coin*>* coinList) {
     QJsonArray coin_array = json["result"].toArray();
-    QJsonDocument doc(json);
     foreach(const QJsonValue& value, coin_array) {
         QJsonObject obj = value.toObject();
         QString symbol = obj["symbol"].toString();
@@ -42,7 +56,7 @@ bool CryptowatchParser::parseAssetsJson(QJsonObject json,
         bool fiat = obj["fiat"].toBool();
 
         Coin* coin = new Coin(name, symbol, fiat, "");
-        (*coinList)[name] = coin;
+        (*coinList)[symbol] = coin;
     }
     return true;
 }

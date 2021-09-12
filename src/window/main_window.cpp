@@ -37,6 +37,7 @@ void MainWindow::fetchExchangeList() {
 void MainWindow::exchangeListFetched(QMap <QString, Exchange*> list) {
     QObject::disconnect(exchangeModel, &Exchange::exchangeListReady,
                     this, &MainWindow::exchangeListFetched);
+
     QStringList exchange_name_list;
     for(auto x = list.begin(); x != list.end(); ++x) {
         Exchange* e = x.value();
