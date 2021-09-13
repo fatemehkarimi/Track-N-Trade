@@ -3,7 +3,9 @@
 #include <QComboBox>
 #include "main_window.h"
 
-MainWindow::MainWindow(Settings::Window* window_setting, Exchange* exchangeModel) {
+MainWindow::MainWindow(Settings::Window* window_setting,
+                        Controller* controller, Exchange* exchangeModel) {
+    this->controller = controller;
     this->exchangeModel = exchangeModel;
     window = new QWidget();
     settings = window_setting;
@@ -15,8 +17,20 @@ void MainWindow::setUpWindow() {
     window->resize(settings->windowSize());
 
     QHBoxLayout* main_layout = new QHBoxLayout(window);
-    exchange_menu = new QComboBox(window);
+    exchange_menu = new QComboBox();
     main_layout->addWidget(exchange_menu);
+    QObject::connect(exchange_menu, QOverload<int>::of(&QComboBox::activated),
+        this, &MainWindow::exchangeChanged);
+
+    QVBoxLayout* coin_layout = new QVBoxLayout();
+    main_layout->addLayout(coin_layout);
+
+    QTableWidget* table = new QTableWidget();
+    coin_layout->addWidget(table);
+
+    main_layout->setStretchFactor(exchange_menu, 1);
+    main_layout->setStretchFactor(coin_layout, 1);
+
     fetchExchangeList();
 }
 
@@ -45,4 +59,8 @@ void MainWindow::exchangeListFetched(QMap <QString, Exchange*> list) {
             exchange_name_list.append(e->getName());
     }
     setExchangeMenuOptions(exchange_name_list);
+}
+
+void MainWindow::exchangeChanged(int index) {
+    controller->setExchange(exchange_menu->currentText());
 }

@@ -50,7 +50,8 @@ void CompositeExchange::parseJson(QString url, QJsonObject json) {
     }
 }
 
-void CompositeExchange::getExchange(QString exchange_name) {
+Exchange* CompositeExchange::getExchange(QString exchange_name) {
+    return exchangeList[exchange_name];
 }
 
 void CompositeExchange::getExchangeList() {

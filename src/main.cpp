@@ -7,8 +7,10 @@
 int main(int argc, char* argv[]) {
     QApplication app(argc, argv);
 
+    //TODO: use a factory to create cryptowatch api
     CryptowatchRoutes routes;
     CryptowatchParser parser;
+
     CompositeExchange exchangeModel(&routes, &parser);
     DashboardController controller(&exchangeModel);
     return app.exec();

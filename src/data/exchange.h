@@ -14,7 +14,7 @@ public:
     virtual QString getSymbol() = 0;
     virtual void getCoin(QString coin_symbol) = 0;
     virtual void getCoinList() = 0;
-    virtual void getExchange(QString exchange_name) = 0;
+    virtual Exchange* getExchange(QString exchange_name) = 0;
     virtual void getExchangeList() = 0;
 
 signals:

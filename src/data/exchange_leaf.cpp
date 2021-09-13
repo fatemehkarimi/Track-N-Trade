@@ -41,7 +41,8 @@ void LeafExchange::getCoinList() {
     networkManager->fetchJson(routes->getExchangeMarketsPath(symbol));
 }
 
-void LeafExchange::getExchange(QString exchange_name) {
+Exchange* LeafExchange::getExchange(QString exchange_name) {
+    return nullptr;
 }
 
 void LeafExchange::getExchangeList() {

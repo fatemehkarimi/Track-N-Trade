@@ -16,7 +16,7 @@ public:
     QString getSymbol() override;
     void getCoin(QString coin_symbol) override;
     void getCoinList() override;
-    void getExchange(QString exchange_name) override;
+    Exchange* getExchange(QString exchange_name) override;
     void getExchangeList() override;
     
 private slots:
