@@ -15,7 +15,7 @@ public:
     explicit CompositeExchange(Routes* api_routes, JsonParser* parser);
     QString getName() override;
     QString getSymbol() override;
-    void getCoin(QString coin_symbol) override;
+    Coin* getCoin(QString coin_symbol) override;
     void getCoinList() override;
     Exchange* getExchange(QString exchange_name) override;
     void getExchangeList() override;

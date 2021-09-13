@@ -11,7 +11,7 @@ class JsonParser
 public:
     virtual bool parseExchangeListJson(QJsonObject json, Exchange* parent) = 0;
     virtual bool parseExchangeDetailJson(QJsonObject) = 0;
-    virtual bool parseExchangeMarketsJson(QJsonObject, QMap <QString, Coin*>*) = 0;
+    virtual bool parseExchangeMarketsJson(QJsonObject, QList <QString>*) = 0;
     virtual bool parseAssetsJson(QJsonObject, QMap <QString, Coin*>*) = 0;
 };
 

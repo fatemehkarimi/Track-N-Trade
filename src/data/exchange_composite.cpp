@@ -21,7 +21,8 @@ QString CompositeExchange::getSymbol() {
     return nullptr;
 }
 
-void CompositeExchange::getCoin(QString symbol) {
+Coin* CompositeExchange::getCoin(QString symbol) {
+    return assets[symbol];
 }
 
 void CompositeExchange::getCoinList() {
@@ -59,6 +60,6 @@ void CompositeExchange::getExchangeList() {
 }
 
 void CompositeExchange::addExchange(QString name, QString symbol) {
-    LeafExchange* exchange = new LeafExchange(routes, parser, name, symbol);
+    LeafExchange* exchange = new LeafExchange(this, routes, parser, name, symbol);
     exchangeList[name] = exchange;
 }

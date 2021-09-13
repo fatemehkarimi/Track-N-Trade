@@ -26,7 +26,7 @@ bool CryptowatchParser::parseExchangeDetailJson(QJsonObject json) {
 }
 
 bool CryptowatchParser::parseExchangeMarketsJson(QJsonObject json, 
-    QMap <QString, Coin*>* coinList) {
+        QList <QString>* list) {
     QJsonArray coin_array = json["result"].toArray();
     foreach(const QJsonValue& value, coin_array) {
         QJsonObject obj = value.toObject();
@@ -37,7 +37,8 @@ bool CryptowatchParser::parseExchangeMarketsJson(QJsonObject json,
             continue;
 
         if(pair.endsWith("usd")) {
-            //TODO: ask the root class for pointer to coin;
+            pair.chop(3);
+            list->append(pair);
         }
     }
     return true;
