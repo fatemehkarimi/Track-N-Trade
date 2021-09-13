@@ -16,6 +16,9 @@ public:
     void show();
     void setExchangeMenuOptions(QStringList options);
 
+    void addCoinToTable(Coin* coin);
+    void clearCoinTable();
+
 private slots:
     void exchangeListFetched(QMap <QString, Exchange*>);
     void exchangeChanged(int index);
@@ -27,6 +30,7 @@ private:
     Exchange* exchangeModel;
     QWidget* window;
     QComboBox* exchange_menu;
+    QTableWidget* coin_table;
     Settings::Window* settings;
 };
 

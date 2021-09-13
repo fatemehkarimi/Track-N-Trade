@@ -25,8 +25,9 @@ void MainWindow::setUpWindow() {
     QVBoxLayout* coin_layout = new QVBoxLayout();
     main_layout->addLayout(coin_layout);
 
-    QTableWidget* table = new QTableWidget();
-    coin_layout->addWidget(table);
+    coin_table = new QTableWidget();
+    coin_table->insertColumn(0);
+    coin_layout->addWidget(coin_table);
 
     main_layout->setStretchFactor(exchange_menu, 1);
     main_layout->setStretchFactor(coin_layout, 1);
@@ -63,4 +64,16 @@ void MainWindow::exchangeListFetched(QMap <QString, Exchange*> list) {
 
 void MainWindow::exchangeChanged(int index) {
     controller->setExchange(exchange_menu->currentText());
+}
+
+void MainWindow::clearCoinTable() {
+    coin_table->setRowCount(0);
+    coin_table->clearContents();
+}
+
+void MainWindow::addCoinToTable(Coin* coin) {
+    QString title = coin->name() + "(" + coin->symbol() + ")";
+    coin_table->insertRow(coin_table->rowCount());
+    QTableWidgetItem* itm = new QTableWidgetItem(title);
+    coin_table->setItem(coin_table->rowCount() - 1, 0, itm);
 }
