@@ -33,7 +33,7 @@ void CompositeExchange::parseJson(QString url, QJsonObject json) {
         // TODO objects must be deleted
         exchangeList.clear();
         QFuture <bool> future = QtConcurrent::run(parser,
-            &JsonParser::parseExchangeListJson, json, routes, &exchangeList);
+            &JsonParser::parseExchangeListJson, json, this);
 
         bool parsed = future.result();
         if(parsed)
@@ -56,4 +56,9 @@ Exchange* CompositeExchange::getExchange(QString exchange_name) {
 
 void CompositeExchange::getExchangeList() {
     networkManager->fetchJson(routes->getExchangeListPath());
+}
+
+void CompositeExchange::addExchange(QString name, QString symbol) {
+    LeafExchange* exchange = new LeafExchange(routes, parser, name, symbol);
+    exchangeList[name] = exchange;
 }

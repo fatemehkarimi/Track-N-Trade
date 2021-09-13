@@ -47,3 +47,7 @@ Exchange* LeafExchange::getExchange(QString exchange_name) {
 
 void LeafExchange::getExchangeList() {
 }
+
+void LeafExchange::addExchange(QString name, QString symbol){
+    
+}

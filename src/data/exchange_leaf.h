@@ -18,6 +18,7 @@ public:
     void getCoinList() override;
     Exchange* getExchange(QString exchange_name) override;
     void getExchangeList() override;
+    void addExchange(QString name, QString symbol) override;
     
 private slots:
     void parseJson(QString url, QJsonObject json);

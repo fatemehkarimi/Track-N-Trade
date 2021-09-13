@@ -10,6 +10,11 @@ DashboardController::DashboardController(Exchange* refExchange) {
 
 void DashboardController::setExchange(QString exchange_name) {
     selectedExchange = refExchange->getExchange(exchange_name);
+    selectedExchange->getCoinList();
+    QMetaObject::Connection c = QObject::connect(selectedExchange,
+        &Exchange::coinListReady, this, [=](QMap <QString, Coin*> list){
+            qDebug() << "coin list updated" << list.size();
+        });
 }
 
 void DashboardController::exchangeFetched(Exchange* exchange) {

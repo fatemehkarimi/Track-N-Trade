@@ -7,8 +7,7 @@ class CryptowatchParser : public JsonParser
 {
 public:
     explicit CryptowatchParser();
-    bool parseExchangeListJson(QJsonObject, Routes* routes,
-        QMap <QString, Exchange*>* exchangeList) override;
+    bool parseExchangeListJson(QJsonObject, Exchange* parent) override;
     bool parseExchangeDetailJson(QJsonObject json) override;
     bool parseExchangeMarketsJson(QJsonObject json, QMap <QString, Coin*>*) override;
     bool parseAssetsJson(QJsonObject json,

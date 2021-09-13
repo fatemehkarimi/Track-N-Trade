@@ -16,6 +16,7 @@ public:
     virtual void getCoinList() = 0;
     virtual Exchange* getExchange(QString exchange_name) = 0;
     virtual void getExchangeList() = 0;
+    virtual void addExchange(QString name, QString symbol) = 0;
 
 signals:
     void coinReady(Coin*);

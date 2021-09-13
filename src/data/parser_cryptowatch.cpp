@@ -3,8 +3,7 @@
 
 CryptowatchParser::CryptowatchParser(){}
 
-bool CryptowatchParser::parseExchangeListJson(QJsonObject json, Routes* routes,
-    QMap <QString, Exchange*>* exchangeList) {
+bool CryptowatchParser::parseExchangeListJson(QJsonObject json, Exchange* parent) {
     QJsonArray exchange_array = json["result"].toArray();
 
     foreach (const QJsonValue& value, exchange_array) {
@@ -16,10 +15,8 @@ bool CryptowatchParser::parseExchangeListJson(QJsonObject json, Routes* routes,
 
         if(!active)
             continue;
-
-        //TODO: fix passing routes and parser to exchange
-        LeafExchange* exchange = new LeafExchange(routes, this, name, symbol);
-        (*exchangeList)[name] = exchange;
+        
+        parent->addExchange(name, symbol);
     }
     return true;
 }
