@@ -9,7 +9,7 @@ public:
     explicit CryptowatchParser();
     bool parseExchangeListJson(QJsonObject, Exchange* parent) override;
     bool parseExchangeDetailJson(QJsonObject json) override;
-    bool parseExchangeMarketsJson(QJsonObject json, QList <QString>*) override;
+    QList <QString> parseExchangeMarketsJson(QJsonObject json) override;
     bool parseAssetsJson(QJsonObject json,
         QMap <QString, Coin*>* coinList) override;
 };

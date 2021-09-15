@@ -16,20 +16,17 @@ LeafExchange::LeafExchange(Exchange* parent,Routes* api_routes,
 void LeafExchange::parseJson(QString url, QJsonObject json) {
     if(url == routes->getExchangeMarketsPath(symbol)){
         //TODO: perform object deletion
-            coinList.clear();
-        QList <QString> symbolList;
-        QFuture <bool> future = QtConcurrent::run(parser,
-            &JsonParser::parseExchangeMarketsJson, json, &symbolList);
+        coinList.clear();
+        QFuture < QList <QString> > future = QtConcurrent::run(parser,
+            &JsonParser::parseExchangeMarketsJson, json);
         
-        bool parsed = future.result();
-        if(parsed){
-            for(int i = 0; i < symbolList.size(); ++i) {
-                Coin* coin = parent->getCoin(symbolList[i]);
-                if(coin != nullptr)
-                    coinList[coin->symbol()] = coin;
-            }
-            emit coinListReady(coinList);
+        QList <QString> symbolList = future.result();
+        for(int i = 0; i < symbolList.size(); ++i) {
+            Coin* coin = parent->getCoin(symbolList[i]);
+            if(coin != nullptr)
+                coinList[coin->symbol()] = coin;
         }
+        emit coinListReady(coinList);
     }
 }
 

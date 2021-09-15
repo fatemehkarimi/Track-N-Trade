@@ -25,8 +25,9 @@ bool CryptowatchParser::parseExchangeDetailJson(QJsonObject json) {
 
 }
 
-bool CryptowatchParser::parseExchangeMarketsJson(QJsonObject json, 
-        QList <QString>* list) {
+QList <QString> CryptowatchParser::parseExchangeMarketsJson(QJsonObject json) {
+    QList <QString> list;
+
     QJsonArray coin_array = json["result"].toArray();
     foreach(const QJsonValue& value, coin_array) {
         QJsonObject obj = value.toObject();
@@ -38,10 +39,10 @@ bool CryptowatchParser::parseExchangeMarketsJson(QJsonObject json,
 
         if(pair.endsWith("usd")) {
             pair.chop(3);
-            list->append(pair);
+            list.append(pair);
         }
     }
-    return true;
+    return list;
 }
 
 bool CryptowatchParser::parseAssetsJson(QJsonObject json,
