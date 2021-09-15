@@ -13,6 +13,11 @@ LeafExchange::LeafExchange(Exchange* parent,Routes* api_routes,
                     this, &LeafExchange::parseJson);
 }
 
+LeafExchange::~LeafExchange() {
+    delete networkManager;
+    networkManager = nullptr;
+}
+
 void LeafExchange::parseJson(QString url, QJsonObject json) {
     if(url == routes->getExchangeMarketsPath(symbol)){
         //TODO: perform object deletion

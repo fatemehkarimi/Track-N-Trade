@@ -12,6 +12,8 @@ class LeafExchange : public Exchange
 public:
     explicit LeafExchange(Exchange* parent, Routes* api_routes, 
     JsonParser* json_parser, QString exchange_name, QString exchange_symbol);
+    ~LeafExchange();
+
     QString getName() override;
     QString getSymbol() override;
     Coin* getCoin(QString coin_symbol) override;

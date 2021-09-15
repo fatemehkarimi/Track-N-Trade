@@ -21,6 +21,9 @@ public:
     void getExchangeList() override;
     void addExchange(QString name, QString symbol) override;
 
+    void clearExchangeList();
+    void clearCoinList();
+
     friend class JsonParser;
 
 private slots:
