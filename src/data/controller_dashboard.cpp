@@ -13,9 +13,7 @@ void DashboardController::setExchange(QString exchange_name) {
     selectedExchange->getCoinList();
     QMetaObject::Connection c = QObject::connect(selectedExchange,
         &Exchange::coinListReady, this, [=](QMap <QString, Coin*> list){
-            view->clearCoinTable();
-            for(auto itm = list.begin(); itm != list.end(); ++itm)
-                view->addCoinToTable(itm.value());
+            view->fillCoinTable(list);
         });
 }
 

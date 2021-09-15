@@ -8,9 +8,11 @@ HEADERS += $$PWD/src/data/*.h
 HEADERS += $$PWD/src/window/*.h
 HEADERS += $$PWD/src/settings/*.h
 HEADERS += $$PWD/src/network/*.h
+HEADERS += $$PWD/src/components/*.h
 
 SOURCES += $$PWD/src/*.cpp
 SOURCES += $$PWD/src/data/*.cpp
 SOURCES += $$PWD/src/window/*.cpp
 SOURCES += $$PWD/src/settings/*.cpp
 SOURCES += $$PWD/src/network/*.cpp
+SOURCES += $$PWD/src/components/*.cpp

@@ -5,6 +5,7 @@
 #include <settings/settings_window.h>
 #include <data/exchange.h>
 #include <data/controller.h>
+#include <components/table_coin.h>
 
 class MainWindow : public QObject
 {
@@ -15,9 +16,7 @@ public:
     void setUpWindow();
     void show();
     void setExchangeMenuOptions(QStringList options);
-
-    void addCoinToTable(Coin* coin);
-    void clearCoinTable();
+    void fillCoinTable(QMap <QString, Coin*> list);
 
 private slots:
     void exchangeListFetched(QMap <QString, Exchange*>);
@@ -30,7 +29,7 @@ private:
     Exchange* exchangeModel;
     QWidget* window;
     QComboBox* exchange_menu;
-    QTableWidget* coin_table;
+    CoinTable* coin_table;
     Settings::Window* settings;
 };
 
