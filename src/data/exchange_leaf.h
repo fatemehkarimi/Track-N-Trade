@@ -21,6 +21,7 @@ public:
     Exchange* getExchange(QString exchange_name) override;
     void getExchangeList() override;
     void addExchange(QString name, QString symbol) override;
+    void registerPriceObserver(PriceObserver*) override;
     
 private slots:
     void parseJson(QString url, QJsonObject json);

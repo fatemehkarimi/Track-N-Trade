@@ -60,3 +60,7 @@ void LeafExchange::getExchangeList() {
 void LeafExchange::addExchange(QString name, QString symbol){
     
 }
+
+void LeafExchange::registerPriceObserver(PriceObserver*) {
+    
+}

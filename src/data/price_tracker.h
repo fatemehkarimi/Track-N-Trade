@@ -25,7 +25,8 @@ private slots:
     void fetchPrices();
 
 signals:
-    void pricesUpdated();
+    void pricesUpdated(QMap <QString, QMap <QString, double> >);
+
 private:
     Routes* routes;
     JsonParser* parser;

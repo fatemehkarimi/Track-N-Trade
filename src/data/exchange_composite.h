@@ -8,6 +8,7 @@
 #include "exchange.h"
 #include "parser_json.h"
 #include "price_tracker.h"
+#include "observer_price.h"
 
 class CompositeExchange : public Exchange
 {
@@ -21,14 +22,15 @@ public:
     Exchange* getExchange(QString exchange_name) override;
     void getExchangeList() override;
     void addExchange(QString name, QString symbol) override;
-
     void clearExchangeList();
     void clearCoinList();
+    void registerPriceObserver(PriceObserver*) override;
 
     friend class JsonParser;
 
 private slots:
     void parseJson(QString, QJsonObject);
+    void handlePriceUpdates(QMap <QString, QMap <QString, double> > prices);
 
 private:
     Routes* routes;
@@ -37,7 +39,7 @@ private:
     QMap <QString, Exchange*> exchangeList;
     QMap <QString, Coin*> assets;
     NetworkManager* networkManager;
-
+    QList <PriceObserver*> priceObservers;
 };
 
 #endif

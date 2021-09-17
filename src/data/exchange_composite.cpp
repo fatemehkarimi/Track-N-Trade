@@ -10,6 +10,8 @@ CompositeExchange::CompositeExchange(Routes* api_routes, JsonParser* json_parser
     networkManager = new NetworkManager();
     QObject::connect(networkManager, &NetworkManager::jsonReady,
                     this, &CompositeExchange::parseJson);
+    QObject::connect(priceTracker, &PriceTracker::pricesUpdated,
+                    this, &CompositeExchange::handlePriceUpdates);
     getExchangeList();
     getCoinList();
 }
@@ -80,4 +82,14 @@ void CompositeExchange::clearCoinList() {
         coin = nullptr;
     }
     assets.clear();
+}
+
+void CompositeExchange::registerPriceObserver(PriceObserver* observer) {
+    this->priceObservers.append(observer);
+}
+
+void CompositeExchange::handlePriceUpdates(
+        QMap <QString, QMap <QString, double> > prices) {
+    for(auto observer : priceObservers)
+        observer->getPriceUpdates(prices);
 }

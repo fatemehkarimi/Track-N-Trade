@@ -5,6 +5,7 @@
 #include <QMap>
 #include <QString>
 #include "coin.h"
+#include "observer_price.h"
 
 class Exchange : public QObject
 {
@@ -17,11 +18,12 @@ public:
     virtual Exchange* getExchange(QString exchange_name) = 0;
     virtual void getExchangeList() = 0;
     virtual void addExchange(QString name, QString symbol) = 0;
+    virtual void registerPriceObserver(PriceObserver*) = 0;
 
 signals:
     void coinReady(Coin*);
-    void coinListReady(QMap <QString, Coin*>);
     void exchangeReady(Exchange*);
+    void coinListReady(QMap <QString, Coin*>);
     void exchangeListReady(QMap <QString, Exchange*>);
 };
 

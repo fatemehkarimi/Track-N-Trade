@@ -3,6 +3,7 @@
 
 DashboardController::DashboardController(Exchange* refExchange) {
     this->refExchange = refExchange;
+    refExchange->registerPriceObserver(this);
     Settings::Window* windowSettings = new Settings::Window(0.8, 0.8);
     view = new MainWindow(windowSettings, this, refExchange);
     view->show();
@@ -24,4 +25,8 @@ void DashboardController::exchangeFetched(Exchange* exchange) {
 
 void DashboardController::getCoinList() {
     
+}
+
+void DashboardController::getPriceUpdates(
+        QMap <QString, QMap <QString, double> > prices) {
 }

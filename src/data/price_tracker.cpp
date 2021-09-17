@@ -9,7 +9,6 @@ PriceTracker::PriceTracker(Routes* apiRoutes, JsonParser* jsonParser,
     this->watchPeriod = QTime(0, 0, 0).msecsTo(watchPeriod);
 
     this->networkManager = new NetworkManager();
-    timer.setInterval(this->watchPeriod);
     QObject::connect(this->networkManager, &NetworkManager::jsonReady,
         this, &PriceTracker::parseJson);
     QObject::connect(&timer, &QTimer::timeout, this, &PriceTracker::fetchPrices);
@@ -38,9 +37,11 @@ void PriceTracker::fetchPrices() {
 }
 
 void PriceTracker::parseJson(QString url, QJsonObject json) {
-    QFuture < QMap <QString, QMap <QString, double> > > future = 
-        QtConcurrent::run(parser, &JsonParser::parseAllPairPrices, json);
+    if(state == STATE::RUNNING) {
+        QFuture < QMap <QString, QMap <QString, double> > > future = 
+            QtConcurrent::run(parser, &JsonParser::parseAllPairPrices, json);
 
-    prices = future.result();
-    emit pricesUpdated();
+        prices = future.result();
+        emit pricesUpdated(prices);
+    }
 }
