@@ -20,7 +20,6 @@ LeafExchange::~LeafExchange() {
 
 void LeafExchange::parseJson(QString url, QJsonObject json) {
     if(url == routes->getExchangeMarketsPath(symbol)){
-        //TODO: perform object deletion
         coinList.clear();
         QFuture < QList <QString> > future = QtConcurrent::run(parser,
             &JsonParser::parseExchangeMarketsJson, json);

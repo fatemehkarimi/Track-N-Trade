@@ -46,7 +46,7 @@ QList <QString> CryptowatchParser::parseExchangeMarketsJson(QJsonObject json) {
 }
 
 bool CryptowatchParser::parseAssetsJson(QJsonObject json,
-    QMap <QString, Coin*>* coinList) {
+        QMap <QString, Coin*>* coinList) {
     QJsonArray coin_array = json["result"].toArray();
     foreach(const QJsonValue& value, coin_array) {
         QJsonObject obj = value.toObject();
@@ -58,4 +58,27 @@ bool CryptowatchParser::parseAssetsJson(QJsonObject json,
         (*coinList)[symbol] = coin;
     }
     return true;
+}
+
+QMap <QString, QMap <QString, double> > 
+        CryptowatchParser::parseAllPairPrices(QJsonObject json) {
+    QMap <QString, QMap <QString, double> > prices;
+    QJsonObject price_array = json["result"].toObject();
+    foreach(const QString& key, price_array.keys()) {
+        double price = price_array.value(key).toDouble();
+        QStringList result = key.split(":");
+
+        if(result.size() < 3)
+            continue;
+        if(result[0] != "market")
+            continue;
+        
+        QString market = result[1];
+        QString pair = result[2];
+        if(pair.endsWith(pair)) {
+            pair.chop(3);
+            prices[market][pair] = price;
+        }
+    }
+    return prices;
 }

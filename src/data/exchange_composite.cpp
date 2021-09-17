@@ -6,6 +6,7 @@
 CompositeExchange::CompositeExchange(Routes* api_routes, JsonParser* json_parser) {
     routes = api_routes;
     parser = json_parser;
+    priceTracker = new PriceTracker(routes, parser, QTime(0, 1, 0));
     networkManager = new NetworkManager();
     QObject::connect(networkManager, &NetworkManager::jsonReady,
                     this, &CompositeExchange::parseJson);

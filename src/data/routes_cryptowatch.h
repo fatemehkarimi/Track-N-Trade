@@ -27,11 +27,21 @@ public:
         return getBasePath() + assetsPath;
     }
 
+    QString getPairPrice(QString exchange_symbol, QString pair) {
+        return getExchangeMarketsPath(exchange_symbol) + "/" + pair + pricePath;
+    }
+
+    QString getAllPrices() {
+        return getBasePath() + marketsPath + allPricesPath;
+    }
+
 private:
     QString basePath = "https://api.cryptowat.ch";
     QString exchangeListPath = "/exchanges";
     QString marketsPath = "/markets";
     QString assetsPath = "/assets";
+    QString pricePath = "/price";
+    QString allPricesPath = "/prices";
 };
 
 #endif

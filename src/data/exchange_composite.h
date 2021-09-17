@@ -7,6 +7,7 @@
 #include "routes.h"
 #include "exchange.h"
 #include "parser_json.h"
+#include "price_tracker.h"
 
 class CompositeExchange : public Exchange
 {
@@ -32,6 +33,7 @@ private slots:
 private:
     Routes* routes;
     JsonParser* parser;
+    PriceTracker* priceTracker;
     QMap <QString, Exchange*> exchangeList;
     QMap <QString, Coin*> assets;
     NetworkManager* networkManager;
