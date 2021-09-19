@@ -18,3 +18,11 @@ QString Coin::symbol() {
 QPixmap Coin::logo() {
     return _logo;
 }
+
+void Coin::setPrice(double price) {
+    this->price = price;
+}
+
+double Coin::getPrice() {
+    return price;
+}

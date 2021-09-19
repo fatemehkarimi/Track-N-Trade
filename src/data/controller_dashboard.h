@@ -5,6 +5,7 @@
 #include "exchange.h"
 #include "controller.h"
 #include "observer_price.h"
+#include <components/table_coin.h>
 
 class DashboardController : public QObject,
     public Controller,
@@ -27,6 +28,8 @@ private:
     Exchange* selectedExchange;
     Exchange* refExchange;
     MainWindow* view;
+    CoinTable* coin_table;
+    QMap <QString, QMap <QString, double> > lastFetchedPrices;
 };
 
 #endif

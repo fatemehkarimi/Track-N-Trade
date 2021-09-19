@@ -61,12 +61,6 @@ void MainWindow::exchangeListFetched(QMap <QString, Exchange*> list) {
     setExchangeMenuOptions(exchange_name_list);
 }
 
-void MainWindow::exchangeChanged(int index) {
+void MainWindow::exchangeChanged(int) {
     controller->setExchange(exchange_menu->currentText());
-}
-
-void MainWindow::fillCoinTable(QMap <QString, Coin*> list) {
-    coin_table->clear();
-    for(auto itm = list.begin(); itm != list.end(); ++itm)
-        coin_table->addCoin(itm.value());
 }

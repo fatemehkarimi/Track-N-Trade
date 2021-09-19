@@ -11,10 +11,13 @@ public:
     QString name();
     QString symbol();
     QPixmap logo();
+    void setPrice(double price);
+    double getPrice();
 
 private:
     QString _name;
     QString _symbol;
+    double price; /* price depends on selected exchange by user */
     bool _fiat;
     QPixmap _logo;
 };

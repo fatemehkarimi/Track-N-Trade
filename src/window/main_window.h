@@ -10,13 +10,16 @@
 class MainWindow : public QObject
 {
     Q_OBJECT
+
 public:
     MainWindow(Settings::Window* window_setting,
                 Controller* controller, Exchange* ecxhangeModel);
     void setUpWindow();
     void show();
     void setExchangeMenuOptions(QStringList options);
-    void fillCoinTable(QMap <QString, Coin*> list);
+    CoinTable* getCoinTable() {
+        return coin_table;
+    }
 
 private slots:
     void exchangeListFetched(QMap <QString, Exchange*>);
