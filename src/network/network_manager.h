@@ -9,13 +9,14 @@ class NetworkManager : public QObject
 {
     Q_OBJECT
 public:
-    NetworkManager();
+    static NetworkManager* getInstance();
     void fetchJson(QString url);
 
 signals:
     void jsonReady(QString url, QJsonObject);
 
 private:
+    NetworkManager();
     QNetworkAccessManager* _network;
 };
 

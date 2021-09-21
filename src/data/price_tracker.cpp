@@ -8,7 +8,7 @@ PriceTracker::PriceTracker(Routes* apiRoutes, JsonParser* jsonParser,
       parser(jsonParser) {
     this->watchPeriod = QTime(0, 0, 0).msecsTo(watchPeriod);
 
-    this->networkManager = new NetworkManager();
+    this->networkManager = NetworkManager::getInstance();
     QObject::connect(this->networkManager, &NetworkManager::jsonReady,
         this, &PriceTracker::parseJson);
     QObject::connect(&timer, &QTimer::timeout, this, &PriceTracker::fetchPrices);

@@ -1,6 +1,12 @@
 #include <QNetworkReply>
 #include <network/network_manager.h>
 
+NetworkManager* NetworkManager::getInstance() {
+    static NetworkManager networkManager;
+    return &networkManager;
+}
+
+
 NetworkManager::NetworkManager() {
     this->_network = new QNetworkAccessManager();
 }

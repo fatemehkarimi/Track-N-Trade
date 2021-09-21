@@ -8,7 +8,7 @@ LeafExchange::LeafExchange(Exchange* parent,Routes* api_routes,
     symbol(exchange_symbol),
     routes(api_routes),
     parser(json_parser) {
-    networkManager = new NetworkManager();
+    networkManager = NetworkManager::getInstance();
     QObject::connect(networkManager, &NetworkManager::jsonReady,
                     this, &LeafExchange::parseJson);
 }
