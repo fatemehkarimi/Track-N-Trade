@@ -1,3 +1,4 @@
+#include <QEventLoop>
 #include <QtConcurrent>
 #include "exchange_composite.h"
 #include "exchange_leaf.h"
@@ -25,6 +26,12 @@ QString CompositeExchange::getSymbol() {
 }
 
 Coin* CompositeExchange::getCoin(QString symbol) {
+    if(!assets.empty())
+        return assets[symbol];
+
+    QEventLoop loop;
+    QObject::connect(this, &Exchange::coinListReady, &loop, &QEventLoop::quit);
+    loop.exec();
     return assets[symbol];
 }
 

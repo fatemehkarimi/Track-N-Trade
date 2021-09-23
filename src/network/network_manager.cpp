@@ -9,21 +9,18 @@ NetworkManager* NetworkManager::getInstance() {
 
 NetworkManager::NetworkManager() {
     this->_network = new QNetworkAccessManager();
-}
-
-void NetworkManager::fetchJson(QString url) {
-    QNetworkRequest request(QUrl{url});
-    QNetworkReply* reply = _network->get(request);
-
-    auto conn = std::make_shared<QMetaObject::Connection>();
-    *conn = QObject::connect(
-        reply, &QNetworkReply::finished,
-        this, [=](){
-            QObject::disconnect(*conn);
+    QObject::connect(
+        _network, &QNetworkAccessManager::finished,
+        this, [=](QNetworkReply* reply){
             QByteArray response = reply->readAll();
             QJsonDocument doc = QJsonDocument::fromJson(response);
             QJsonObject json = doc.object();
             emit jsonReady(reply->url().toString(), json);
             reply->deleteLater();
         });
+}
+
+void NetworkManager::fetchJson(QString url) {
+    QNetworkRequest request(QUrl{url});
+    _network->get(request);
 }

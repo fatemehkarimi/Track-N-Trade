@@ -40,7 +40,6 @@ void MainWindow::show() {
 
 void MainWindow::setExchangeMenuOptions(QStringList options) {
     exchange_menu->addItems(options);
-    exchange_menu->setCurrentIndex(1);
     controller->setExchange(exchange_menu->currentText());
 }
 
