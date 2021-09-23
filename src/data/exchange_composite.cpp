@@ -25,7 +25,7 @@ QString CompositeExchange::getSymbol() {
     return nullptr;
 }
 
-Coin* CompositeExchange::getCoin(QString symbol) {
+std::shared_ptr <Coin> CompositeExchange::getCoin(QString symbol) {
     if(!assets.empty())
         return assets[symbol];
 
@@ -78,11 +78,6 @@ void CompositeExchange::clearExchangeList() {
 }
 
 void CompositeExchange::clearCoinList() {
-    for(auto a = assets.begin(); a != assets.end(); ++a) {
-        Coin* coin = a.value();
-        delete coin;
-        coin = nullptr;
-    }
     assets.clear();
 }
 

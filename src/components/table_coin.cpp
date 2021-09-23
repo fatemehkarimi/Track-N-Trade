@@ -18,7 +18,7 @@ void CoinTable::clear() {
     clearContents();
 }
 
-void CoinTable::addCoin(Coin* coin) {
+void CoinTable::addCoin(std::shared_ptr <Coin> coin) {
     QString title = coin->symbol().toUpper();
     insertRow(this->rowCount());
     this->setItemDelegateForRow(this->rowCount() - 1,

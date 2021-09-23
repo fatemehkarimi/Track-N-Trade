@@ -17,7 +17,7 @@ public:
     explicit CompositeExchange(Routes* api_routes, JsonParser* parser);
     QString getName() override;
     QString getSymbol() override;
-    Coin* getCoin(QString coin_symbol) override;
+    std::shared_ptr <Coin> getCoin(QString coin_symbol) override;
     void getCoinList() override;
     std::shared_ptr <Exchange> getExchange(QString exchange_name) override;
     void getExchangeList() override;
@@ -38,7 +38,7 @@ private:
     PriceTracker* priceTracker;
     //Exchange name, pointer to exchange name
     QMap <QString, std::shared_ptr <Exchange> > exchangeList;
-    QMap <QString, Coin*> assets;
+    QMap <QString, std::shared_ptr <Coin> > assets;
     NetworkManager* networkManager;
     QList <PriceObserver*> priceObservers;
 };

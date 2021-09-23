@@ -16,8 +16,11 @@ void DashboardController::setExchange(QString exchange_name) {
     selectedExchange = refExchange->getExchange(exchange_name);
     selectedExchange->getCoinList();
 
-    QMetaObject::Connection c = QObject::connect(selectedExchange.get(),
-        &Exchange::coinListReady, this, [=](QMap <QString, Coin*> list){
+    //TODO: do not use signals and slots. use QEvent loop or other thing
+    auto conn = std::make_shared <QMetaObject::Connection>();
+    *conn = QObject::connect(selectedExchange.get(),
+                &Exchange::coinListReady, this, [=](QMap <QString, std::shared_ptr <Coin> > list){
+            QObject::disconnect(*conn);
             coin_table->clear();
             for(auto itm = list.begin(); itm != list.end(); ++itm)
                 coin_table->addCoin(itm.value());
