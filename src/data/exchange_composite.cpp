@@ -53,7 +53,7 @@ void CompositeExchange::parseJson(QString url, QJsonObject json) {
     }
 }
 
-Exchange* CompositeExchange::getExchange(QString exchange_name) {
+std::shared_ptr <Exchange> CompositeExchange::getExchange(QString exchange_name) {
     return exchangeList[exchange_name];
 }
 
@@ -62,16 +62,11 @@ void CompositeExchange::getExchangeList() {
 }
 
 void CompositeExchange::addExchange(QString name, QString symbol) {
-    LeafExchange* exchange = new LeafExchange(this, routes, parser, name, symbol);
+    std::shared_ptr <Exchange> exchange(new LeafExchange(this, routes, parser, name, symbol));
     exchangeList[name] = exchange;
 }
 
 void CompositeExchange::clearExchangeList() {
-    for(auto a = exchangeList.begin(); a != exchangeList.end(); ++a){
-        Exchange* exchange = a.value();
-        delete exchange;
-        exchange = nullptr;
-    }
     exchangeList.clear();
 }
 

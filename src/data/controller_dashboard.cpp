@@ -14,17 +14,19 @@ DashboardController::DashboardController(Exchange* refExchange) {
 
 void DashboardController::setExchange(QString exchange_name) {
     selectedExchange = refExchange->getExchange(exchange_name);
+    qDebug() << selectedExchange->getName();
     selectedExchange->getCoinList();
 
-    QMetaObject::Connection c = QObject::connect(selectedExchange,
+    QMetaObject::Connection c = QObject::connect(selectedExchange.get(),
         &Exchange::coinListReady, this, [=](QMap <QString, Coin*> list){
+            qDebug() << "coin list ready" << list.size();
             coin_table->clear();
             for(auto itm = list.begin(); itm != list.end(); ++itm)
                 coin_table->addCoin(itm.value());
         });
 }
 
-void DashboardController::exchangeFetched(Exchange* exchange) {
+void DashboardController::exchangeFetched(std::shared_ptr <Exchange> exchange) {
     selectedExchange = exchange;
     emit selectedExchangeChanged();
 }

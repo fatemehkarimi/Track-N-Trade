@@ -40,6 +40,8 @@ void MainWindow::show() {
 
 void MainWindow::setExchangeMenuOptions(QStringList options) {
     exchange_menu->addItems(options);
+    exchange_menu->setCurrentIndex(1);
+    controller->setExchange(exchange_menu->currentText());
 }
 
 void MainWindow::fetchExchangeList() {
@@ -48,13 +50,13 @@ void MainWindow::fetchExchangeList() {
     exchangeModel->getExchangeList();
 }
 
-void MainWindow::exchangeListFetched(QMap <QString, Exchange*> list) {
+void MainWindow::exchangeListFetched(QMap <QString, std::shared_ptr <Exchange> > list) {
     QObject::disconnect(exchangeModel, &Exchange::exchangeListReady,
                     this, &MainWindow::exchangeListFetched);
 
     QStringList exchange_name_list;
     for(auto x = list.begin(); x != list.end(); ++x) {
-        Exchange* e = x.value();
+        std::shared_ptr <Exchange> e = x.value();
         if(e->getName() != nullptr)
             exchange_name_list.append(e->getName());
     }

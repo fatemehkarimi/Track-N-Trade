@@ -19,13 +19,13 @@ public:
     void getPriceUpdates(QMap <QString, QMap <QString, double> > prices) override;
 
 private slots:
-    void exchangeFetched(Exchange* exchange);
+    void exchangeFetched(std::shared_ptr <Exchange> exchange);
 
 signals:
     void selectedExchangeChanged();
 
 private:
-    Exchange* selectedExchange;
+    std::shared_ptr <Exchange> selectedExchange;
     Exchange* refExchange;
     MainWindow* view;
     CoinTable* coin_table;

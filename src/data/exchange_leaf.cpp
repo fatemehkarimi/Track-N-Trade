@@ -13,11 +13,6 @@ LeafExchange::LeafExchange(Exchange* parent,Routes* api_routes,
                     this, &LeafExchange::parseJson);
 }
 
-LeafExchange::~LeafExchange() {
-    delete networkManager;
-    networkManager = nullptr;
-}
-
 void LeafExchange::parseJson(QString url, QJsonObject json) {
     if(url == routes->getExchangeMarketsPath(symbol)){
         coinList.clear();
@@ -50,7 +45,7 @@ void LeafExchange::getCoinList() {
     networkManager->fetchJson(routes->getExchangeMarketsPath(symbol));
 }
 
-Exchange* LeafExchange::getExchange(QString exchange_name) {
+std::shared_ptr <Exchange> LeafExchange::getExchange(QString exchange_name) {
     return nullptr;
 }
 

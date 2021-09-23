@@ -22,7 +22,7 @@ public:
     }
 
 private slots:
-    void exchangeListFetched(QMap <QString, Exchange*>);
+    void exchangeListFetched(QMap <QString, std::shared_ptr <Exchange> >);
     void exchangeChanged(int index);
 
 private:
