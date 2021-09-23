@@ -14,9 +14,12 @@ NetworkManager::NetworkManager() {
 void NetworkManager::fetchJson(QString url) {
     QNetworkRequest request(QUrl{url});
     QNetworkReply* reply = _network->get(request);
-    QMetaObject::Connection c1 = QObject::connect(
+
+    auto conn = std::make_shared<QMetaObject::Connection>();
+    *conn = QObject::connect(
         reply, &QNetworkReply::finished,
         this, [=](){
+            QObject::disconnect(*conn);
             QByteArray response = reply->readAll();
             QJsonDocument doc = QJsonDocument::fromJson(response);
             QJsonObject json = doc.object();
