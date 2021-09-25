@@ -24,6 +24,7 @@ void DashboardController::setExchange(QString exchange_name) {
             coin_table->clear();
             for(auto itm = list.begin(); itm != list.end(); ++itm)
                 coin_table->addCoin(itm.value());
+            emit coin_table->coinListUpdated();
         });
 }
 

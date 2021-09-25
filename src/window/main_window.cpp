@@ -28,6 +28,10 @@ void MainWindow::setUpWindow() {
     coin_table = new CoinTable("coin_table");
     coin_layout->addWidget(coin_table);
 
+    QObject::connect(coin_table, &CoinTable::coinListUpdated, this, [=](){
+        exchange_menu->setEnabled(true);
+    });
+
     main_layout->setStretchFactor(exchange_menu, 1);
     main_layout->setStretchFactor(coin_layout, 1);
 
@@ -64,4 +68,5 @@ void MainWindow::exchangeListFetched(QMap <QString, std::shared_ptr <Exchange> >
 
 void MainWindow::exchangeChanged(int) {
     controller->setExchange(exchange_menu->currentText());
+    exchange_menu->setEnabled(false);
 }
