@@ -75,7 +75,7 @@ QMap <QString, QMap <QString, double> >
         
         QString market = result[1];
         QString pair = result[2];
-        if(pair.endsWith(pair)) {
+        if(pair.endsWith("usd")) {
             pair.chop(3);
             prices[market][pair] = price;
         }
