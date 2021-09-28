@@ -2,10 +2,11 @@
 #define COIN_TABLE_H
 
 #include <memory>
-#include <QTableWidget>
+#include <QTableView>
+#include <QStandardItemModel>
 #include <data/coin.h>
 
-class CoinTable : public QTableWidget
+class CoinTable : public QTableView
 {
     Q_OBJECT
 public:
@@ -17,6 +18,7 @@ signals:
     void coinListUpdated();
 
 private:
+    QStandardItemModel* tableModel;
     QMap <QString, std::shared_ptr <Coin> > coinList;
 };
 

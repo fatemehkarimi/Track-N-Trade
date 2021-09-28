@@ -3,7 +3,10 @@
 void CoinTitleDelegate::paint( QPainter *painter, 
     const QStyleOptionViewItem &option, const QModelIndex &index ) const
 {
-    QItemDelegate::paint(painter, option, index);
+    QMap <QString, QString> data = index.data().value < QMap <QString, QString> >();
+    QString symbol = data["symbol"];
+    QString unit = data["unit"];
+
     QFontMetrics font_metrics(painter->font());
 
     QRect rect = option.rect;

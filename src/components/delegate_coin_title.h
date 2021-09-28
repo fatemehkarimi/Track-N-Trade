@@ -3,10 +3,9 @@
 class CoinTitleDelegate : public QItemDelegate
 {
 public:
-    CoinTitleDelegate( QObject *parent, QString symbol, QString unit ) 
-    : QItemDelegate(parent),
-      symbol(symbol),
-      unit(unit) {}
+    CoinTitleDelegate( QObject *parent) 
+    : QItemDelegate(parent)
+    {}
 
     void paint( QPainter *painter, const QStyleOptionViewItem &option, 
         const QModelIndex &index ) const;
@@ -20,8 +19,4 @@ public:
         const QModelIndex &) const {
             return Q_NULLPTR;
     }
-
-private:
-    QString symbol;
-    QString unit;
 };

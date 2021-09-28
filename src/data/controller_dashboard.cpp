@@ -43,7 +43,7 @@ void DashboardController::getPriceUpdates(
     if(selectedExchange == nullptr)
         return;
 
-    // QMap <QString, double> selectedExchangePrices = prices[selectedExchange->getSymbol()];
+    QMap <QString, double> selectedExchangePrices = prices[selectedExchange->getSymbol()];
     // foreach(const QString& key, selectedExchangePrices.keys())
-        // qDebug() << key << " ";
+    //     qDebug() << key << " " << selectedExchangePrices[key];
 }
