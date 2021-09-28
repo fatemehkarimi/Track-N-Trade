@@ -1,6 +1,7 @@
 #include <QVariant>
 #include "table_coin.h"
 #include "delegate_coin_title.h"
+#include "delegate_coin_price.h"
 
 CoinTable::CoinTable(QString object_name) {
     setObjectName(object_name);
@@ -11,16 +12,19 @@ CoinTable::CoinTable(QString object_name) {
     tableModel = new QStandardItemModel(0, 3);
     this->setModel(tableModel);
     this->setItemDelegateForColumn(0, new CoinTitleDelegate(this));
+    this->setItemDelegateForColumn(1, new CoinPriceDelegate(this));
 }
 
 void CoinTable::clear() {
+    coinList.clear();
     tableModel->clear();
     tableModel->setRowCount(0);
-    tableModel->setColumnCount(3);////
+    tableModel->setColumnCount(3);
 }
 
 void CoinTable::addCoin(std::shared_ptr <Coin> coin) {
-    QString title = coin->symbol().toUpper();
+    coinList[coin->symbol()] = coin;
+    QString title = coin->symbol();
     QMap <QString, QString> data;
     data["symbol"] = title;
     data["unit"] = "USD";
@@ -29,8 +33,31 @@ void CoinTable::addCoin(std::shared_ptr <Coin> coin) {
     variantData.setValue(data);
 
     tableModel->insertRow(tableModel->rowCount());
-    tableModel->setColumnCount(3);////
+    tableModel->setColumnCount(3);
 
-    QModelIndex index = tableModel->index(tableModel->rowCount() - 1, 0, QModelIndex());
+    QModelIndex index = tableModel->index(
+            tableModel->rowCount() - 1, 0, QModelIndex());
     tableModel->setData(index, variantData, Qt::DisplayRole);
+}
+
+void CoinTable::updateCoinPrice(QString symbol, double price) {
+    if(coinList[symbol] != nullptr) {
+        QMap <QString, QString> data;
+        data["symbol"] = symbol;
+        data["price"] =  QString::number(price);
+        QVariant variantData;
+        variantData.setValue(data);
+
+        // Optimize here
+        for(int i = 0; i < tableModel->rowCount(); ++i) {
+            QModelIndex symbol_index = tableModel->index(i, 0, QModelIndex());
+            QMap <QString, QString> delegate_data = symbol_index.data().value <QMap <QString, QString> >();
+
+            if(delegate_data["symbol"] == symbol) {
+                QModelIndex price_index = tableModel->index(i, 1, QModelIndex());
+                tableModel->setData(price_index, variantData, Qt::DisplayRole);
+                break;
+            }
+        }
+    }
 }

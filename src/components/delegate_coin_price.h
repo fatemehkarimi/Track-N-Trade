@@ -1,9 +1,12 @@
+#ifndef DELEGATE_COIN_PRICE_H
+#define DELECATE_COIN_PRICE_H
+
 #include <QtWidgets>
 
-class CoinTitleDelegate : public QItemDelegate
+class CoinPriceDelegate : public QItemDelegate
 {
 public:
-    CoinTitleDelegate( QObject* parent)
+    CoinPriceDelegate(QObject* parent)
     : QItemDelegate(parent)
     {}
 
@@ -20,3 +23,5 @@ public:
             return Q_NULLPTR;
     }
 };
+
+#endif

@@ -13,12 +13,14 @@ public:
     explicit CoinTable(QString object_name);
     void clear();
     void addCoin(std::shared_ptr <Coin> coin);
+    void updateCoinPrice(QString symbol, double price);
 
 signals:
     void coinListUpdated();
 
 private:
     QStandardItemModel* tableModel;
+    // Key is coin symbol
     QMap <QString, std::shared_ptr <Coin> > coinList;
 };
 

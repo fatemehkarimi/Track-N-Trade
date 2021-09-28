@@ -44,6 +44,6 @@ void DashboardController::getPriceUpdates(
         return;
 
     QMap <QString, double> selectedExchangePrices = prices[selectedExchange->getSymbol()];
-    // foreach(const QString& key, selectedExchangePrices.keys())
-    //     qDebug() << key << " " << selectedExchangePrices[key];
+    foreach(const QString& key, selectedExchangePrices.keys())
+        coin_table->updateCoinPrice(key, selectedExchangePrices[key]);
 }

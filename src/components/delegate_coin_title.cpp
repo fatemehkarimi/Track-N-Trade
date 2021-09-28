@@ -4,7 +4,7 @@ void CoinTitleDelegate::paint( QPainter *painter,
     const QStyleOptionViewItem &option, const QModelIndex &index ) const
 {
     QMap <QString, QString> data = index.data().value < QMap <QString, QString> >();
-    QString symbol = data["symbol"];
+    QString symbol = data["symbol"].toUpper();
     QString unit = data["unit"];
 
     QFontMetrics font_metrics(painter->font());
