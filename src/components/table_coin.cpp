@@ -23,9 +23,6 @@ CoinTable::CoinTable(QString object_name) {
 void CoinTable::clear() {
     coinList.clear();
     tableModel->removeRows(0, tableModel->rowCount());
-    // tableModel->clear();
-    // tableModel->setRowCount(0);
-    // tableModel->setColumnCount(3);
 }
 
 void CoinTable::addCoin(std::shared_ptr <Coin> coin) {

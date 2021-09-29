@@ -37,6 +37,11 @@ void PriceTracker::fetchPrices() {
 }
 
 void PriceTracker::parseJson(QString url, QJsonObject json) {
+    //TODO: not all of the objects with access to NetworkManager should access
+    // all jsons received by NetworkManager.
+    if(url != routes->getAllPrices())
+        return;
+
     if(state == STATE::RUNNING) {
         QFuture < QMap <QString, QMap <QString, double> > > future = 
             QtConcurrent::run(parser, &JsonParser::parseAllPairPrices, json);

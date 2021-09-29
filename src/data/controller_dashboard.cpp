@@ -19,11 +19,13 @@ void DashboardController::setExchange(QString exchange_name) {
     //TODO: do not use signals and slots. use QEvent loop or other thing
     auto conn = std::make_shared <QMetaObject::Connection>();
     *conn = QObject::connect(selectedExchange.get(),
-                &Exchange::coinListReady, this, [=](QMap <QString, std::shared_ptr <Coin> > list){
+            &Exchange::coinListReady, this, [=](QMap <QString, std::shared_ptr <Coin> > list){
             QObject::disconnect(*conn);
+
             coin_table->clear();
             for(auto itm = list.begin(); itm != list.end(); ++itm)
                 coin_table->addCoin(itm.value());
+            setPricesToTable();
             emit coin_table->coinListUpdated();
         });
 }
@@ -42,8 +44,12 @@ void DashboardController::getPriceUpdates(
     lastFetchedPrices = prices;
     if(selectedExchange == nullptr)
         return;
+    this->setPricesToTable();
+}
 
-    QMap <QString, double> selectedExchangePrices = prices[selectedExchange->getSymbol()];
-    foreach(const QString& key, selectedExchangePrices.keys())
-        coin_table->updateCoinPrice(key, selectedExchangePrices[key]);
+void DashboardController::setPricesToTable() {
+    QMap <QString, double> prices = lastFetchedPrices[selectedExchange->getSymbol()];
+
+    foreach(const QString& key, prices.keys())
+        coin_table->updateCoinPrice(key, prices[key]);
 }

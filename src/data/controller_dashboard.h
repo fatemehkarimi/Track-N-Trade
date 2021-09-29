@@ -16,10 +16,11 @@ public:
     explicit DashboardController(Exchange* refExchange);
     void setExchange(QString exchange_name);
     void getCoinList();
-    void getPriceUpdates(QMap <QString, QMap <QString, double> > prices) override;
+    void setPricesToTable();
 
 private slots:
     void exchangeFetched(std::shared_ptr <Exchange> exchange);
+    void getPriceUpdates(QMap <QString, QMap <QString, double> > prices) override;
 
 signals:
     void selectedExchangeChanged();
