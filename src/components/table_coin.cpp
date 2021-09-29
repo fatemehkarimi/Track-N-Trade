@@ -13,13 +13,19 @@ CoinTable::CoinTable(QString object_name) {
     this->setModel(tableModel);
     this->setItemDelegateForColumn(0, new CoinTitleDelegate(this));
     this->setItemDelegateForColumn(1, new CoinPriceDelegate(this));
+
+    QStringList headers = {"Pair", "Price", "24h Changes"};
+    QHeaderView* header = this->horizontalHeader();
+    header->setSectionResizeMode(QHeaderView::Stretch);
+    tableModel->setHorizontalHeaderLabels(headers);
 }
 
 void CoinTable::clear() {
     coinList.clear();
-    tableModel->clear();
-    tableModel->setRowCount(0);
-    tableModel->setColumnCount(3);
+    tableModel->removeRows(0, tableModel->rowCount());
+    // tableModel->clear();
+    // tableModel->setRowCount(0);
+    // tableModel->setColumnCount(3);
 }
 
 void CoinTable::addCoin(std::shared_ptr <Coin> coin) {
