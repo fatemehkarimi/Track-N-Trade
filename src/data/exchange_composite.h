@@ -9,12 +9,14 @@
 #include "parser_json.h"
 #include "price_tracker.h"
 #include "observer_price.h"
+#include <settings/settings_app.h>
 
 class CompositeExchange : public Exchange
 {
     Q_OBJECT
 public:
-    explicit CompositeExchange(Routes* api_routes, JsonParser* parser);
+    explicit CompositeExchange(Settings::App* appSettings, 
+        Routes* api_routes, JsonParser* parser);
     QString getName() override;
     QString getSymbol() override;
     std::shared_ptr <Coin> getCoin(QString coin_symbol) override;
@@ -33,6 +35,7 @@ private slots:
     void handlePriceUpdates(QMap <QString, QMap <QString, double> > prices);
 
 private:
+    Settings::App* appSettings;
     Routes* routes;
     JsonParser* parser;
     PriceTracker* priceTracker;

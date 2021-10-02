@@ -4,15 +4,20 @@
 #include "exchange_leaf.h"
 
 
-CompositeExchange::CompositeExchange(Routes* api_routes, JsonParser* json_parser) {
+CompositeExchange::CompositeExchange(Settings::App* appSettings,
+        Routes* api_routes, JsonParser* json_parser)
+    : appSettings(appSettings) {
     routes = api_routes;
     parser = json_parser;
-    priceTracker = new PriceTracker(routes, parser, QTime(0, 0, 20));
+
+    priceTracker = new PriceTracker(routes, parser, appSettings->getPriceRefreshRate());
     networkManager = NetworkManager::getInstance();
+
     QObject::connect(networkManager, &NetworkManager::jsonReady,
                     this, &CompositeExchange::parseJson);
     QObject::connect(priceTracker, &PriceTracker::pricesUpdated,
                     this, &CompositeExchange::handlePriceUpdates);
+
     getExchangeList();
     getCoinList();
 }
