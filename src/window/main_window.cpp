@@ -7,6 +7,10 @@ MainWindow::MainWindow(Settings::Window* window_setting,
                         Controller* controller, Exchange* exchangeModel) {
     this->controller = controller;
     this->exchangeModel = exchangeModel;
+
+    QObject::connect(exchangeModel, &Exchange::exchangeListReady,
+        this, &MainWindow::exchangeListFetched, Qt::UniqueConnection);
+
     window = new QWidget();
     settings = window_setting;
     setUpWindow();
@@ -48,15 +52,10 @@ void MainWindow::setExchangeMenuOptions(QStringList options) {
 }
 
 void MainWindow::fetchExchangeList() {
-    QObject::connect(exchangeModel, &Exchange::exchangeListReady,
-                    this, &MainWindow::exchangeListFetched);
     exchangeModel->getExchangeList();
 }
 
 void MainWindow::exchangeListFetched(QMap <QString, std::shared_ptr <Exchange> > list) {
-    QObject::disconnect(exchangeModel, &Exchange::exchangeListReady,
-                    this, &MainWindow::exchangeListFetched);
-
     QStringList exchange_name_list;
     for(auto x = list.begin(); x != list.end(); ++x) {
         std::shared_ptr <Exchange> e = x.value();
