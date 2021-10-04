@@ -7,7 +7,7 @@ void Price::updatePrice(double latestPrice) {
         price_status = Price::NOCHANGE;
     else
         price_status = Price::DECREASE;
-    price = latestPrice;    
+    price = latestPrice;
 }
 
 QString Price::getExchangeSymbol() {

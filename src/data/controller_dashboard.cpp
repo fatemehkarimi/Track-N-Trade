@@ -48,8 +48,7 @@ void DashboardController::getPriceUpdates(
 }
 
 void DashboardController::setPricesToTable() {
-    QMap <QString, Price> prices = lastFetchedPrices[selectedExchange->getSymbol()];    
-    qDebug() << "controller = " << prices.find("btcb")->getPriceStatus();
+    QMap <QString, Price> prices = lastFetchedPrices[selectedExchange->getSymbol()];
 
     foreach(const QString& key, prices.keys())
         coin_table->updateCoinPrice(key, *prices.find(key));

@@ -20,7 +20,10 @@ public:
         exchange = p.exchange;
         pair = p.pair;
         price = p.price;
+        price_status = p.price_status;
     }
+
+
 
     enum PRICE_STATUS {
         INCREASE,
