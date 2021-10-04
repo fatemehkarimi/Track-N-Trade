@@ -43,15 +43,12 @@ void CoinTable::addCoin(std::shared_ptr <Coin> coin) {
     tableModel->setData(index, variantData, Qt::DisplayRole);
 }
 
-void CoinTable::updateCoinPrice(QString symbol, double price) {
+void CoinTable::updateCoinPrice(QString symbol, Price price) {
     if(coinList[symbol] != nullptr) {
-        QMap <QString, QString> data;
-        data["symbol"] = symbol;
-        data["price"] =  QString::number(price);
         QVariant variantData;
-        variantData.setValue(data);
+        variantData.setValue(price);
 
-        // Optimize here
+        // TODO: Optimize loop
         for(int i = 0; i < tableModel->rowCount(); ++i) {
             QModelIndex symbol_index = tableModel->index(i, 0, QModelIndex());
             QMap <QString, QString> delegate_data = symbol_index.data().value <QMap <QString, QString> >();

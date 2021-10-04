@@ -2,6 +2,7 @@
 #define DELECATE_COIN_PRICE_H
 
 #include <QtWidgets>
+#include <data/price.h>
 
 class CoinPriceDelegate : public QItemDelegate
 {

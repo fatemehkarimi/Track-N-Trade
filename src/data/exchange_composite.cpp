@@ -91,7 +91,7 @@ void CompositeExchange::registerPriceObserver(PriceObserver* observer) {
 }
 
 void CompositeExchange::handlePriceUpdates(
-        QMap <QString, QMap <QString, double> > prices) {
+        QMap <QString, QMap <QString, Price> > prices) {
     for(auto observer : priceObservers)
         observer->getPriceUpdates(prices);
 }

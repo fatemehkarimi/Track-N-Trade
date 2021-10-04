@@ -20,7 +20,7 @@ public:
 
 private slots:
     void exchangeFetched(std::shared_ptr <Exchange> exchange);
-    void getPriceUpdates(QMap <QString, QMap <QString, double> > prices) override;
+    void getPriceUpdates(QMap <QString, QMap <QString, Price> > prices) override;
 
 signals:
     void selectedExchangeChanged();
@@ -30,7 +30,7 @@ private:
     Exchange* refExchange;
     MainWindow* view;
     CoinTable* coin_table;
-    QMap <QString, QMap <QString, double> > lastFetchedPrices;
+    QMap <QString, QMap <QString, Price> > lastFetchedPrices;
 };
 
 #endif

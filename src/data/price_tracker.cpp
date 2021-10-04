@@ -46,7 +46,17 @@ void PriceTracker::parseJson(QString url, QJsonObject json) {
         QFuture < QMap <QString, QMap <QString, double> > > future = 
             QtConcurrent::run(parser, &JsonParser::parseAllPairPrices, json);
 
-        prices = future.result();
+        QMap <QString, QMap <QString, double> > result = future.result();
+        foreach(const QString& exchange, result.keys())
+            foreach(const QString& pair, result[exchange].keys()) {
+                if(prices.contains(exchange) && prices[exchange].contains(pair))
+                    prices[exchange].find(pair)->updatePrice(result[exchange][pair]);
+                else {
+                    Price price(exchange, pair, result[exchange][pair]);
+                    prices[exchange].insert(pair, price);
+                }
+            }
+        
         emit pricesUpdated(prices);
     }
 }

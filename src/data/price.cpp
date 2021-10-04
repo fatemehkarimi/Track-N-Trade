@@ -1,6 +1,5 @@
 #include "price.h"
 
-
 void Price::updatePrice(double latestPrice) {
     if(latestPrice > price)
         price_status = Price::INCREASE;

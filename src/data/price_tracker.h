@@ -5,6 +5,7 @@
 #include <network/network_manager.h>
 #include "routes.h"
 #include "parser_json.h"
+#include "price.h"
 
 class PriceTracker : public QObject
 {
@@ -25,7 +26,7 @@ private slots:
     void fetchPrices();
 
 signals:
-    void pricesUpdated(QMap <QString, QMap <QString, double> >);
+    void pricesUpdated(QMap <QString, QMap <QString, Price> >);
 
 private:
     Routes* routes;
@@ -34,7 +35,7 @@ private:
     QTimer timer;
     int watchPeriod; //watch period in msecs
     NetworkManager* networkManager;
-    QMap <QString, QMap <QString, double> > prices;
+    QMap <QString, QMap <QString, Price> > prices;
 };
 
 #endif

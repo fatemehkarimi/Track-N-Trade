@@ -5,6 +5,7 @@
 #include <QTableView>
 #include <QStandardItemModel>
 #include <data/coin.h>
+#include <data/price.h>
 
 class CoinTable : public QTableView
 {
@@ -13,7 +14,7 @@ public:
     explicit CoinTable(QString object_name);
     void clear();
     void addCoin(std::shared_ptr <Coin> coin);
-    void updateCoinPrice(QString symbol, double price);
+    void updateCoinPrice(QString symbol, Price price);
 
 signals:
     void coinListUpdated();

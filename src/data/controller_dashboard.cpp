@@ -40,7 +40,7 @@ void DashboardController::getCoinList() {
 }
 
 void DashboardController::getPriceUpdates(
-        QMap <QString, QMap <QString, double> > prices) {
+        QMap <QString, QMap <QString, Price> > prices) {
     lastFetchedPrices = prices;
     if(selectedExchange == nullptr)
         return;
@@ -48,8 +48,9 @@ void DashboardController::getPriceUpdates(
 }
 
 void DashboardController::setPricesToTable() {
-    QMap <QString, double> prices = lastFetchedPrices[selectedExchange->getSymbol()];
+    QMap <QString, Price> prices = lastFetchedPrices[selectedExchange->getSymbol()];    
+    qDebug() << "controller = " << prices.find("btcb")->getPriceStatus();
 
     foreach(const QString& key, prices.keys())
-        coin_table->updateCoinPrice(key, prices[key]);
+        coin_table->updateCoinPrice(key, *prices.find(key));
 }
