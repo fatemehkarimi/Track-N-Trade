@@ -36,7 +36,11 @@ public:
     }
 
     QString getAll24hSummeries() {
-        return getBasePath() + marketsPath + summaries;
+        return getBasePath() + marketsPath + summariesPath;
+    }
+
+    QString getPairs() {
+        return getBasePath() + pairsPath;
     }
 
 private:
@@ -46,7 +50,8 @@ private:
     QString assetsPath = "/assets";
     QString pricePath = "/price";
     QString allPricesPath = "/prices";
-    QString summaries = "/summaries";
+    QString summariesPath = "/summaries";
+    QString pairsPath = "/pairs";
 };
 
 #endif
