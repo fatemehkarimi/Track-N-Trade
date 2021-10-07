@@ -29,10 +29,10 @@ void MainWindow::setUpWindow() {
     QVBoxLayout* market_layout = new QVBoxLayout();
     main_layout->addLayout(market_layout);
 
-    coin_table = new CoinTable("market_table");
-    market_layout->addWidget(coin_table);
+    marketTable = new MarketTable("market_table");
+    market_layout->addWidget(marketTable);
 
-    QObject::connect(coin_table, &CoinTable::coinListUpdated, this, [=](){
+    QObject::connect(marketTable, &MarketTable::assetListUpdated, this, [=](){
         exchange_menu->setEnabled(true);
     });
 
@@ -44,6 +44,10 @@ void MainWindow::setUpWindow() {
 
 void MainWindow::show() {
     window->show();
+}
+
+MarketTable* MainWindow::getMarketTable() {
+    return marketTable;
 }
 
 void MainWindow::setExchangeMenuOptions(QStringList options) {

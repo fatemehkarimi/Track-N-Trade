@@ -1,7 +1,7 @@
 #include <data/price.h>
-#include "delegate_coin_price.h"
+#include "delegate_asset_price.h"
 
-void CoinPriceDelegate::paint( QPainter *painter, 
+void AssetPriceDelegate::paint( QPainter *painter, 
     const QStyleOptionViewItem &option, const QModelIndex &index ) const
 {
     Price price = index.data().value <Price>();

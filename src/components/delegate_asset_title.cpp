@@ -1,6 +1,6 @@
-#include "delegate_coin_title.h"
+#include "delegate_asset_title.h"
 
-void CoinTitleDelegate::paint( QPainter *painter, 
+void AssetTitleDelegate::paint( QPainter *painter, 
     const QStyleOptionViewItem &option, const QModelIndex &index ) const
 {
     QMap <QString, QString> data = index.data().value < QMap <QString, QString> >();

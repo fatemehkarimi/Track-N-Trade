@@ -1,9 +1,12 @@
+#ifndef DELEGATE_ASSET_TITLE_H
+#define DELEGATE_ASSET_TITLE_H
+
 #include <QtWidgets>
 
-class CoinTitleDelegate : public QItemDelegate
+class AssetTitleDelegate : public QItemDelegate
 {
 public:
-    CoinTitleDelegate( QObject* parent)
+    AssetTitleDelegate( QObject* parent)
     : QItemDelegate(parent)
     {}
 
@@ -20,3 +23,5 @@ public:
             return Q_NULLPTR;
     }
 };
+
+#endif

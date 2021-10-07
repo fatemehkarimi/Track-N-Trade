@@ -7,7 +7,7 @@ DashboardController::DashboardController(Exchange* refExchange) {
 
     Settings::Window* windowSettings = new Settings::Window(0.8, 0.8);
     view = new MainWindow(windowSettings, this, refExchange);
-    coin_table = view->getMarketTable();
+    marketTable = view->getMarketTable();
 
     view->show();
 }
@@ -22,13 +22,14 @@ void DashboardController::setExchange(QString exchange_name) {
             &Exchange::assetListReady, this, [=](QMap <QString, std::shared_ptr <Asset> > list){
             QObject::disconnect(*conn);
 
-            coin_table->clear();
+            marketTable->clear();
             for(auto itm = list.begin(); itm != list.end(); ++itm)
-                coin_table->addCoin(itm.value());
+                marketTable->addAsset(itm.value());
 
             setPricesToTable();
             setPriceChangesToTable();
-            emit coin_table->coinListUpdated();
+            //TODO: it is better that marketTable itself emits this signal
+            emit marketTable->assetListUpdated();
         });
 }
 
@@ -53,7 +54,7 @@ void DashboardController::setPricesToTable() {
     QMap <QString, Price> prices = lastFetchedPrices[selectedExchange->getSymbol()];
 
     foreach(const QString& key, prices.keys())
-        coin_table->updateCoinPrice(key, *prices.find(key));
+        marketTable->updateAssetPrice(key, *prices.find(key));
 }
 
 void DashboardController::getPriceChangesUpdates(
@@ -67,5 +68,5 @@ void DashboardController::getPriceChangesUpdates(
 void DashboardController::setPriceChangesToTable() {
     QMap <QString, Price> prices = lastFetchedPrices[selectedExchange->getSymbol()];
     foreach(const QString& key, prices.keys())
-        coin_table->updatePriceChange(key, *prices.find(key));
+        marketTable->updatePriceChange(key, *prices.find(key));
 }

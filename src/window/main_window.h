@@ -5,7 +5,7 @@
 #include <settings/settings_window.h>
 #include <data/exchange.h>
 #include <data/controller.h>
-#include <components/table_coin.h>
+#include <components/table_market.h>
 
 class MainWindow : public QObject
 {
@@ -17,9 +17,7 @@ public:
     void setUpWindow();
     void show();
     void setExchangeMenuOptions(QStringList options);
-    CoinTable* getMarketTable() {
-        return coin_table;
-    }
+    MarketTable* getMarketTable();
 
 private slots:
     void exchangeListFetched(QMap <QString, std::shared_ptr <Exchange> >);
@@ -32,7 +30,7 @@ private:
     Exchange* exchangeModel;
     QWidget* window;
     QComboBox* exchange_menu;
-    CoinTable* coin_table;
+    MarketTable* marketTable;
     Settings::Window* settings;
 };
 

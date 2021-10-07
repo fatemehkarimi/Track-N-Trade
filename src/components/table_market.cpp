@@ -1,10 +1,10 @@
 #include <QVariant>
-#include "table_coin.h"
-#include "delegate_coin_title.h"
-#include "delegate_coin_price.h"
-#include "delegate_coin_price_change.h"
+#include "table_market.h"
+#include "delegate_asset_title.h"
+#include "delegate_asset_price.h"
+#include "delegate_asset_price_change.h"
 
-CoinTable::CoinTable(QString object_name) {
+MarketTable::MarketTable(QString object_name) {
     setObjectName(object_name);
     this->setShowGrid(false);
     this->setSelectionBehavior(QAbstractItemView::SelectRows);
@@ -12,9 +12,9 @@ CoinTable::CoinTable(QString object_name) {
 
     tableModel = new QStandardItemModel(0, 3);
     this->setModel(tableModel);
-    this->setItemDelegateForColumn(0, new CoinTitleDelegate(this));
-    this->setItemDelegateForColumn(1, new CoinPriceDelegate(this));
-    this->setItemDelegateForColumn(2, new CoinPriceChangeDelegate(this));
+    this->setItemDelegateForColumn(0, new AssetTitleDelegate(this));
+    this->setItemDelegateForColumn(1, new AssetPriceDelegate(this));
+    this->setItemDelegateForColumn(2, new AssetPriceChangeDelegate(this));
 
     QStringList headers = {"Pair", "Price", "24h Changes"};
     QHeaderView* header = this->horizontalHeader();
@@ -22,13 +22,13 @@ CoinTable::CoinTable(QString object_name) {
     tableModel->setHorizontalHeaderLabels(headers);
 }
 
-void CoinTable::clear() {
-    coinList.clear();
+void MarketTable::clear() {
+    assetList.clear();
     tableModel->removeRows(0, tableModel->rowCount());
 }
 
-void CoinTable::addCoin(std::shared_ptr <Asset> asset) {
-    coinList[asset->getSymbol()] = asset;
+void MarketTable::addAsset(std::shared_ptr <Asset> asset) {
+    assetList[asset->getSymbol()] = asset;
     QString title = asset->getSymbol();
     QMap <QString, QString> data;
     data["symbol"] = title;
@@ -45,8 +45,8 @@ void CoinTable::addCoin(std::shared_ptr <Asset> asset) {
     tableModel->setData(index, variantData, Qt::DisplayRole);
 }
 
-void CoinTable::updateCoinPrice(QString symbol, Price price) {
-    if(coinList[symbol] != nullptr) {
+void MarketTable::updateAssetPrice(QString symbol, Price price) {
+    if(assetList[symbol] != nullptr) {
         QVariant variantData;
         variantData.setValue(price);
 
@@ -64,8 +64,8 @@ void CoinTable::updateCoinPrice(QString symbol, Price price) {
     }
 }
 
-void CoinTable::updatePriceChange(QString symbol, Price price) {
-    if(coinList[symbol] != nullptr) {
+void MarketTable::updatePriceChange(QString symbol, Price price) {
+    if(assetList[symbol] != nullptr) {
         QVariant variantData;
         variantData.setValue(price);
 

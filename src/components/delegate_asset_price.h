@@ -1,13 +1,13 @@
-#ifndef DELEGATE_COIN_PRICE_H
-#define DELECATE_COIN_PRICE_H
+#ifndef DELEGATE_ASSET_PRICE_H
+#define DELECATE_ASSET_PRICE_H
 
 #include <QtWidgets>
 #include <data/price.h>
 
-class CoinPriceDelegate : public QItemDelegate
+class AssetPriceDelegate : public QItemDelegate
 {
 public:
-    CoinPriceDelegate(QObject* parent)
+    AssetPriceDelegate(QObject* parent)
     : QItemDelegate(parent)
     {}
 
