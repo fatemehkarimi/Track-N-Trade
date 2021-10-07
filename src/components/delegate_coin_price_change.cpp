@@ -5,12 +5,11 @@ void CoinPriceChangeDelegate::paint( QPainter *painter,
     const QStyleOptionViewItem &option, const QModelIndex &index ) const
 {
     Price price = index.data().value <Price>();
-    double percentage = price.getChangePercentage();
+    double percentage = std::ceil(price.getChangePercentage() * 10000) / 100.0;
     QString change_reper = "";
     if(percentage > 0)
         change_reper = "+";
-    else if(percentage < 0)
-        change_reper = "-";
+
     change_reper += (QString::number(percentage) + "%");
 
     QFontMetrics font_metrics(painter->font());
