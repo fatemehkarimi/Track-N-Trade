@@ -50,11 +50,13 @@ bool CryptowatchParser::parseAssetsJson(QJsonObject json,
     QJsonArray coin_array = json["result"].toArray();
     foreach(const QJsonValue& value, coin_array) {
         QJsonObject obj = value.toObject();
+
+        int id = obj["id"].toInt();
         QString symbol = obj["symbol"].toString();
         QString name = obj["name"].toString();
         bool fiat = obj["fiat"].toBool();
 
-        std::shared_ptr <Coin> coin(new Coin(name, symbol, fiat, ""));
+        std::shared_ptr <Coin> coin(new Coin(id, name, symbol, fiat, ""));
         (*coinList)[symbol] = coin;
     }
     return true;

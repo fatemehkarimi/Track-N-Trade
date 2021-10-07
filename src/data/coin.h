@@ -7,17 +7,16 @@
 class Coin
 {
 public:
-    Coin(QString name, QString symbol, bool _fiat, QString logo_path);
+    Coin(int id, QString name, QString symbol, bool _fiat, QString logo_path);
+    int id();
     QString name();
     QString symbol();
     QPixmap logo();
-    void setPrice(double price);
-    double getPrice();
 
 private:
+    int _id;
     QString _name;
     QString _symbol;
-    double price; /* price depends on selected exchange by user */
     bool _fiat;
     QPixmap _logo;
 };

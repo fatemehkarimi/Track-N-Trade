@@ -1,10 +1,16 @@
 #include "coin.h"
+#include <QtWidgets>
 
-Coin::Coin(QString name, QString symbol, bool fiat, QString logo_path) {
+Coin::Coin(int id, QString name, QString symbol, bool fiat, QString logo_path) {
+    _id = id;
     _name = name;
     _symbol = symbol;
     _fiat = fiat;
     _logo.load(logo_path);
+}
+
+int Coin::id() {
+    return _id;
 }
 
 QString Coin::name() {
@@ -17,12 +23,4 @@ QString Coin::symbol() {
 
 QPixmap Coin::logo() {
     return _logo;
-}
-
-void Coin::setPrice(double price) {
-    this->price = price;
-}
-
-double Coin::getPrice() {
-    return price;
 }
