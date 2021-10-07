@@ -47,6 +47,7 @@ void MainWindow::show() {
 }
 
 void MainWindow::setExchangeMenuOptions(QStringList options) {
+    exchange_menu->clear();
     exchange_menu->addItems(options);
     controller->setExchange(exchange_menu->currentText());
 }
