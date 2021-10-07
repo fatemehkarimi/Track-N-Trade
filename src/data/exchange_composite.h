@@ -19,16 +19,19 @@ public:
         Routes* api_routes, JsonParser* parser);
     QString getName() override;
     QString getSymbol() override;
-    std::shared_ptr <Coin> getCoin(QString coin_symbol) override;
     void getCoinList() override;
-    std::shared_ptr <Exchange> getExchange(QString exchange_name) override;
     void getExchangeList() override;
-    void addExchange(QString name, QString symbol) override;
+    std::shared_ptr <Coin> getCoin(QString coin_symbol) override;
+    std::shared_ptr <Exchange> getExchange(QString exchange_name) override;
+
     void clearExchangeList();
     void clearCoinList();
     void registerPriceObserver(PriceObserver*) override;
 
     friend class JsonParser;
+
+protected:
+    void addExchange(QString name, QString symbol) override;
 
 private slots:
     void parseJson(QString, QJsonObject);
