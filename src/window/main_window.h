@@ -17,7 +17,7 @@ public:
     void setUpWindow();
     void show();
     void setExchangeMenuOptions(QStringList options);
-    CoinTable* getCoinTable() {
+    CoinTable* getMarketTable() {
         return coin_table;
     }
 

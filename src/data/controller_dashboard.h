@@ -15,7 +15,7 @@ class DashboardController : public QObject,
 public:
     explicit DashboardController(Exchange* refExchange);
     void setExchange(QString exchange_name);
-    void getCoinList();
+    void getAssetList();
     void setPricesToTable();
     void setPriceChangesToTable();
 

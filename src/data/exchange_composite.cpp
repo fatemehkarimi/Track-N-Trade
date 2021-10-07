@@ -21,7 +21,7 @@ CompositeExchange::CompositeExchange(Settings::App* appSettings,
                     this, &CompositeExchange::handlePriceChangesUpdates);
 
     getExchangeList();
-    getCoinList();
+    getAssetList();
 }
 
 QString CompositeExchange::getName() {
@@ -32,17 +32,17 @@ QString CompositeExchange::getSymbol() {
     return nullptr;
 }
 
-std::shared_ptr <Asset> CompositeExchange::getCoin(QString symbol) {
+std::shared_ptr <Asset> CompositeExchange::getAsset(QString symbol) {
     if(!assets.empty())
         return assets[symbol];
 
     QEventLoop loop;
-    QObject::connect(this, &Exchange::coinListReady, &loop, &QEventLoop::quit);
+    QObject::connect(this, &Exchange::assetListReady, &loop, &QEventLoop::quit);
     loop.exec();
     return assets[symbol];
 }
 
-void CompositeExchange::getCoinList() {
+void CompositeExchange::getAssetList() {
     networkManager->fetchJson(routes->getAssets());
 }
 
@@ -57,13 +57,13 @@ void CompositeExchange::parseJson(QString url, QJsonObject json) {
             emit exchangeListReady(exchangeList);
     }
     else if(url == routes->getAssets()) {
-        this->clearCoinList();
+        this->clearAssetList();
         QFuture <bool> future = QtConcurrent::run(parser,
             &JsonParser::parseAssetsJson, json, &assets);
         
         bool parsed = future.result();
         if(parsed) 
-            emit coinListReady(assets);
+            emit assetListReady(assets);
     }
 }
 
@@ -84,7 +84,7 @@ void CompositeExchange::clearExchangeList() {
     exchangeList.clear();
 }
 
-void CompositeExchange::clearCoinList() {
+void CompositeExchange::clearAssetList() {
     assets.clear();
 }
 

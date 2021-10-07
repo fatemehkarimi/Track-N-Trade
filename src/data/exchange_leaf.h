@@ -15,9 +15,9 @@ public:
 
     QString getName() override;
     QString getSymbol() override;
-    std::shared_ptr <Asset> getCoin(QString coin_symbol) override;
-    void getCoinList() override;
-    std::shared_ptr <Exchange> getExchange(QString exchange_name) override;
+    std::shared_ptr <Asset> getAsset(QString assetSymbol) override;
+    void getAssetList() override;
+    std::shared_ptr <Exchange> getExchange(QString exchangeName) override;
     void getExchangeList() override;
     void addExchange(QString name, QString symbol) override;
     void registerPriceObserver(PriceObserver*) override;
@@ -31,7 +31,7 @@ private:
     QString symbol;
     Routes* routes;
     JsonParser* parser;
-    QMap <QString, std::shared_ptr <Asset> > coinList;
+    QMap <QString, std::shared_ptr <Asset> > assetList;
     NetworkManager* networkManager;
 };
 

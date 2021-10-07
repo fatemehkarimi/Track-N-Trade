@@ -26,18 +26,18 @@ void MainWindow::setUpWindow() {
     QObject::connect(exchange_menu, QOverload<int>::of(&QComboBox::activated),
         this, &MainWindow::exchangeChanged);
 
-    QVBoxLayout* coin_layout = new QVBoxLayout();
-    main_layout->addLayout(coin_layout);
+    QVBoxLayout* market_layout = new QVBoxLayout();
+    main_layout->addLayout(market_layout);
 
-    coin_table = new CoinTable("coin_table");
-    coin_layout->addWidget(coin_table);
+    coin_table = new CoinTable("market_table");
+    market_layout->addWidget(coin_table);
 
     QObject::connect(coin_table, &CoinTable::coinListUpdated, this, [=](){
         exchange_menu->setEnabled(true);
     });
 
     main_layout->setStretchFactor(exchange_menu, 1);
-    main_layout->setStretchFactor(coin_layout, 1);
+    main_layout->setStretchFactor(market_layout, 1);
 
     fetchExchangeList();
 }

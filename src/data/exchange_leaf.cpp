@@ -15,17 +15,17 @@ LeafExchange::LeafExchange(Exchange* parent,Routes* api_routes,
 
 void LeafExchange::parseJson(QString url, QJsonObject json) {
     if(url == routes->getExchangeMarketsPath(symbol)){
-        coinList.clear();
+        assetList.clear();
         QFuture < QList <QString> > future = QtConcurrent::run(parser,
             &JsonParser::parseExchangeMarketsJson, json);
         
         QList <QString> symbolList = future.result();
         for(int i = 0; i < symbolList.size(); ++i) {
-            std::shared_ptr <Asset> asset = parent->getCoin(symbolList[i]);
+            std::shared_ptr <Asset> asset = parent->getAsset(symbolList[i]);
             if(asset != nullptr)
-                coinList[asset->getSymbol()] = asset;
+                assetList[asset->getSymbol()] = asset;
         }
-        emit coinListReady(coinList);
+        emit assetListReady(assetList);
     }
 }
 
@@ -37,15 +37,15 @@ QString LeafExchange::getSymbol() {
     return symbol;
 }
 
-std::shared_ptr <Asset> LeafExchange::getCoin(QString coin_symbol) {
-    return coinList[coin_symbol];
+std::shared_ptr <Asset> LeafExchange::getAsset(QString assetSymbol) {
+    return assetList[assetSymbol];
 }
 
-void LeafExchange::getCoinList() {
+void LeafExchange::getAssetList() {
     networkManager->fetchJson(routes->getExchangeMarketsPath(symbol));
 }
 
-std::shared_ptr <Exchange> LeafExchange::getExchange(QString exchange_name) {
+std::shared_ptr <Exchange> LeafExchange::getExchange(QString exchangeName) {
     return nullptr;
 }
 

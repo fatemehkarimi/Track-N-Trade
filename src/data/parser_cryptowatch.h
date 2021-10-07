@@ -11,7 +11,7 @@ public:
     bool parseExchangeDetailJson(QJsonObject json) override;
     QList <QString> parseExchangeMarketsJson(QJsonObject json) override;
     bool parseAssetsJson(QJsonObject json,
-        QMap <QString, std::shared_ptr <Asset> >* coinList) override;
+        QMap <QString, std::shared_ptr <Asset> >* assetList) override;
     QMap <QString, QMap <QString, double> > 
         parseAllPairPrices(QJsonObject json) override;
     QMap <QString, QMap <QString, double> >

@@ -7,19 +7,19 @@ DashboardController::DashboardController(Exchange* refExchange) {
 
     Settings::Window* windowSettings = new Settings::Window(0.8, 0.8);
     view = new MainWindow(windowSettings, this, refExchange);
-    coin_table = view->getCoinTable();
+    coin_table = view->getMarketTable();
 
     view->show();
 }
 
 void DashboardController::setExchange(QString exchange_name) {
     selectedExchange = refExchange->getExchange(exchange_name);
-    selectedExchange->getCoinList();
+    selectedExchange->getAssetList();
 
     //TODO: do not use signals and slots. use QEvent loop or other thing
     auto conn = std::make_shared <QMetaObject::Connection>();
     *conn = QObject::connect(selectedExchange.get(),
-            &Exchange::coinListReady, this, [=](QMap <QString, std::shared_ptr <Asset> > list){
+            &Exchange::assetListReady, this, [=](QMap <QString, std::shared_ptr <Asset> > list){
             QObject::disconnect(*conn);
 
             coin_table->clear();
@@ -37,7 +37,7 @@ void DashboardController::exchangeFetched(std::shared_ptr <Exchange> exchange) {
     emit selectedExchangeChanged();
 }
 
-void DashboardController::getCoinList() {
+void DashboardController::getAssetList() {
     
 }
 
