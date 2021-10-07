@@ -11,12 +11,19 @@ PriceTracker::PriceTracker(Routes* apiRoutes, JsonParser* jsonParser,
     this->networkManager = NetworkManager::getInstance();
     QObject::connect(this->networkManager, &NetworkManager::jsonReady,
         this, &PriceTracker::parseJson);
-    QObject::connect(&timer, &QTimer::timeout, this, &PriceTracker::fetchPrices);
-    fetchPrices();
+    QObject::connect(&timer, &QTimer::timeout, this, &PriceTracker::fetchItems);
+    fetchItems();
 }
 
 PriceTracker::~PriceTracker() {
     delete this->networkManager;
+}
+void PriceTracker::fetchItems() {
+    if(state == STATE::RUNNING) {
+        fetchPrices();
+        fetchChanges();
+        timer.start(watchPeriod);
+    }
 }
 
 void PriceTracker::stop() {
@@ -30,33 +37,44 @@ void PriceTracker::run() {
 }
 
 void PriceTracker::fetchPrices() {
-    if(state == STATE::RUNNING) {
+    if(state == STATE::RUNNING) 
         networkManager->fetchJson(routes->getAllPrices());
-        timer.start(watchPeriod);
-    }
+}
+
+void PriceTracker::fetchChanges() {
+    if(state == STATE::RUNNING)
+        networkManager->fetchJson(routes->getAll24hSummeries());
 }
 
 void PriceTracker::parseJson(QString url, QJsonObject json) {
-    //TODO: not all of the objects with access to NetworkManager should access
-    // all jsons received by NetworkManager.
-    if(url != routes->getAllPrices())
-        return;
-
     if(state == STATE::RUNNING) {
-        QFuture < QMap <QString, QMap <QString, double> > > future = 
-            QtConcurrent::run(parser, &JsonParser::parseAllPairPrices, json);
+        if(url == routes->getAllPrices()) {
+            QFuture < QMap <QString, QMap <QString, double> > > future = 
+                QtConcurrent::run(parser, &JsonParser::parseAllPairPrices, json);
 
-        QMap <QString, QMap <QString, double> > result = future.result();
-        foreach(const QString& exchange, result.keys())
-            foreach(const QString& pair, result[exchange].keys()) {
-                if(prices.contains(exchange) && prices[exchange].contains(pair))
-                    prices[exchange].find(pair)->updatePrice(result[exchange][pair]);
-                else {
-                    Price price(exchange, pair, result[exchange][pair]);
-                    prices[exchange].insert(pair, price);
+            QMap <QString, QMap <QString, double> > result = future.result();
+            foreach(const QString& exchange, result.keys())
+                foreach(const QString& pair, result[exchange].keys()) {
+                    if(prices.contains(exchange) && prices[exchange].contains(pair))
+                        prices[exchange].find(pair)->updatePrice(result[exchange][pair]);
+                    else {
+                        Price price(exchange, pair, result[exchange][pair]);
+                        prices[exchange].insert(pair, price);
+                    }
                 }
-            }
-        
-        emit pricesUpdated(prices);
+            emit pricesUpdated(prices);
+        }
+        else if(url == routes->getAll24hSummeries()) {
+            QFuture < QMap <QString, QMap <QString, double> > > future = 
+                QtConcurrent::run(parser, &JsonParser::parseAllPriceChanges, json);
+
+                QMap <QString, QMap <QString, double> > result = future.result();
+                foreach(const QString& exchange, result.keys())
+                    foreach(const QString& pair, result[exchange].keys()) {
+                        if(prices.contains(exchange) && prices[exchange].contains(pair))
+                            prices[exchange].find(pair)->setChangePercentage(result[exchange][pair]);
+                    }
+            emit priceChangesUpdated(prices);
+        }
     }
 }

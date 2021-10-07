@@ -1,13 +1,17 @@
 #include <data/price.h>
-#include "delegate_coin_price.h"
+#include "delegate_coin_price_change.h"
 
-void CoinPriceDelegate::paint( QPainter *painter, 
+void CoinPriceChangeDelegate::paint( QPainter *painter, 
     const QStyleOptionViewItem &option, const QModelIndex &index ) const
 {
     Price price = index.data().value <Price>();
-    QString latestP = "";
-    if(price.getLatestPrice() > 0)
-        latestP = QString::number(price.getLatestPrice());
+    double percentage = price.getChangePercentage();
+    QString change_reper = "";
+    if(percentage > 0)
+        change_reper = "+";
+    else if(percentage < 0)
+        change_reper = "-";
+    change_reper += (QString::number(percentage) + "%");
 
     QFontMetrics font_metrics(painter->font());
 
@@ -17,14 +21,11 @@ void CoinPriceDelegate::paint( QPainter *painter,
 
     QColor green = QColor(70, 203, 130);
     QColor red = QColor(217, 61, 74);
-    QColor gray = QColor(62, 64, 69);
 
-    if(price.getPriceStatus() == Price::INCREASE)
+    if(percentage > 0)
         painter->setPen(green);
-    else if(price.getPriceStatus() == Price::NOCHANGE)
-        painter->setPen(gray);
     else
         painter->setPen(red);
 
-    painter->drawText(rect, Qt::AlignLeft, latestP);
+    painter->drawText(rect, Qt::AlignLeft, change_reper);
 }

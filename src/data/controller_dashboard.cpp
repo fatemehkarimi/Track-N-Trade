@@ -25,7 +25,9 @@ void DashboardController::setExchange(QString exchange_name) {
             coin_table->clear();
             for(auto itm = list.begin(); itm != list.end(); ++itm)
                 coin_table->addCoin(itm.value());
+
             setPricesToTable();
+            setPriceChangesToTable();
             emit coin_table->coinListUpdated();
         });
 }
@@ -52,4 +54,18 @@ void DashboardController::setPricesToTable() {
 
     foreach(const QString& key, prices.keys())
         coin_table->updateCoinPrice(key, *prices.find(key));
+}
+
+void DashboardController::getPriceChangesUpdates(
+        QMap <QString, QMap <QString, Price> > prices) {
+    lastFetchedPrices = prices;
+    if(selectedExchange == nullptr)
+        return;
+    this->setPriceChangesToTable();
+}
+
+void DashboardController::setPriceChangesToTable() {
+    QMap <QString, Price> prices = lastFetchedPrices[selectedExchange->getSymbol()];
+    foreach(const QString& key, prices.keys())
+        coin_table->updatePriceChange(key, *prices.find(key));
 }

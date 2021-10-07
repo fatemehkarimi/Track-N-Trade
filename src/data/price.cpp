@@ -25,3 +25,11 @@ Price::PRICE_STATUS Price::getPriceStatus() {
 double Price::getLatestPrice() {
     return price;
 }
+
+void Price::setChangePercentage(double change) {
+    changePercentage = change;
+}
+
+double Price::getChangePercentage() {
+    return changePercentage;
+}

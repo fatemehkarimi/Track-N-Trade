@@ -23,10 +23,13 @@ public:
 
 private slots:
     void parseJson(QString url, QJsonObject json);
+    void fetchItems();
     void fetchPrices();
+    void fetchChanges();
 
 signals:
     void pricesUpdated(QMap <QString, QMap <QString, Price> >);
+    void priceChangesUpdated(QMap <QString, QMap <QString, Price> >);
 
 private:
     Routes* routes;

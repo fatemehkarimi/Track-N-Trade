@@ -35,6 +35,10 @@ public:
         return getBasePath() + marketsPath + allPricesPath;
     }
 
+    QString getAll24hSummeries() {
+        return getBasePath() + marketsPath + summaries;
+    }
+
 private:
     QString basePath = "https://api.cryptowat.ch";
     QString exchangeListPath = "/exchanges";
@@ -42,6 +46,7 @@ private:
     QString assetsPath = "/assets";
     QString pricePath = "/price";
     QString allPricesPath = "/prices";
+    QString summaries = "/summaries";
 };
 
 #endif

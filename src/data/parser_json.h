@@ -15,6 +15,8 @@ public:
     virtual bool parseAssetsJson(QJsonObject, QMap <QString, std::shared_ptr <Coin> >*) = 0;
     virtual QMap <QString, QMap <QString, double> > 
         parseAllPairPrices(QJsonObject) = 0;
+    virtual QMap <QString, QMap <QString, double> >
+        parseAllPriceChanges(QJsonObject) = 0;
 };
 
 #endif

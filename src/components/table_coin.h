@@ -15,6 +15,7 @@ public:
     void clear();
     void addCoin(std::shared_ptr <Coin> coin);
     void updateCoinPrice(QString symbol, Price price);
+    void updatePriceChange(QString symbol, Price price);
 
 signals:
     void coinListUpdated();

@@ -2,6 +2,7 @@
 #include "table_coin.h"
 #include "delegate_coin_title.h"
 #include "delegate_coin_price.h"
+#include "delegate_coin_price_change.h"
 
 CoinTable::CoinTable(QString object_name) {
     setObjectName(object_name);
@@ -13,6 +14,7 @@ CoinTable::CoinTable(QString object_name) {
     this->setModel(tableModel);
     this->setItemDelegateForColumn(0, new CoinTitleDelegate(this));
     this->setItemDelegateForColumn(1, new CoinPriceDelegate(this));
+    this->setItemDelegateForColumn(2, new CoinPriceChangeDelegate(this));
 
     QStringList headers = {"Pair", "Price", "24h Changes"};
     QHeaderView* header = this->horizontalHeader();
@@ -56,6 +58,24 @@ void CoinTable::updateCoinPrice(QString symbol, Price price) {
             if(delegate_data["symbol"] == symbol) {
                 QModelIndex price_index = tableModel->index(i, 1, QModelIndex());
                 tableModel->setData(price_index, variantData, Qt::DisplayRole);
+                break;
+            }
+        }
+    }
+}
+
+void CoinTable::updatePriceChange(QString symbol, Price price) {
+    if(coinList[symbol] != nullptr) {
+        QVariant variantData;
+        variantData.setValue(price);
+
+        for(int i = 0; i < tableModel->rowCount(); ++i) {
+            QModelIndex symbol_index = tableModel->index(i, 0, QModelIndex());
+            QMap <QString, QString> delegate_data = symbol_index.data().value <QMap <QString, QString> > ();
+
+            if(delegate_data["symbol"] == symbol) {
+                QModelIndex change_index = tableModel->index(i, 2, QModelIndex());
+                tableModel->setData(change_index, variantData, Qt::DisplayRole);
                 break;
             }
         }

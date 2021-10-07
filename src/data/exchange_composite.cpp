@@ -17,6 +17,8 @@ CompositeExchange::CompositeExchange(Settings::App* appSettings,
                     this, &CompositeExchange::parseJson);
     QObject::connect(priceTracker, &PriceTracker::pricesUpdated,
                     this, &CompositeExchange::handlePriceUpdates);
+    QObject::connect(priceTracker, &PriceTracker::priceChangesUpdated,
+                    this, &CompositeExchange::handlePriceChangesUpdates);
 
     getExchangeList();
     getCoinList();
@@ -94,4 +96,10 @@ void CompositeExchange::handlePriceUpdates(
         QMap <QString, QMap <QString, Price> > prices) {
     for(auto observer : priceObservers)
         observer->getPriceUpdates(prices);
+}
+
+void CompositeExchange::handlePriceChangesUpdates(
+        QMap <QString, QMap <QString, Price> > prices) {
+    for(auto observer : priceObservers)
+        observer->getPriceChangesUpdates(prices);
 }

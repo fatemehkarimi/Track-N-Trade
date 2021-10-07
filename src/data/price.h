@@ -21,6 +21,7 @@ public:
         pair = p.pair;
         price = p.price;
         price_status = p.price_status;
+        changePercentage = p.changePercentage;
     }
 
 
@@ -36,11 +37,14 @@ public:
     QString getPairSymbol();
     PRICE_STATUS getPriceStatus();
     double getLatestPrice();
+    double getChangePercentage();
+    void setChangePercentage(double change);
 
 private:
     QString exchange;   // symbol of exchange
     QString pair;       // symbol of pair
     double price = 0;
+    double changePercentage = 0;
     PRICE_STATUS price_status = PRICE_STATUS::INCREASE;
 };
 

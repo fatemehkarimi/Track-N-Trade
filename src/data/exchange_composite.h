@@ -33,6 +33,7 @@ public:
 private slots:
     void parseJson(QString, QJsonObject);
     void handlePriceUpdates(QMap <QString, QMap <QString, Price> > prices);
+    void handlePriceChangesUpdates(QMap <QString, QMap <QString, Price> > prices);
 
 private:
     Settings::App* appSettings;

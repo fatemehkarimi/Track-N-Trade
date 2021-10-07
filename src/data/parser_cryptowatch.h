@@ -14,6 +14,8 @@ public:
         QMap <QString, std::shared_ptr <Coin> >* coinList) override;
     QMap <QString, QMap <QString, double> > 
         parseAllPairPrices(QJsonObject json) override;
+    QMap <QString, QMap <QString, double> >
+        parseAllPriceChanges(QJsonObject json) override;
 };
 
 #endif

@@ -17,10 +17,12 @@ public:
     void setExchange(QString exchange_name);
     void getCoinList();
     void setPricesToTable();
+    void setPriceChangesToTable();
 
 private slots:
     void exchangeFetched(std::shared_ptr <Exchange> exchange);
     void getPriceUpdates(QMap <QString, QMap <QString, Price> > prices) override;
+    void getPriceChangesUpdates(QMap <QString, QMap <QString, Price> > prices) override;
 
 signals:
     void selectedExchangeChanged();

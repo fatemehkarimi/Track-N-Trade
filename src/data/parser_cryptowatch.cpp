@@ -82,3 +82,29 @@ QMap <QString, QMap <QString, double> >
     }
     return prices;
 }
+
+QMap <QString, QMap <QString, double> >
+        CryptowatchParser::parseAllPriceChanges(QJsonObject json) {
+    QMap <QString, QMap <QString, double> > changes;
+    QJsonObject summaries_array = json["result"].toObject();
+    foreach(const QString& key, summaries_array.keys()) {
+        QStringList result = key.split(":");
+
+        if(result.size() < 2)
+            continue;
+        
+        QString market = result[0];
+        QString pair = result[1];
+        if(pair.endsWith("usd")) {
+            pair.chop(3);
+
+            QJsonObject pair_array = summaries_array[key].toObject();
+            QJsonObject price_array = pair_array["price"].toObject();
+            QJsonObject change_array = price_array["change"].toObject();
+            double change_percent = change_array["percentage"].toDouble();
+
+            changes[market][pair] = change_percent;
+        }
+    }
+    return changes;
+}
