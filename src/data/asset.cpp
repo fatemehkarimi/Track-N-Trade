@@ -1,7 +1,7 @@
-#include "coin.h"
+#include "asset.h"
 #include <QtWidgets>
 
-Coin::Coin(int id, QString name, QString symbol, bool fiat, QString logo_path) {
+Asset::Asset(int id, QString name, QString symbol, bool fiat, QString logo_path) {
     _id = id;
     _name = name;
     _symbol = symbol;
@@ -9,18 +9,18 @@ Coin::Coin(int id, QString name, QString symbol, bool fiat, QString logo_path) {
     _logo.load(logo_path);
 }
 
-int Coin::id() {
+int Asset::getId() {
     return _id;
 }
 
-QString Coin::name() {
+QString Asset::getName() {
     return _name;
 }
 
-QString Coin::symbol() {
+QString Asset::getSymbol() {
     return _symbol;
 }
 
-QPixmap Coin::logo() {
+QPixmap Asset::getLogo() {
     return _logo;
 }

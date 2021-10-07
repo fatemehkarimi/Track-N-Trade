@@ -1,6 +1,6 @@
 #include "pair.h"
 
-Pair::Pair(QString symbol, Coin base, Coin quote)
+Pair::Pair(QString symbol, Asset base, Asset quote)
     : symbol(symbol),
     base(base),
     quote(quote)
@@ -10,18 +10,18 @@ QString Pair::getSymbol() {
     return symbol;
 }
 
-Coin Pair::getBaseCoin() {
+Asset Pair::getBase() {
     return base;
 }
 
-Coin Pair::getQuoteCoin() {
+Asset Pair::getQuote() {
     return quote;
 }
 
 QString Pair::getBaseSymbol() {
-    return base.symbol();
+    return base.getSymbol();
 }
 
 QString Pair::getQuoteSymbol() {
-    return quote.symbol();
+    return quote.getSymbol();
 }

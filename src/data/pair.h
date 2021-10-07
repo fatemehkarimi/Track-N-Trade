@@ -2,21 +2,21 @@
 #define PAIR_H
 
 #include <QtWidgets>
-#include "coin.h"
+#include "asset.h"
 
 class Pair {
 public:
-    Pair(QString symbol, Coin base, Coin quote);
+    Pair(QString symbol, Asset base, Asset quote);
     QString getSymbol();
-    Coin getBaseCoin();
-    Coin getQuoteCoin();
+    Asset getBase();
+    Asset getQuote();
     QString getBaseSymbol();
     QString getQuoteSymbol();
 
 private:
     QString symbol;
-    Coin base;
-    Coin quote;
+    Asset base;
+    Asset quote;
 };
 
 #endif

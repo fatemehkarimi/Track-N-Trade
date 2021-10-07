@@ -46,7 +46,7 @@ QList <QString> CryptowatchParser::parseExchangeMarketsJson(QJsonObject json) {
 }
 
 bool CryptowatchParser::parseAssetsJson(QJsonObject json,
-        QMap <QString, std::shared_ptr <Coin> >* coinList) {
+        QMap <QString, std::shared_ptr <Asset> >* coinList) {
     QJsonArray coin_array = json["result"].toArray();
     foreach(const QJsonValue& value, coin_array) {
         QJsonObject obj = value.toObject();
@@ -56,8 +56,8 @@ bool CryptowatchParser::parseAssetsJson(QJsonObject json,
         QString name = obj["name"].toString();
         bool fiat = obj["fiat"].toBool();
 
-        std::shared_ptr <Coin> coin(new Coin(id, name, symbol, fiat, ""));
-        (*coinList)[symbol] = coin;
+        std::shared_ptr <Asset> asset(new Asset(id, name, symbol, fiat, ""));
+        (*coinList)[symbol] = asset;
     }
     return true;
 }

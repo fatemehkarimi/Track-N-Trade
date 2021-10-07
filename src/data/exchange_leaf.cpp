@@ -21,9 +21,9 @@ void LeafExchange::parseJson(QString url, QJsonObject json) {
         
         QList <QString> symbolList = future.result();
         for(int i = 0; i < symbolList.size(); ++i) {
-            std::shared_ptr <Coin> coin = parent->getCoin(symbolList[i]);
-            if(coin != nullptr)
-                coinList[coin->symbol()] = coin;
+            std::shared_ptr <Asset> asset = parent->getCoin(symbolList[i]);
+            if(asset != nullptr)
+                coinList[asset->getSymbol()] = asset;
         }
         emit coinListReady(coinList);
     }
@@ -37,7 +37,7 @@ QString LeafExchange::getSymbol() {
     return symbol;
 }
 
-std::shared_ptr <Coin> LeafExchange::getCoin(QString coin_symbol) {
+std::shared_ptr <Asset> LeafExchange::getCoin(QString coin_symbol) {
     return coinList[coin_symbol];
 }
 

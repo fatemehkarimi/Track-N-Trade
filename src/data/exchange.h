@@ -5,7 +5,7 @@
 #include <memory>
 #include <QString>
 #include <QtWidgets>
-#include "coin.h"
+#include "asset.h"
 #include "observer_price.h"
 
 class Exchange : public QObject
@@ -14,7 +14,7 @@ class Exchange : public QObject
 public:
     virtual QString getName() = 0;
     virtual QString getSymbol() = 0;
-    virtual std::shared_ptr <Coin> getCoin(QString coin_symbol) = 0;
+    virtual std::shared_ptr <Asset> getCoin(QString coin_symbol) = 0;
     virtual void getCoinList() = 0;
     virtual std::shared_ptr <Exchange> getExchange(QString exchange_name) = 0;
     virtual void getExchangeList() = 0;
@@ -22,8 +22,8 @@ public:
     virtual void registerPriceObserver(PriceObserver*) = 0;
 
 signals:
-    void coinReady(std::shared_ptr <Coin> );
-    void coinListReady(QMap <QString, std::shared_ptr <Coin> >);
+    void coinReady(std::shared_ptr <Asset> );
+    void coinListReady(QMap <QString, std::shared_ptr <Asset> >);
     void exchangeListReady(QMap <QString, std::shared_ptr <Exchange> >);
 };
 

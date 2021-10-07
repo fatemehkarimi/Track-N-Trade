@@ -1,7 +1,7 @@
 #ifndef EXCHANGE_LEAF_H
 #define EXCHANGE_LEAF_H
 
-#include "coin.h"
+#include "asset.h"
 #include "routes.h"
 #include "exchange.h"
 #include "parser_json.h"
@@ -15,7 +15,7 @@ public:
 
     QString getName() override;
     QString getSymbol() override;
-    std::shared_ptr <Coin> getCoin(QString coin_symbol) override;
+    std::shared_ptr <Asset> getCoin(QString coin_symbol) override;
     void getCoinList() override;
     std::shared_ptr <Exchange> getExchange(QString exchange_name) override;
     void getExchangeList() override;
@@ -31,7 +31,7 @@ private:
     QString symbol;
     Routes* routes;
     JsonParser* parser;
-    QMap <QString, std::shared_ptr <Coin> > coinList;
+    QMap <QString, std::shared_ptr <Asset> > coinList;
     NetworkManager* networkManager;
 };
 

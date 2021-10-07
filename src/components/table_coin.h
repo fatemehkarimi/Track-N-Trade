@@ -4,7 +4,7 @@
 #include <memory>
 #include <QTableView>
 #include <QStandardItemModel>
-#include <data/coin.h>
+#include <data/asset.h>
 #include <data/price.h>
 
 class CoinTable : public QTableView
@@ -13,7 +13,7 @@ class CoinTable : public QTableView
 public:
     explicit CoinTable(QString object_name);
     void clear();
-    void addCoin(std::shared_ptr <Coin> coin);
+    void addCoin(std::shared_ptr <Asset> coin);
     void updateCoinPrice(QString symbol, Price price);
     void updatePriceChange(QString symbol, Price price);
 
@@ -23,7 +23,7 @@ signals:
 private:
     QStandardItemModel* tableModel;
     // Key is coin symbol
-    QMap <QString, std::shared_ptr <Coin> > coinList;
+    QMap <QString, std::shared_ptr <Asset> > coinList;
 };
 
 #endif

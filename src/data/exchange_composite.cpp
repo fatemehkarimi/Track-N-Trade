@@ -32,7 +32,7 @@ QString CompositeExchange::getSymbol() {
     return nullptr;
 }
 
-std::shared_ptr <Coin> CompositeExchange::getCoin(QString symbol) {
+std::shared_ptr <Asset> CompositeExchange::getCoin(QString symbol) {
     if(!assets.empty())
         return assets[symbol];
 

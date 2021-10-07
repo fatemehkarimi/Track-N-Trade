@@ -27,9 +27,9 @@ void CoinTable::clear() {
     tableModel->removeRows(0, tableModel->rowCount());
 }
 
-void CoinTable::addCoin(std::shared_ptr <Coin> coin) {
-    coinList[coin->symbol()] = coin;
-    QString title = coin->symbol();
+void CoinTable::addCoin(std::shared_ptr <Asset> asset) {
+    coinList[asset->getSymbol()] = asset;
+    QString title = asset->getSymbol();
     QMap <QString, QString> data;
     data["symbol"] = title;
     data["unit"] = "USD";
