@@ -6,7 +6,6 @@
 #include <settings/settings_app.h>
 #include <network/network_manager.h>
 #include "routes.h"
-#include "exchange.h"
 #include "api_manager.h"
 #include "parser_json.h"
 #include "price_tracker.h"
@@ -30,7 +29,7 @@ public:
 protected:
     void clearAssetList();
     void clearExchangeList();
-    void addExchange(QString name, QString symbol) override;
+    void addExchange(QString id, QString name, QString symbol) override;
 
 private slots:
     void parseJson(QString, QJsonObject);

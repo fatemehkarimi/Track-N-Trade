@@ -1,13 +1,16 @@
 #include "parser_cryptowatch.h"
-#include "exchange_leaf.h"
+#include "exchange.h"
 
 CryptowatchParser::CryptowatchParser(){}
 
-bool CryptowatchParser::parseExchangeListJson(QJsonObject json, APIManager* refAPI) {
+QList <QMap <QString, QString> > CryptowatchParser::parseExchangeListJson(
+        QJsonObject json) {
     QJsonArray exchangeArray = json["result"].toArray();
+    QList <QMap <QString, QString> > result;
 
     foreach (const QJsonValue& value, exchangeArray) {
         QJsonObject obj = value.toObject();
+        int id = obj["id"].toInt();
         QString symbol = obj["symbol"].toString();
         QString name = obj["name"].toString();
         QString route = obj["route"].toString();
@@ -15,14 +18,15 @@ bool CryptowatchParser::parseExchangeListJson(QJsonObject json, APIManager* refA
 
         if(!active)
             continue;
-        
-        refAPI->addExchange(name, symbol);
+
+        QMap <QString, QString> exchangeInfo;
+        exchangeInfo["id"] = QString::number(id);
+        exchangeInfo["symbol"] = symbol;
+        exchangeInfo["name"] = name;
+
+        result.push_back(exchangeInfo);
     }
-    return true;
-}
-
-bool CryptowatchParser::parseExchangeDetailJson(QJsonObject json) {
-
+    return result;
 }
 
 QList <QString> CryptowatchParser::parseExchangeMarketsJson(QJsonObject json) {

@@ -3,7 +3,6 @@
 
 #include <window/main_window.h>
 #include <components/table_market.h>
-#include "exchange.h"
 #include "controller.h"
 #include "observer_price.h"
 #include "api_manager.h"

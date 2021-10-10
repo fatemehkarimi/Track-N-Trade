@@ -1,8 +1,6 @@
 #include <QEventLoop>
 #include <QtConcurrent>
 #include "api_manager_crypto.h"
-#include "exchange_leaf.h"
-
 
 CryptoAPIManager::CryptoAPIManager(Settings::App* appSettings,
         Routes* api_routes, JsonParser* json_parser)
@@ -41,12 +39,13 @@ void CryptoAPIManager::getAssetList() {
 void CryptoAPIManager::parseJson(QString url, QJsonObject json) {
     if(url == routes->getExchangeListPath()) {
         this->clearExchangeList();
-        QFuture <bool> future = QtConcurrent::run(parser,
-            &JsonParser::parseExchangeListJson, json, this);
+        QFuture <QList <QMap <QString, QString> > > future = QtConcurrent::run(parser,
+            &JsonParser::parseExchangeListJson, json);
 
-        bool parsed = future.result();
-        if(parsed)
-            emit exchangeListReady(exchangeList);
+        QList <QMap <QString, QString> > result = future.result();
+        for(int i = 0; i < result.size(); ++i)
+            addExchange(result[i]["id"], result[i]["name"], result[i]["symbol"]);
+        emit exchangeListReady(exchangeList);
     }
     else if(url == routes->getAssets()) {
         this->clearAssetList();
@@ -67,8 +66,8 @@ void CryptoAPIManager::getExchangeList() {
     networkManager->fetchJson(routes->getExchangeListPath());
 }
 
-void CryptoAPIManager::addExchange(QString name, QString symbol) {
-    std::shared_ptr <Exchange> exchange(new LeafExchange(this, routes, parser, name, symbol));
+void CryptoAPIManager::addExchange(QString id, QString name, QString symbol) {
+    std::shared_ptr <Exchange> exchange(new Exchange(routes, parser, id, name, symbol));
     exchangeList[name] = exchange;
 }
 

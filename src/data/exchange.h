@@ -1,26 +1,37 @@
 #ifndef EXCHANGE_H
 #define EXCHANGE_H
 
-#include <QMap>
-#include <memory>
-#include <QString>
-#include <QtWidgets>
 #include "asset.h"
-#include "observer_price.h"
+#include "routes.h"
+#include "parser_json.h"
+#include <network/network_manager.h>
 
 class Exchange : public QObject
 {
     Q_OBJECT
 public:
-    virtual QString getName() = 0;
-    virtual QString getSymbol() = 0;
-    virtual void getAssetList() = 0;
-    virtual std::shared_ptr <Asset> getAsset(QString asset_symbol) = 0;
+    explicit Exchange(Routes* apiRoutes, 
+    JsonParser* jsonParser, QString id, QString exchangeName, QString exchangeSymbol);
+
+    QString getName();
+    QString getSymbol();
+    void getAssetList();
+    std::shared_ptr <Asset> getAsset(QString assetSymbol);
+    
+private slots:
+    void parseJson(QString url, QJsonObject json);
 
 signals:
-    void assetReady(std::shared_ptr <Asset> );
     void assetListReady(QMap <QString, std::shared_ptr <Asset> >);
-    void exchangeListReady(QMap <QString, std::shared_ptr <Exchange> >);
+
+private:
+    QString id;
+    QString name;
+    QString symbol;
+    Routes* routes;
+    JsonParser* parser;
+    QMap <QString, std::shared_ptr <Asset> > assetList;
+    NetworkManager* networkManager;
 };
 
 #endif
