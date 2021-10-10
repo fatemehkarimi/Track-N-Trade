@@ -114,3 +114,29 @@ QMap <QString, QMap <QString, double> >
     }
     return changes;
 }
+
+QList <QMap <QString, QString> > CryptowatchParser::parsePairsJson(QJsonObject json) {
+    QJsonArray pairsArray = json["result"].toArray();
+    QList <QMap <QString, QString> > result;
+
+    foreach(const QJsonValue& value, pairsArray) {
+        QJsonObject obj = value.toObject();
+
+        QString id = QString::number(obj["id"].toInt());
+        QString symbol = obj["symbol"].toString();
+
+        QJsonObject base = obj["base"].toObject();
+        QJsonObject quote = obj["quote"].toObject();
+        QString baseId = QString::number(base["id"].toInt());
+        QString quoteId = QString::number(quote["id"].toInt());
+
+        QMap <QString, QString> pairInfo;
+        pairInfo["id"] = id;
+        pairInfo["symbol"] = symbol;
+        pairInfo["baseId"] = baseId;
+        pairInfo["quoteId"] = quoteId;
+        
+        result.push_back(pairInfo);
+    }
+    return result;
+}

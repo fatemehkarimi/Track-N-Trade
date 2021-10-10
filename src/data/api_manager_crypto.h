@@ -21,6 +21,9 @@ public:
     void getAssetList() override;
     std::shared_ptr <Asset> getAsset(QString assetSymbol) override;
 
+    void getPairList() override;
+    std::shared_ptr <Pair> getPair(QString symbol) override;
+
     void getExchangeList() override;
     std::shared_ptr <Exchange> getExchange(QString exchangeName) override;
 
@@ -28,6 +31,7 @@ public:
 
 protected:
     void clearAssetList();
+    void clearPairList();
     void clearExchangeList();
     void addExchange(QString id, QString name, QString symbol) override;
 
@@ -44,6 +48,7 @@ private:
     //Exchange name, pointer to exchange name
     QMap <QString, std::shared_ptr <Exchange> > exchangeList;
     QMap <QString, std::shared_ptr <Asset> > assets;
+    QMap <QString, std::shared_ptr <Pair> > pairList;
     NetworkManager* networkManager;
     QList <PriceObserver*> priceObservers;
 };

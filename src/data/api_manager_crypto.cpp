@@ -20,6 +20,11 @@ CryptoAPIManager::CryptoAPIManager(Settings::App* appSettings,
 
     getExchangeList();
     getAssetList();
+    getPairList();
+}
+
+void CryptoAPIManager::getAssetList() {
+    networkManager->fetchJson(routes->getAssets());
 }
 
 std::shared_ptr <Asset> CryptoAPIManager::getAsset(QString symbol) {
@@ -32,8 +37,19 @@ std::shared_ptr <Asset> CryptoAPIManager::getAsset(QString symbol) {
     return assets[symbol];
 }
 
-void CryptoAPIManager::getAssetList() {
-    networkManager->fetchJson(routes->getAssets());
+void CryptoAPIManager::getPairList() {
+    networkManager->fetchJson(routes->getPairs());
+}
+
+std::shared_ptr <Pair> CryptoAPIManager::getPair(QString symbol) {
+    if(!pairList.empty())
+        return pairList[symbol];
+
+    QEventLoop loop;
+    QObject::connect(this, &CryptoAPIManager::pairListReady, &loop, &QEventLoop::quit);
+    loop.exec();
+    
+    return pairList[symbol];
 }
 
 void CryptoAPIManager::parseJson(QString url, QJsonObject json) {
@@ -56,14 +72,25 @@ void CryptoAPIManager::parseJson(QString url, QJsonObject json) {
         if(parsed) 
             emit assetListReady(assets);
     }
-}
+    else if(url == routes->getPairs()) {
+        clearPairList();
+        QFuture <QList <QMap <QString, QString> > > future = QtConcurrent::run(parser,
+            &JsonParser::parsePairsJson, json);
+        
+        // Filter those pairs than their quote is usd
+        QList <QMap <QString, QString> > result = future.result();
+        for(int i = 0; i < result.size(); ++i) {
 
-std::shared_ptr <Exchange> CryptoAPIManager::getExchange(QString exchangeName) {
-    return exchangeList[exchangeName];
+        }
+    }
 }
 
 void CryptoAPIManager::getExchangeList() {
     networkManager->fetchJson(routes->getExchangeListPath());
+}
+
+std::shared_ptr <Exchange> CryptoAPIManager::getExchange(QString exchangeName) {
+    return exchangeList[exchangeName];
 }
 
 void CryptoAPIManager::addExchange(QString id, QString name, QString symbol) {
@@ -71,12 +98,16 @@ void CryptoAPIManager::addExchange(QString id, QString name, QString symbol) {
     exchangeList[name] = exchange;
 }
 
-void CryptoAPIManager::clearExchangeList() {
-    exchangeList.clear();
-}
-
 void CryptoAPIManager::clearAssetList() {
     assets.clear();
+}
+
+void CryptoAPIManager::clearPairList() {
+    pairList.clear();
+}
+
+void CryptoAPIManager::clearExchangeList() {
+    exchangeList.clear();
 }
 
 void CryptoAPIManager::registerPriceObserver(PriceObserver* observer) {

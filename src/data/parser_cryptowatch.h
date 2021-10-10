@@ -9,7 +9,9 @@ public:
     explicit CryptowatchParser();
     QList <QMap <QString, QString> > parseExchangeListJson(
         QJsonObject json) override;
+    QList <QMap <QString, QString> > parsePairsJson(QJsonObject json) override;
     QList <QString> parseExchangePairsJson(QJsonObject json) override;
+
     bool parseAssetsJson(QJsonObject json,
         QMap <QString, std::shared_ptr <Asset> >* assetList) override;
     QMap <QString, QMap <QString, double> > 
