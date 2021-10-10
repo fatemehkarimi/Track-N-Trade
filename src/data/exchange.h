@@ -6,12 +6,14 @@
 #include "parser_json.h"
 #include <network/network_manager.h>
 
+class APIManager;
+
 class Exchange : public QObject
 {
     Q_OBJECT
 public:
-    explicit Exchange(Routes* apiRoutes, 
-    JsonParser* jsonParser, QString id, QString exchangeName, QString exchangeSymbol);
+    explicit Exchange(Routes* apiRoutes, APIManager* refAPI, JsonParser* jsonParser,
+        QString id, QString exchangeName, QString exchangeSymbol);
 
     QString getName();
     QString getSymbol();
@@ -30,6 +32,7 @@ private:
     QString symbol;
     Routes* routes;
     JsonParser* parser;
+    APIManager* refAPI;
     QMap <QString, std::shared_ptr <Asset> > assetList;
     NetworkManager* networkManager;
 };

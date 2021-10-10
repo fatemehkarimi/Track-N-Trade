@@ -67,7 +67,7 @@ void CryptoAPIManager::getExchangeList() {
 }
 
 void CryptoAPIManager::addExchange(QString id, QString name, QString symbol) {
-    std::shared_ptr <Exchange> exchange(new Exchange(routes, parser, id, name, symbol));
+    std::shared_ptr <Exchange> exchange(new Exchange(routes, this, parser, id, name, symbol));
     exchangeList[name] = exchange;
 }
 

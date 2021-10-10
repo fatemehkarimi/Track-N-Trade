@@ -19,7 +19,7 @@ public:
         return getExchangeListPath() + "/" + exchange_symbol;
     }
 
-    QString getExchangeMarketsPath(QString exchange_symbol) {
+    QString getExchangePairsPath(QString exchange_symbol) {
         return getBasePath() + marketsPath + "/" + exchange_symbol;
     }
 
@@ -28,7 +28,7 @@ public:
     }
 
     QString getPairPrice(QString exchange_symbol, QString pair) {
-        return getExchangeMarketsPath(exchange_symbol) + "/" + pair + pricePath;
+        return getExchangePairsPath(exchange_symbol) + "/" + pair + pricePath;
     }
 
     QString getAllPrices() {
