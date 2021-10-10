@@ -1,22 +1,22 @@
 #include "controller_dashboard.h"
 #include <settings/settings_window.h>
 
-DashboardController::DashboardController(Exchange* refExchange) {
-    this->refExchange = refExchange;
-    refExchange->registerPriceObserver(this);
+DashboardController::DashboardController(APIManager* refAPI)
+    :refAPI(refAPI)
+{
+    refAPI->registerPriceObserver(this);
 
     Settings::Window* windowSettings = new Settings::Window(0.8, 0.8);
-    view = new MainWindow(windowSettings, this, refExchange);
+    view = new MainWindow(windowSettings, this, refAPI);
     marketTable = view->getMarketTable();
 
     view->show();
 }
 
-void DashboardController::setExchange(QString exchange_name) {
-    selectedExchange = refExchange->getExchange(exchange_name);
+void DashboardController::setExchange(QString exchangeName) {
+    selectedExchange = refAPI->getExchange(exchangeName);
     selectedExchange->getAssetList();
 
-    //TODO: do not use signals and slots. use QEvent loop or other thing
     auto conn = std::make_shared <QMetaObject::Connection>();
     *conn = QObject::connect(selectedExchange.get(),
             &Exchange::assetListReady, this, [=](QMap <QString, std::shared_ptr <Asset> > list){

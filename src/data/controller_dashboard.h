@@ -2,10 +2,11 @@
 #define CONTROLLER_DASHBOARD_H
 
 #include <window/main_window.h>
+#include <components/table_market.h>
 #include "exchange.h"
 #include "controller.h"
 #include "observer_price.h"
-#include <components/table_market.h>
+#include "api_manager.h"
 
 class DashboardController : public QObject,
     public Controller,
@@ -13,8 +14,8 @@ class DashboardController : public QObject,
 {
     Q_OBJECT
 public:
-    explicit DashboardController(Exchange* refExchange);
-    void setExchange(QString exchange_name);
+    explicit DashboardController(APIManager* refAPI);
+    void setExchange(QString exchangeName);
     void getAssetList();
     void setPricesToTable();
     void setPriceChangesToTable();
@@ -29,7 +30,7 @@ signals:
 
 private:
     std::shared_ptr <Exchange> selectedExchange;
-    Exchange* refExchange;
+    APIManager* refAPI;
     MainWindow* view;
     MarketTable* marketTable;
     QMap <QString, QMap <QString, Price> > lastFetchedPrices;

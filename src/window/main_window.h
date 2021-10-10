@@ -3,7 +3,7 @@
 
 #include <QtWidgets>
 #include <settings/settings_window.h>
-#include <data/exchange.h>
+#include <data/api_manager.h>
 #include <data/controller.h>
 #include <components/table_market.h>
 
@@ -13,7 +13,7 @@ class MainWindow : public QObject
 
 public:
     MainWindow(Settings::Window* window_setting,
-                Controller* controller, Exchange* ecxhangeModel);
+                Controller* controller, APIManager* apiModel);
     void setUpWindow();
     void show();
     void setExchangeMenuOptions(QStringList options);
@@ -27,9 +27,9 @@ private:
     void fetchExchangeList();
 
     Controller* controller;
-    Exchange* exchangeModel;
+    APIManager* apiModel;
     QWidget* window;
-    QComboBox* exchange_menu;
+    QComboBox* exchangeMenu;
     MarketTable* marketTable;
     Settings::Window* settings;
 };

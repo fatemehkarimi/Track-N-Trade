@@ -1,10 +1,10 @@
 #include <QEventLoop>
 #include <QtConcurrent>
-#include "exchange_composite.h"
+#include "api_manager_crypto.h"
 #include "exchange_leaf.h"
 
 
-CompositeExchange::CompositeExchange(Settings::App* appSettings,
+CryptoAPIManager::CryptoAPIManager(Settings::App* appSettings,
         Routes* api_routes, JsonParser* json_parser)
     : appSettings(appSettings) {
     routes = api_routes;
@@ -14,39 +14,31 @@ CompositeExchange::CompositeExchange(Settings::App* appSettings,
     networkManager = NetworkManager::getInstance();
 
     QObject::connect(networkManager, &NetworkManager::jsonReady,
-                    this, &CompositeExchange::parseJson);
+                    this, &CryptoAPIManager::parseJson);
     QObject::connect(priceTracker, &PriceTracker::pricesUpdated,
-                    this, &CompositeExchange::handlePriceUpdates);
+                    this, &CryptoAPIManager::handlePriceUpdates);
     QObject::connect(priceTracker, &PriceTracker::priceChangesUpdated,
-                    this, &CompositeExchange::handlePriceChangesUpdates);
+                    this, &CryptoAPIManager::handlePriceChangesUpdates);
 
     getExchangeList();
     getAssetList();
 }
 
-QString CompositeExchange::getName() {
-    return nullptr;
-}
-
-QString CompositeExchange::getSymbol() {
-    return nullptr;
-}
-
-std::shared_ptr <Asset> CompositeExchange::getAsset(QString symbol) {
+std::shared_ptr <Asset> CryptoAPIManager::getAsset(QString symbol) {
     if(!assets.empty())
         return assets[symbol];
 
     QEventLoop loop;
-    QObject::connect(this, &Exchange::assetListReady, &loop, &QEventLoop::quit);
+    QObject::connect(this, &CryptoAPIManager::assetListReady, &loop, &QEventLoop::quit);
     loop.exec();
     return assets[symbol];
 }
 
-void CompositeExchange::getAssetList() {
+void CryptoAPIManager::getAssetList() {
     networkManager->fetchJson(routes->getAssets());
 }
 
-void CompositeExchange::parseJson(QString url, QJsonObject json) {
+void CryptoAPIManager::parseJson(QString url, QJsonObject json) {
     if(url == routes->getExchangeListPath()) {
         this->clearExchangeList();
         QFuture <bool> future = QtConcurrent::run(parser,
@@ -67,38 +59,38 @@ void CompositeExchange::parseJson(QString url, QJsonObject json) {
     }
 }
 
-std::shared_ptr <Exchange> CompositeExchange::getExchange(QString exchange_name) {
-    return exchangeList[exchange_name];
+std::shared_ptr <Exchange> CryptoAPIManager::getExchange(QString exchangeName) {
+    return exchangeList[exchangeName];
 }
 
-void CompositeExchange::getExchangeList() {
+void CryptoAPIManager::getExchangeList() {
     networkManager->fetchJson(routes->getExchangeListPath());
 }
 
-void CompositeExchange::addExchange(QString name, QString symbol) {
+void CryptoAPIManager::addExchange(QString name, QString symbol) {
     std::shared_ptr <Exchange> exchange(new LeafExchange(this, routes, parser, name, symbol));
     exchangeList[name] = exchange;
 }
 
-void CompositeExchange::clearExchangeList() {
+void CryptoAPIManager::clearExchangeList() {
     exchangeList.clear();
 }
 
-void CompositeExchange::clearAssetList() {
+void CryptoAPIManager::clearAssetList() {
     assets.clear();
 }
 
-void CompositeExchange::registerPriceObserver(PriceObserver* observer) {
+void CryptoAPIManager::registerPriceObserver(PriceObserver* observer) {
     this->priceObservers.append(observer);
 }
 
-void CompositeExchange::handlePriceUpdates(
+void CryptoAPIManager::handlePriceUpdates(
         QMap <QString, QMap <QString, Price> > prices) {
     for(auto observer : priceObservers)
         observer->getPriceUpdates(prices);
 }
 
-void CompositeExchange::handlePriceChangesUpdates(
+void CryptoAPIManager::handlePriceChangesUpdates(
         QMap <QString, QMap <QString, Price> > prices) {
     for(auto observer : priceObservers)
         observer->getPriceChangesUpdates(prices);

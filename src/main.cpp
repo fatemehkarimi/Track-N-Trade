@@ -1,5 +1,5 @@
 #include <QApplication>
-#include <data/exchange_composite.h>
+#include <data/api_manager_crypto.h>
 #include <data/routes_cryptowatch.h>
 #include <data/controller_dashboard.h>
 #include <data/parser_cryptowatch.h>
@@ -13,8 +13,8 @@ int main(int argc, char* argv[]) {
     //TODO: use a factory to create cryptowatch api
     CryptowatchRoutes routes;
     CryptowatchParser parser;
+    CryptoAPIManager cryptowatchAPI(&appSettings, &routes, &parser);
 
-    CompositeExchange exchangeModel(&appSettings, &routes, &parser);
-    DashboardController controller(&exchangeModel);
+    DashboardController controller(&cryptowatchAPI);
     return app.exec();
 }

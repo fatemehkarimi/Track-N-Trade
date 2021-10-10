@@ -3,10 +3,10 @@
 
 CryptowatchParser::CryptowatchParser(){}
 
-bool CryptowatchParser::parseExchangeListJson(QJsonObject json, Exchange* parent) {
-    QJsonArray exchange_array = json["result"].toArray();
+bool CryptowatchParser::parseExchangeListJson(QJsonObject json, APIManager* refAPI) {
+    QJsonArray exchangeArray = json["result"].toArray();
 
-    foreach (const QJsonValue& value, exchange_array) {
+    foreach (const QJsonValue& value, exchangeArray) {
         QJsonObject obj = value.toObject();
         QString symbol = obj["symbol"].toString();
         QString name = obj["name"].toString();
@@ -16,7 +16,7 @@ bool CryptowatchParser::parseExchangeListJson(QJsonObject json, Exchange* parent
         if(!active)
             continue;
         
-        parent->addExchange(name, symbol);
+        refAPI->addExchange(name, symbol);
     }
     return true;
 }

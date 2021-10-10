@@ -4,15 +4,14 @@
 #include "main_window.h"
 
 MainWindow::MainWindow(Settings::Window* window_setting,
-                        Controller* controller, Exchange* exchangeModel) {
-    this->controller = controller;
-    this->exchangeModel = exchangeModel;
+    Controller* controller, APIManager* apiModel)
+    : controller(controller),
+     apiModel(apiModel),
+     settings(window_setting) {
 
-    QObject::connect(exchangeModel, &Exchange::exchangeListReady,
+    QObject::connect(apiModel, &APIManager::exchangeListReady,
         this, &MainWindow::exchangeListFetched, Qt::UniqueConnection);
-
     window = new QWidget();
-    settings = window_setting;
     setUpWindow();
 }
 
@@ -21,9 +20,9 @@ void MainWindow::setUpWindow() {
     window->resize(settings->windowSize());
 
     QHBoxLayout* main_layout = new QHBoxLayout(window);
-    exchange_menu = new QComboBox();
-    main_layout->addWidget(exchange_menu);
-    QObject::connect(exchange_menu, QOverload<int>::of(&QComboBox::activated),
+    exchangeMenu = new QComboBox();
+    main_layout->addWidget(exchangeMenu);
+    QObject::connect(exchangeMenu, QOverload<int>::of(&QComboBox::activated),
         this, &MainWindow::exchangeChanged);
 
     QVBoxLayout* market_layout = new QVBoxLayout();
@@ -33,10 +32,10 @@ void MainWindow::setUpWindow() {
     market_layout->addWidget(marketTable);
 
     QObject::connect(marketTable, &MarketTable::assetListUpdated, this, [=](){
-        exchange_menu->setEnabled(true);
+        exchangeMenu->setEnabled(true);
     });
 
-    main_layout->setStretchFactor(exchange_menu, 1);
+    main_layout->setStretchFactor(exchangeMenu, 1);
     main_layout->setStretchFactor(market_layout, 1);
 
     fetchExchangeList();
@@ -51,13 +50,13 @@ MarketTable* MainWindow::getMarketTable() {
 }
 
 void MainWindow::setExchangeMenuOptions(QStringList options) {
-    exchange_menu->clear();
-    exchange_menu->addItems(options);
-    controller->setExchange(exchange_menu->currentText());
+    exchangeMenu->clear();
+    exchangeMenu->addItems(options);
+    controller->setExchange(exchangeMenu->currentText());
 }
 
 void MainWindow::fetchExchangeList() {
-    exchangeModel->getExchangeList();
+    apiModel->getExchangeList();
 }
 
 void MainWindow::exchangeListFetched(QMap <QString, std::shared_ptr <Exchange> > list) {
@@ -71,6 +70,6 @@ void MainWindow::exchangeListFetched(QMap <QString, std::shared_ptr <Exchange> >
 }
 
 void MainWindow::exchangeChanged(int) {
-    controller->setExchange(exchange_menu->currentText());
-    exchange_menu->setEnabled(false);
+    controller->setExchange(exchangeMenu->currentText());
+    exchangeMenu->setEnabled(false);
 }

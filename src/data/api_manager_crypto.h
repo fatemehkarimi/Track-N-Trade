@@ -1,36 +1,35 @@
-#ifndef EXCHANGE_COMPOSITE_H
-#define EXCHANGE_COMPOSITE_H
+#ifndef API_MANAGER_CRYPTO_H
+#define API_MANAGER_CRYPTO_H
 
 #include <QtWidgets>
 #include <QJsonObject>
+#include <settings/settings_app.h>
 #include <network/network_manager.h>
 #include "routes.h"
 #include "exchange.h"
+#include "api_manager.h"
 #include "parser_json.h"
 #include "price_tracker.h"
 #include "observer_price.h"
-#include <settings/settings_app.h>
 
-class CompositeExchange : public Exchange
+class CryptoAPIManager : public APIManager
 {
     Q_OBJECT
 public:
-    explicit CompositeExchange(Settings::App* appSettings, 
+    explicit CryptoAPIManager(Settings::App* appSettings, 
         Routes* api_routes, JsonParser* parser);
-    QString getName() override;
-    QString getSymbol() override;
-    void getAssetList() override;
-    void getExchangeList() override;
-    std::shared_ptr <Asset> getAsset(QString assetSymbol) override;
-    std::shared_ptr <Exchange> getExchange(QString exchange_name) override;
 
-    void clearExchangeList();
-    void clearAssetList();
+    void getAssetList() override;
+    std::shared_ptr <Asset> getAsset(QString assetSymbol) override;
+
+    void getExchangeList() override;
+    std::shared_ptr <Exchange> getExchange(QString exchangeName) override;
+
     void registerPriceObserver(PriceObserver*) override;
 
-    friend class JsonParser;
-
 protected:
+    void clearAssetList();
+    void clearExchangeList();
     void addExchange(QString name, QString symbol) override;
 
 private slots:
