@@ -12,7 +12,7 @@ class JsonParser
 public:
     virtual QList <QMap <QString, QString> > parseExchangeListJson(
         QJsonObject json) = 0;
-    virtual QList <QString> parseExchangeMarketsJson(QJsonObject) = 0;
+    virtual QList <QString> parseExchangePairsJson(QJsonObject) = 0;
 
     virtual bool parseAssetsJson(QJsonObject,
         QMap <QString, std::shared_ptr <Asset> >*) = 0;

@@ -27,7 +27,7 @@ void Exchange::parseJson(QString url, QJsonObject json) {
     if(url == routes->getExchangePairsPath(symbol)){
         assetList.clear();
         QFuture < QList <QString> > future = QtConcurrent::run(parser,
-            &JsonParser::parseExchangeMarketsJson, json);
+            &JsonParser::parseExchangePairsJson, json);
         
         QList <QString> symbolList = future.result();
         for(int i = 0; i < symbolList.size(); ++i) {

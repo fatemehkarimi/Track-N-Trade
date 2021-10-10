@@ -29,7 +29,7 @@ QList <QMap <QString, QString> > CryptowatchParser::parseExchangeListJson(
     return result;
 }
 
-QList <QString> CryptowatchParser::parseExchangeMarketsJson(QJsonObject json) {
+QList <QString> CryptowatchParser::parseExchangePairsJson(QJsonObject json) {
     QList <QString> list;
 
     QJsonArray asset_array = json["result"].toArray();

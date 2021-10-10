@@ -7,39 +7,39 @@
 class CryptowatchRoutes : public Routes
 {
 public:
-    QString getBasePath() {
+    QString getBasePath() override {
         return basePath;
     }
 
-    QString getExchangeListPath() {
+    QString getExchangeListPath() override {
         return basePath + exchangeListPath;
     }
 
-    QString getExchangeDetailPath(QString exchange_symbol) {
+    QString getExchangeDetailPath(QString exchange_symbol) override {
         return getExchangeListPath() + "/" + exchange_symbol;
     }
 
-    QString getExchangePairsPath(QString exchange_symbol) {
+    QString getExchangePairsPath(QString exchange_symbol) override {
         return getBasePath() + marketsPath + "/" + exchange_symbol;
     }
 
-    QString getAssets() {
+    QString getAssets() override {
         return getBasePath() + assetsPath;
     }
 
-    QString getPairPrice(QString exchange_symbol, QString pair) {
+    QString getPairPrice(QString exchange_symbol, QString pair) override {
         return getExchangePairsPath(exchange_symbol) + "/" + pair + pricePath;
     }
 
-    QString getAllPrices() {
+    QString getAllPrices() override {
         return getBasePath() + marketsPath + allPricesPath;
     }
 
-    QString getAll24hSummeries() {
+    QString getAll24hSummeries() override {
         return getBasePath() + marketsPath + summariesPath;
     }
 
-    QString getPairs() {
+    QString getPairs() override {
         return getBasePath() + pairsPath;
     }
 
