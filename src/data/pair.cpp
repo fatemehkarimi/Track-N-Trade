@@ -7,6 +7,10 @@ Pair::Pair(QString id, QString symbol, Asset base, Asset quote)
     quote(quote)
 {}
 
+QString Pair::getId() {
+    return id;
+}
+
 QString Pair::getSymbol() {
     return symbol;
 }

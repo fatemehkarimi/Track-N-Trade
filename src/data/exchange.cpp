@@ -15,6 +15,10 @@ Exchange::Exchange(Routes* apiRoutes, APIManager* refAPI, JsonParser* jsonParser
                     this, &Exchange::parseJson);
 }
 
+QString Exchange::getId() {
+    return id;
+}
+
 QString Exchange::getName() {
     return name;
 }

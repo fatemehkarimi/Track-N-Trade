@@ -55,7 +55,7 @@ bool CryptowatchParser::parseAssetsJson(QJsonObject json,
     foreach(const QJsonValue& value, asset_array) {
         QJsonObject obj = value.toObject();
 
-        int id = obj["id"].toInt();
+        QString id = QString::number(obj["id"].toInt());
         QString symbol = obj["symbol"].toString();
         QString name = obj["name"].toString();
         bool fiat = obj["fiat"].toBool();

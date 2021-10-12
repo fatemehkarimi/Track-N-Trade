@@ -3,11 +3,13 @@
 
 #include <QtWidgets>
 #include "asset.h"
+#include "api_item.h"
 
-class Pair {
+class Pair : public APIItem {
 public:
     Pair(QString id, QString symbol, Asset base, Asset quote);
-    QString getSymbol();
+    QString getId() override;
+    QString getSymbol() override;
     Asset getBase();
     Asset getQuote();
     QString getBaseSymbol();

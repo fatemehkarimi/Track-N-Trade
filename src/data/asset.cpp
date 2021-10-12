@@ -1,26 +1,26 @@
 #include "asset.h"
 #include <QtWidgets>
 
-Asset::Asset(int id, QString name, QString symbol, bool fiat, QString logo_path) {
-    _id = id;
-    _name = name;
-    _symbol = symbol;
-    _fiat = fiat;
-    _logo.load(logo_path);
+Asset::Asset(QString id, QString name, QString symbol, bool fiat, QString logo_path)
+    : id(id),
+    name(name),
+    symbol(symbol),
+    fiat(fiat) {
+    logo.load(logo_path);
 }
 
-int Asset::getId() {
-    return _id;
+QString Asset::getId() {
+    return id;
 }
 
 QString Asset::getName() {
-    return _name;
+    return name;
 }
 
 QString Asset::getSymbol() {
-    return _symbol;
+    return symbol;
 }
 
 QPixmap Asset::getLogo() {
-    return _logo;
+    return logo;
 }

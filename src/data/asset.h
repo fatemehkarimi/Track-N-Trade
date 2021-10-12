@@ -3,22 +3,23 @@
 
 #include <QString>
 #include <QPixmap>
+#include "api_item.h"
 
-class Asset
+class Asset : public APIItem
 {
 public:
-    Asset(int id, QString name, QString symbol, bool _fiat, QString logo_path);
-    int getId();
+    Asset(QString id, QString name, QString symbol, bool fiat, QString logo_path);
+    QString getId() override;
+    QString getSymbol() override;
     QString getName();
-    QString getSymbol();
     QPixmap getLogo();
 
 private:
-    int _id;
-    QString _name;
-    QString _symbol;
-    bool _fiat;
-    QPixmap _logo;
+    QString id;
+    QString name;
+    QString symbol;
+    bool fiat;
+    QPixmap logo;
 };
 
 #endif

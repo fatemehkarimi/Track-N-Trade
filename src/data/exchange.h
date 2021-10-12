@@ -5,18 +5,20 @@
 #include "routes.h"
 #include "parser_json.h"
 #include <network/network_manager.h>
+#include "api_item.h"
 
 class APIManager;
 
-class Exchange : public QObject
+class Exchange : public QObject, public APIItem
 {
     Q_OBJECT
 public:
     explicit Exchange(Routes* apiRoutes, APIManager* refAPI, JsonParser* jsonParser,
         QString id, QString exchangeName, QString exchangeSymbol);
 
+    QString getId() override;
+    QString getSymbol() override;
     QString getName();
-    QString getSymbol();
     void getAssetList();
     std::shared_ptr <Asset> getAsset(QString assetSymbol);
     
