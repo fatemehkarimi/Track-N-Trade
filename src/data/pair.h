@@ -6,7 +6,7 @@
 
 class Pair {
 public:
-    Pair(QString symbol, Asset base, Asset quote);
+    Pair(QString id, QString symbol, Asset base, Asset quote);
     QString getSymbol();
     Asset getBase();
     Asset getQuote();
@@ -14,6 +14,7 @@ public:
     QString getQuoteSymbol();
 
 private:
+    QString id;
     QString symbol;
     Asset base;
     Asset quote;

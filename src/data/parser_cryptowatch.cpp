@@ -127,14 +127,17 @@ QList <QMap <QString, QString> > CryptowatchParser::parsePairsJson(QJsonObject j
 
         QJsonObject base = obj["base"].toObject();
         QJsonObject quote = obj["quote"].toObject();
-        QString baseId = QString::number(base["id"].toInt());
-        QString quoteId = QString::number(quote["id"].toInt());
+        //TODO: use Id instead of symbol.
+        // QString baseId = QString::number(base["id"].toInt());
+        // QString quoteId = QString::number(quote["id"].toInt());
+        QString baseSymbol = base["symbol"].toString();
+        QString quoteSymbol = quote["symbol"].toString();
 
         QMap <QString, QString> pairInfo;
         pairInfo["id"] = id;
         pairInfo["symbol"] = symbol;
-        pairInfo["baseId"] = baseId;
-        pairInfo["quoteId"] = quoteId;
+        pairInfo["baseSymbol"] = baseSymbol;
+        pairInfo["quoteSymbol"] = quoteSymbol;
         
         result.push_back(pairInfo);
     }

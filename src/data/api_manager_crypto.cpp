@@ -18,9 +18,14 @@ CryptoAPIManager::CryptoAPIManager(Settings::App* appSettings,
     QObject::connect(priceTracker, &PriceTracker::priceChangesUpdated,
                     this, &CryptoAPIManager::handlePriceChangesUpdates);
 
+    auto conn = std::make_shared <QMetaObject::Connection>();
+    *conn = QObject::connect(this, &CryptoAPIManager::assetListReady,
+            this, [=](){
+                getPairList();
+            });
+
     getExchangeList();
     getAssetList();
-    getPairList();
 }
 
 void CryptoAPIManager::getAssetList() {
@@ -77,10 +82,24 @@ void CryptoAPIManager::parseJson(QString url, QJsonObject json) {
         QFuture <QList <QMap <QString, QString> > > future = QtConcurrent::run(parser,
             &JsonParser::parsePairsJson, json);
         
-        // Filter those pairs than their quote is usd
+        // TODO Filter those pairs than their quote is usd
         QList <QMap <QString, QString> > result = future.result();
         for(int i = 0; i < result.size(); ++i) {
+            QMap <QString, QString> pairInfo = result[i];
+            std::shared_ptr <Asset> base = getAsset(pairInfo["baseSymbol"]);
+            std::shared_ptr <Asset> quote = getAsset(pairInfo["quoteSymbol"]);
 
+            // if base or quote not found for a pair then ignore it.
+            if(base == nullptr || quote == nullptr)
+                continue;
+
+            // TODO: do not use constants
+            if(quote->getSymbol() != "usd")
+                continue;
+
+            std::shared_ptr <Pair> pair(
+                new Pair(pairInfo["id"], pairInfo["symbol"], *base, *quote));
+            pairList[pairInfo["symbol"]] = pair;
         }
     }
 }

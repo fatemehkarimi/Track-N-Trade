@@ -24,8 +24,6 @@ public:
         changePercentage = p.changePercentage;
     }
 
-
-
     enum PRICE_STATUS {
         INCREASE,
         NOCHANGE,
