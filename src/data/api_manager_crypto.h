@@ -10,6 +10,7 @@
 #include "parser_json.h"
 #include "price_tracker.h"
 #include "observer_price.h"
+#include "container.h"
 
 class CryptoAPIManager : public APIManager
 {
@@ -51,6 +52,10 @@ private:
     QMap <QString, std::shared_ptr <Pair> > pairList;
     NetworkManager* networkManager;
     QList <PriceObserver*> priceObservers;
+
+    Container exchangeContainer;
+    Container assetContainer;
+    Container pairContainer;
 };
 
 #endif
