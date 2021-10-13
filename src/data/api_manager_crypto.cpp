@@ -33,13 +33,13 @@ void CryptoAPIManager::getAssetList() {
 }
 
 std::shared_ptr <Asset> CryptoAPIManager::getAsset(QString symbol) {
-    if(!assets.empty())
-        return assets[symbol];
+    if(!assetContainer.empty())
+        return assetContainer.getBySymbol(symbol);
 
     QEventLoop loop;
     QObject::connect(this, &CryptoAPIManager::assetListReady, &loop, &QEventLoop::quit);
     loop.exec();
-    return assets[symbol];
+    return assetContainer.getBySymbol(symbol);
 }
 
 void CryptoAPIManager::getPairList() {
@@ -47,38 +47,38 @@ void CryptoAPIManager::getPairList() {
 }
 
 std::shared_ptr <Pair> CryptoAPIManager::getPair(QString symbol) {
-    if(!pairList.empty())
-        return pairList[symbol];
+    if(!pairContainer.empty())
+        return pairContainer.getBySymbol(symbol);
 
     QEventLoop loop;
     QObject::connect(this, &CryptoAPIManager::pairListReady, &loop, &QEventLoop::quit);
     loop.exec();
     
-    return pairList[symbol];
+    return pairContainer.getBySymbol(symbol);
 }
 
 void CryptoAPIManager::parseJson(QString url, QJsonObject json) {
     if(url == routes->getExchangeListPath()) {
-        this->clearExchangeList();
+        exchangeContainer.clearAll();
         QFuture <QList <QMap <QString, QString> > > future = QtConcurrent::run(parser,
             &JsonParser::parseExchangeListJson, json);
 
         QList <QMap <QString, QString> > result = future.result();
         for(int i = 0; i < result.size(); ++i)
             addExchange(result[i]["id"], result[i]["name"], result[i]["symbol"]);
-        emit exchangeListReady(exchangeList);
+        emit exchangeListReady(exchangeContainer);
     }
     else if(url == routes->getAssets()) {
-        this->clearAssetList();
-        QFuture <bool> future = QtConcurrent::run(parser,
-            &JsonParser::parseAssetsJson, json, &assets);
+        assetContainer.clearAll();
+        // QFuture <bool> future = QtConcurrent::run(parser,
+            // &JsonParser::parseAssetsJson, json, &assets);
         
-        bool parsed = future.result();
-        if(parsed) 
-            emit assetListReady(assets);
+        // bool parsed = future.result();
+        // if(parsed) 
+            // emit assetListReady(assetContainer);
     }
     else if(url == routes->getPairs()) {
-        clearPairList();
+        pairContainer.clearAll();
         QFuture <QList <QMap <QString, QString> > > future = QtConcurrent::run(parser,
             &JsonParser::parsePairsJson, json);
         
@@ -99,7 +99,7 @@ void CryptoAPIManager::parseJson(QString url, QJsonObject json) {
 
             std::shared_ptr <Pair> pair(
                 new Pair(pairInfo["id"], pairInfo["symbol"], *base, *quote));
-            pairList[pairInfo["symbol"]] = pair;
+            pairContainer.add(pair);
         }
     }
 }
@@ -109,24 +109,12 @@ void CryptoAPIManager::getExchangeList() {
 }
 
 std::shared_ptr <Exchange> CryptoAPIManager::getExchange(QString exchangeName) {
-    return exchangeList[exchangeName];
+    // return exchangeList[exchangeName];
 }
 
 void CryptoAPIManager::addExchange(QString id, QString name, QString symbol) {
     std::shared_ptr <Exchange> exchange(new Exchange(routes, this, parser, id, name, symbol));
-    exchangeList[name] = exchange;
-}
-
-void CryptoAPIManager::clearAssetList() {
-    assets.clear();
-}
-
-void CryptoAPIManager::clearPairList() {
-    pairList.clear();
-}
-
-void CryptoAPIManager::clearExchangeList() {
-    exchangeList.clear();
+    exchangeContainer.add(exchange);
 }
 
 void CryptoAPIManager::registerPriceObserver(PriceObserver* observer) {

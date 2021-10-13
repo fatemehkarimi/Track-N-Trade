@@ -9,6 +9,7 @@
 #include "asset.h"
 #include "exchange.h"
 #include "observer_price.h"
+#include "container.h"
 
 class APIManager : public QObject {
     Q_OBJECT
@@ -31,9 +32,9 @@ public:
 
 signals:
     void assetReady(std::shared_ptr <Asset> );
-    void assetListReady(QMap <QString, std::shared_ptr <Asset> >);
-    void pairListReady(QMap <QString, std::shared_ptr <Pair> >);
-    void exchangeListReady(QMap <QString, std::shared_ptr <Exchange> >);
+    void assetListReady(Container <Asset> assetContainer);
+    void pairListReady(Container <Pair> pairContainer);
+    void exchangeListReady(Container <Exchange> exchangeContainer);
 };
 
 #endif

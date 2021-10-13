@@ -59,14 +59,14 @@ void MainWindow::fetchExchangeList() {
     apiModel->getExchangeList();
 }
 
-void MainWindow::exchangeListFetched(QMap <QString, std::shared_ptr <Exchange> > list) {
-    QStringList exchange_name_list;
-    for(auto x = list.begin(); x != list.end(); ++x) {
-        std::shared_ptr <Exchange> e = x.value();
-        if(e->getName() != nullptr)
-            exchange_name_list.append(e->getName());
-    }
-    setExchangeMenuOptions(exchange_name_list);
+void MainWindow::exchangeListFetched(Container <Exchange> list) {
+    // QStringList exchange_name_list;
+    // for(auto x = list.begin(); x != list.end(); ++x) {
+    //     std::shared_ptr <Exchange> e = x.value();
+    //     if(e->getName() != nullptr)
+    //         exchange_name_list.append(e->getName());
+    // }
+    // setExchangeMenuOptions(exchange_name_list);
 }
 
 void MainWindow::exchangeChanged(int) {

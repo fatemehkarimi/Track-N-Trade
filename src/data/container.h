@@ -5,15 +5,52 @@
 #include <memory>
 #include "api_item.h"
 
+template <class T>
 class Container {
 public:
-    explicit Container();
+    void add(std::shared_ptr <T> item) {
+        QString id = item->getId();
+        QString symbol = item->getSymbol();
+        itemsById[id] = item;
+        itemsBySymbol[id] = item;
+    }
 
-    void add(std::shared_ptr <APIItem> );
-    std::shared_ptr <APIItem> getById(QString id);
-    std::shared_ptr <APIItem> getBySymbol(QString symbol);
-    void removeById(QString id);
-    void removeBySymbol(QString symbol);
+    std::shared_ptr <T> getById(QString id) {
+        std::shared_ptr <APIItem> item = itemsById[id];
+        return std::static_pointer_cast <T>(item);
+    }
+
+    std::shared_ptr <T> getBySymbol(QString symbol) {
+        std::shared_ptr <APIItem> item = itemsBySymbol[symbol];
+        return std::static_pointer_cast <T>(item);
+    }
+
+    void removeById(QString id) {
+        std::shared_ptr <APIItem> item = itemsById[id];
+        if(item == nullptr)
+            return;
+
+        itemsById.remove(id);
+        itemsBySymbol.remove(item->getSymbol());
+    }
+
+    void removeBySymbol(QString symbol) {
+        std::shared_ptr <APIItem> item = itemsBySymbol[symbol];
+        if(item == nullptr)
+            return;
+        
+        itemsBySymbol.remove(symbol);
+        itemsById.remove(item->getId());
+    }
+
+    void clearAll() {
+        itemsById.clear();
+        itemsBySymbol.clear();
+    }
+
+    bool empty() {
+        return itemsById.empty();
+    }
 
 private:
     QMap <QString, std::shared_ptr <APIItem> > itemsById;

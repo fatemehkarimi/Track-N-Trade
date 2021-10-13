@@ -31,9 +31,6 @@ public:
     void registerPriceObserver(PriceObserver*) override;
 
 protected:
-    void clearAssetList();
-    void clearPairList();
-    void clearExchangeList();
     void addExchange(QString id, QString name, QString symbol) override;
 
 private slots:
@@ -47,15 +44,15 @@ private:
     JsonParser* parser;
     PriceTracker* priceTracker;
     //Exchange name, pointer to exchange name
-    QMap <QString, std::shared_ptr <Exchange> > exchangeList;
-    QMap <QString, std::shared_ptr <Asset> > assets;
-    QMap <QString, std::shared_ptr <Pair> > pairList;
+    // QMap <QString, std::shared_ptr <Exchange> > exchangeList;
+    // QMap <QString, std::shared_ptr <Asset> > assets;
+    // QMap <QString, std::shared_ptr <Pair> > pairList;
     NetworkManager* networkManager;
     QList <PriceObserver*> priceObservers;
 
-    Container exchangeContainer;
-    Container assetContainer;
-    Container pairContainer;
+    Container <Exchange> exchangeContainer;
+    Container <Asset> assetContainer;
+    Container <Pair> pairContainer;
 };
 
 #endif

@@ -5,6 +5,7 @@
 #include <settings/settings_window.h>
 #include <data/api_manager.h>
 #include <data/controller.h>
+#include <data/container.h>
 #include <components/table_market.h>
 
 class MainWindow : public QObject
@@ -20,7 +21,7 @@ public:
     MarketTable* getMarketTable();
 
 private slots:
-    void exchangeListFetched(QMap <QString, std::shared_ptr <Exchange> >);
+    void exchangeListFetched(Container <Exchange>);
     void exchangeChanged(int index);
 
 private:
