@@ -4,6 +4,7 @@
 #include <QMap>
 #include <memory>
 #include "api_item.h"
+#include "iterator_container.h"
 
 template <class T>
 class Container {
@@ -12,7 +13,7 @@ public:
         QString id = item->getId();
         QString symbol = item->getSymbol();
         itemsById[id] = item;
-        itemsBySymbol[id] = item;
+        itemsBySymbol[symbol] = item;
     }
 
     std::shared_ptr <T> getById(QString id) {
@@ -50,6 +51,11 @@ public:
 
     bool empty() {
         return itemsById.empty();
+    }
+
+    ContainerIterator <T> createIterator() {
+        ContainerIterator <T> iterator(itemsById);
+        return iterator;
     }
 
 private:
