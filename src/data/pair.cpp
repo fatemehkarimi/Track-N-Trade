@@ -1,6 +1,7 @@
 #include "pair.h"
 
-Pair::Pair(QString id, QString symbol, Asset base, Asset quote)
+Pair::Pair(QString id, QString symbol, std::shared_ptr <Asset> base,
+        std::shared_ptr <Asset> quote)
     : id(id),
     symbol(symbol),
     base(base),
@@ -15,18 +16,18 @@ QString Pair::getSymbol() {
     return symbol;
 }
 
-Asset Pair::getBase() {
+std::shared_ptr <Asset> Pair::getBase() {
     return base;
 }
 
-Asset Pair::getQuote() {
+std::shared_ptr <Asset> Pair::getQuote() {
     return quote;
 }
 
 QString Pair::getBaseSymbol() {
-    return base.getSymbol();
+    return base->getSymbol();
 }
 
 QString Pair::getQuoteSymbol() {
-    return quote.getSymbol();
+    return quote->getSymbol();
 }

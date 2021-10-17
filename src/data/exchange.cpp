@@ -29,24 +29,28 @@ QString Exchange::getSymbol() {
 
 void Exchange::parseJson(QString url, QJsonObject json) {
     if(url == routes->getExchangePairsPath(symbol)){
-        assetList.clear();
+        pairContainer.clearAll();
         QFuture < QList <QString> > future = QtConcurrent::run(parser,
             &JsonParser::parseExchangePairsJson, json);
         
         QList <QString> symbolList = future.result();
         for(int i = 0; i < symbolList.size(); ++i) {
-            std::shared_ptr <Asset> asset = refAPI->getAsset(symbolList[i]);
-            if(asset != nullptr)
-                assetList[asset->getSymbol()] = asset;
+            std::shared_ptr <Pair> pair = refAPI->getPairBySymbol(symbolList[i]);
+            if(pair != nullptr) {
+                //only pairs with quote = usd are allowed
+                if(pair->getQuoteSymbol() != "usd")
+                    continue;
+                pairContainer.add(pair);
+            }
         }
-        emit assetListReady(assetList);
+        emit pairListReady(pairContainer);
     }
 }
 
-std::shared_ptr <Asset> Exchange::getAsset(QString assetSymbol) {
-    return assetList[assetSymbol];
+std::shared_ptr <Pair> Exchange::getPair(QString symbol) {
+    return pairContainer.getBySymbol(symbol);
 }
 
-void Exchange::getAssetList() {
+void Exchange::getPairList() {
     networkManager->fetchJson(routes->getExchangePairsPath(symbol));
 }

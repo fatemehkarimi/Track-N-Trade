@@ -20,7 +20,7 @@ public:
 
     // Pairs
     virtual void getPairList() = 0;
-    virtual std::shared_ptr <Pair> getPair(QString symbol) = 0;
+    virtual std::shared_ptr <Pair> getPairBySymbol(QString symbol) = 0;
 
     // Exchanges
     virtual void getExchangeList() = 0;

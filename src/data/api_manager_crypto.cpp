@@ -46,7 +46,7 @@ void CryptoAPIManager::getPairList() {
     networkManager->fetchJson(routes->getPairs());
 }
 
-std::shared_ptr <Pair> CryptoAPIManager::getPair(QString symbol) {
+std::shared_ptr <Pair> CryptoAPIManager::getPairBySymbol(QString symbol) {
     if(!pairContainer.empty())
         return pairContainer.getBySymbol(symbol);
 
@@ -98,7 +98,7 @@ void CryptoAPIManager::parseJson(QString url, QJsonObject json) {
                 continue;
 
             std::shared_ptr <Pair> pair(
-                new Pair(pairInfo["id"], pairInfo["symbol"], *base, *quote));
+                new Pair(pairInfo["id"], pairInfo["symbol"], base, quote));
             pairContainer.add(pair);
         }
     }

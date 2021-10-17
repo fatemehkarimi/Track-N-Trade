@@ -7,19 +7,20 @@
 
 class Pair : public APIItem {
 public:
-    Pair(QString id, QString symbol, Asset base, Asset quote);
+    Pair(QString id, QString symbol,
+        std::shared_ptr <Asset> base, std::shared_ptr <Asset> quote);
     QString getId() override;
     QString getSymbol() override;
-    Asset getBase();
-    Asset getQuote();
     QString getBaseSymbol();
     QString getQuoteSymbol();
+    std::shared_ptr <Asset> getBase();
+    std::shared_ptr <Asset> getQuote();
 
 private:
     QString id;
     QString symbol;
-    Asset base;
-    Asset quote;
+    std::shared_ptr <Asset> base;
+    std::shared_ptr <Asset> quote;
 };
 
 #endif

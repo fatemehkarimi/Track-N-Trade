@@ -6,6 +6,7 @@
 #include "controller.h"
 #include "observer_price.h"
 #include "api_manager.h"
+#include "container.h"
 
 class DashboardController : public QObject,
     public Controller,

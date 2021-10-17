@@ -1,11 +1,13 @@
 #ifndef EXCHANGE_H
 #define EXCHANGE_H
 
+#include "pair.h"
 #include "asset.h"
 #include "routes.h"
+#include "api_item.h"
+#include "container.h"
 #include "parser_json.h"
 #include <network/network_manager.h>
-#include "api_item.h"
 
 class APIManager;
 
@@ -19,14 +21,14 @@ public:
     QString getId() override;
     QString getSymbol() override;
     QString getName();
-    void getAssetList();
-    std::shared_ptr <Asset> getAsset(QString assetSymbol);
+    void getPairList();
+    std::shared_ptr <Pair> getPair(QString symbol);
     
 private slots:
     void parseJson(QString url, QJsonObject json);
 
 signals:
-    void assetListReady(QMap <QString, std::shared_ptr <Asset> >);
+    void pairListReady(Container <Pair>);
 
 private:
     QString id;
@@ -35,7 +37,8 @@ private:
     Routes* routes;
     JsonParser* parser;
     APIManager* refAPI;
-    QMap <QString, std::shared_ptr <Asset> > assetList;
+    Container <Pair> pairContainer;
+
     NetworkManager* networkManager;
 };
 

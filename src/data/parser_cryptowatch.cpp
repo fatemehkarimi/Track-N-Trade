@@ -41,10 +41,7 @@ QList <QString> CryptowatchParser::parseExchangePairsJson(QJsonObject json) {
         if(!active)
             continue;
 
-        if(pair.endsWith("usd")) {
-            pair.chop(3);
-            list.append(pair);
-        }
+        list.append(pair);
     }
     return list;
 }

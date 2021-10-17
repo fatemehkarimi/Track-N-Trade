@@ -15,16 +15,19 @@ DashboardController::DashboardController(APIManager* refAPI)
 
 void DashboardController::setExchange(QString exchangeSymbol) {
     selectedExchange = refAPI->getExchangeBySymbol(exchangeSymbol);
-    selectedExchange->getAssetList();
+    selectedExchange->getPairList();
 
     auto conn = std::make_shared <QMetaObject::Connection>();
     *conn = QObject::connect(selectedExchange.get(),
-            &Exchange::assetListReady, this, [=](QMap <QString, std::shared_ptr <Asset> > list){
+            &Exchange::pairListReady, this, [=](Container <Pair> pairList){
             QObject::disconnect(*conn);
 
             marketTable->clear();
-            for(auto itm = list.begin(); itm != list.end(); ++itm)
-                marketTable->addAsset(itm.value());
+            auto iterator = pairList.createIterator();
+            while(iterator.hasNext()) {
+                std::shared_ptr <Pair> pair = iterator.next();
+                marketTable->addAsset(pair->getBase());
+            }
 
             setPricesToTable();
             setPriceChangesToTable();

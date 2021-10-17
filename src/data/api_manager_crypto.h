@@ -23,7 +23,7 @@ public:
     std::shared_ptr <Asset> getAsset(QString assetSymbol) override;
 
     void getPairList() override;
-    std::shared_ptr <Pair> getPair(QString symbol) override;
+    std::shared_ptr <Pair> getPairBySymbol(QString symbol) override;
 
     void getExchangeList() override;
     std::shared_ptr <Exchange> getExchangeBySymbol(QString symbol) override;
