@@ -70,12 +70,12 @@ void CryptoAPIManager::parseJson(QString url, QJsonObject json) {
     }
     else if(url == routes->getAssets()) {
         assetContainer.clearAll();
-        // QFuture <bool> future = QtConcurrent::run(parser,
-            // &JsonParser::parseAssetsJson, json, &assets);
+        QFuture <bool> future = QtConcurrent::run(parser,
+            &JsonParser::parseAssetsJson, json, &assetContainer);
         
-        // bool parsed = future.result();
-        // if(parsed) 
-            // emit assetListReady(assetContainer);
+        bool parsed = future.result();
+        if(parsed)
+            emit assetListReady(assetContainer);
     }
     else if(url == routes->getPairs()) {
         pairContainer.clearAll();

@@ -43,16 +43,11 @@ private:
     Routes* routes;
     JsonParser* parser;
     PriceTracker* priceTracker;
-    //Exchange name, pointer to exchange name
-    // QMap <QString, std::shared_ptr <Exchange> > exchangeList;
-    // QMap <QString, std::shared_ptr <Asset> > assets;
-    // QMap <QString, std::shared_ptr <Pair> > pairList;
-    NetworkManager* networkManager;
-    QList <PriceObserver*> priceObservers;
-
     Container <Exchange> exchangeContainer;
     Container <Asset> assetContainer;
     Container <Pair> pairContainer;
+    NetworkManager* networkManager;
+    QList <PriceObserver*> priceObservers;
 };
 
 #endif
