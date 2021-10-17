@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QComboBox>
@@ -49,10 +50,15 @@ MarketTable* MainWindow::getMarketTable() {
     return marketTable;
 }
 
-void MainWindow::setExchangeMenuOptions(QStringList options) {
+void MainWindow::setExchangeMenuOptions(QList <QPair <QString, QVariant> > options) {
     exchangeMenu->clear();
-    exchangeMenu->addItems(options);
-    // controller->setExchange(exchangeMenu->currentText());
+    for(auto option : options) {
+        QString text = option.first;
+        QVariant data = option.second;
+        exchangeMenu->addItem(text, data);
+    }
+    QString currentExchangeSymbol = exchangeMenu->currentData().toString();
+    controller->setExchange(currentExchangeSymbol);
 }
 
 void MainWindow::fetchExchangeList() {
@@ -60,18 +66,24 @@ void MainWindow::fetchExchangeList() {
 }
 
 void MainWindow::exchangeListFetched(Container <Exchange> list) {
-    QStringList nameList;
+    QList < QPair <QString, QVariant> > exchangeList;
     auto iterator = list.createIterator();
 
     while(iterator.hasNext()) {
         std::shared_ptr <Exchange> exchange = iterator.next();
-        nameList.append(exchange->getName());
+
+        // exchange symbol is required to contact with controller
+        QVariant exchangeSymbol(exchange->getSymbol());
+        QPair <QString, QVariant> pair(exchange->getName(), exchangeSymbol);
+        exchangeList.append(pair);
     }
-    nameList.sort();
-    setExchangeMenuOptions(nameList);
+    
+    std::sort(exchangeList.begin(), exchangeList.end());
+    setExchangeMenuOptions(exchangeList);
 }
 
 void MainWindow::exchangeChanged(int) {
-    controller->setExchange(exchangeMenu->currentText());
+    QString currentExchangeSymbol = exchangeMenu->currentData().toString();
+    controller->setExchange(currentExchangeSymbol);
     exchangeMenu->setEnabled(false);
 }

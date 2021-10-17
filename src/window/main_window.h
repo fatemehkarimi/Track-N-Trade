@@ -2,6 +2,7 @@
 #define MAIN_WINDOW_H
 
 #include <QtWidgets>
+#include <QVariant>
 #include <settings/settings_window.h>
 #include <data/api_manager.h>
 #include <data/controller.h>
@@ -17,7 +18,7 @@ public:
                 Controller* controller, APIManager* apiModel);
     void setUpWindow();
     void show();
-    void setExchangeMenuOptions(QStringList options);
+    void setExchangeMenuOptions(QList <QPair <QString, QVariant> > options);
     MarketTable* getMarketTable();
 
 private slots:
