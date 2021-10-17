@@ -13,8 +13,8 @@ DashboardController::DashboardController(APIManager* refAPI)
     view->show();
 }
 
-void DashboardController::setExchange(QString exchangeName) {
-    selectedExchange = refAPI->getExchange(exchangeName);
+void DashboardController::setExchange(QString exchangeSymbol) {
+    selectedExchange = refAPI->getExchangeBySymbol(exchangeSymbol);
     selectedExchange->getAssetList();
 
     auto conn = std::make_shared <QMetaObject::Connection>();

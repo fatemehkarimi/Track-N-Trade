@@ -26,7 +26,7 @@ public:
     std::shared_ptr <Pair> getPair(QString symbol) override;
 
     void getExchangeList() override;
-    std::shared_ptr <Exchange> getExchange(QString exchangeName) override;
+    std::shared_ptr <Exchange> getExchangeBySymbol(QString symbol) override;
 
     void registerPriceObserver(PriceObserver*) override;
 

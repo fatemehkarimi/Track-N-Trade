@@ -108,8 +108,8 @@ void CryptoAPIManager::getExchangeList() {
     networkManager->fetchJson(routes->getExchangeListPath());
 }
 
-std::shared_ptr <Exchange> CryptoAPIManager::getExchange(QString exchangeName) {
-    // return exchangeList[exchangeName];
+std::shared_ptr <Exchange> CryptoAPIManager::getExchangeBySymbol(QString symbol) {
+    return exchangeContainer.getBySymbol(symbol);
 }
 
 void CryptoAPIManager::addExchange(QString id, QString name, QString symbol) {
