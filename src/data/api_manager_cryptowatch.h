@@ -1,5 +1,5 @@
-#ifndef API_MANAGER_CRYPTO_H
-#define API_MANAGER_CRYPTO_H
+#ifndef API_MANAGER_CRYPTOWATCH_H
+#define API_MANAGER_CRYPTOWATCH_H
 
 #include <QtWidgets>
 #include <QJsonObject>

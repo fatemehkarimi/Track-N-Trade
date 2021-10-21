@@ -1,5 +1,5 @@
 #include <QApplication>
-#include <data/api_manager_crypto.h>
+#include <data/api_manager_cryptowatch.h>
 #include <data/routes_cryptowatch.h>
 #include <data/controller_dashboard.h>
 #include <data/parser_cryptowatch.h>

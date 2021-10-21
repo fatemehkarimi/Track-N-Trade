@@ -1,6 +1,6 @@
 #include <QEventLoop>
 #include <QtConcurrent>
-#include "api_manager_crypto.h"
+#include "api_manager_cryptowatch.h"
 
 CryptoAPIManager::CryptoAPIManager(Settings::App* appSettings,
         Routes* api_routes, JsonParser* json_parser)
@@ -101,6 +101,7 @@ void CryptoAPIManager::parseJson(QString url, QJsonObject json) {
                 new Pair(pairInfo["id"], pairInfo["symbol"], base, quote));
             pairContainer.add(pair);
         }
+        emit pairListReady(pairContainer);
     }
 }
 

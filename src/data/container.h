@@ -54,8 +54,12 @@ public:
     }
 
     ContainerIterator <T> createIterator() {
-        ContainerIterator <T> iterator(itemsById);
+        ContainerIterator <T> iterator(itemsBySymbol);
         return iterator;
+    }
+
+    unsigned int size() {
+        return itemsById.size();
     }
 
 private:
