@@ -82,7 +82,6 @@ void CryptoAPIManager::parseJson(QString url, QJsonObject json) {
         QFuture <QList <QMap <QString, QString> > > future = QtConcurrent::run(parser,
             &JsonParser::parsePairsJson, json);
         
-        // TODO Filter those pairs than their quote is usd
         QList <QMap <QString, QString> > result = future.result();
         for(int i = 0; i < result.size(); ++i) {
             QMap <QString, QString> pairInfo = result[i];

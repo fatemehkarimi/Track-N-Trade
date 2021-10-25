@@ -15,8 +15,8 @@ public:
     explicit MarketTable(QString object_name);
     void clear();
     void addPair(std::shared_ptr <Pair> pair);
-    void updateAssetPrice(QString symbol, Price price);
-    void updatePriceChange(QString symbol, Price price);
+    void updatePairPrice(Price price);
+    void updatePairPriceChange(Price price);
 
 signals:
     void assetListUpdated();

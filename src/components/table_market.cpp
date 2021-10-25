@@ -30,6 +30,7 @@ void MarketTable::clear() {
 void MarketTable::addPair(std::shared_ptr <Pair> pair) {
     pairContainer.add(pair);
     QMap <QString, QString> data;
+    data["symbol"] = pair->getSymbol();
     data["base"] = pair->getBaseSymbol();
     data["quote"] = pair->getQuoteSymbol();
 
@@ -44,39 +45,43 @@ void MarketTable::addPair(std::shared_ptr <Pair> pair) {
     tableModel->setData(index, variantData, Qt::DisplayRole);
 }
 
-void MarketTable::updateAssetPrice(QString symbol, Price price) {
-    // if(assetList[symbol] != nullptr) {
-    //     QVariant variantData;
-    //     variantData.setValue(price);
+void MarketTable::updatePairPrice(Price price) {
+    QString pairSymbol = price.getPairSymbol();
+    std::shared_ptr <Pair> pair = pairContainer.getBySymbol(pairSymbol);
+    if(pair != nullptr) {
+        QVariant variantData;
+        variantData.setValue(price);
 
-    //     // TODO: Optimize loop
-    //     for(int i = 0; i < tableModel->rowCount(); ++i) {
-    //         QModelIndex symbol_index = tableModel->index(i, 0, QModelIndex());
-    //         QMap <QString, QString> delegate_data = symbol_index.data().value <QMap <QString, QString> >();
+        // TODO: Optimize loop
+        for(int i = 0; i < tableModel->rowCount(); ++i) {
+            QModelIndex symbol_index = tableModel->index(i, 0, QModelIndex());
+            QMap <QString, QString> delegate_data = symbol_index.data().value <QMap <QString, QString> >();
 
-    //         if(delegate_data["symbol"] == symbol) {
-    //             QModelIndex price_index = tableModel->index(i, 1, QModelIndex());
-    //             tableModel->setData(price_index, variantData, Qt::DisplayRole);
-    //             break;
-    //         }
-    //     }
-    // }
+            if(delegate_data["symbol"] == pairSymbol) {
+                QModelIndex price_index = tableModel->index(i, 1, QModelIndex());
+                tableModel->setData(price_index, variantData, Qt::DisplayRole);
+                break;
+            }
+        }
+    }
 }
 
-void MarketTable::updatePriceChange(QString symbol, Price price) {
-    // if(assetList[symbol] != nullptr) {
-    //     QVariant variantData;
-    //     variantData.setValue(price);
+void MarketTable::updatePairPriceChange(Price price) {
+    QString pairSymbol = price.getPairSymbol();
+    std::shared_ptr <Pair> pair = pairContainer.getBySymbol(pairSymbol);
+    if(pair != nullptr) {
+        QVariant variantData;
+        variantData.setValue(price);
 
-    //     for(int i = 0; i < tableModel->rowCount(); ++i) {
-    //         QModelIndex symbol_index = tableModel->index(i, 0, QModelIndex());
-    //         QMap <QString, QString> delegate_data = symbol_index.data().value <QMap <QString, QString> > ();
+        for(int i = 0; i < tableModel->rowCount(); ++i) {
+            QModelIndex symbol_index = tableModel->index(i, 0, QModelIndex());
+            QMap <QString, QString> delegate_data = symbol_index.data().value <QMap <QString, QString> > ();
 
-    //         if(delegate_data["symbol"] == symbol) {
-    //             QModelIndex change_index = tableModel->index(i, 2, QModelIndex());
-    //             tableModel->setData(change_index, variantData, Qt::DisplayRole);
-    //             break;
-    //         }
-    //     }
-    // }
+            if(delegate_data["symbol"] == pairSymbol) {
+                QModelIndex change_index = tableModel->index(i, 2, QModelIndex());
+                tableModel->setData(change_index, variantData, Qt::DisplayRole);
+                break;
+            }
+        }
+    }
 }

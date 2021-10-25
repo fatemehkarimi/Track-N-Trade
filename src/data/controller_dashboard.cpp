@@ -57,7 +57,7 @@ void DashboardController::setPricesToTable() {
     QMap <QString, Price> prices = lastFetchedPrices[selectedExchange->getSymbol()];
 
     foreach(const QString& key, prices.keys())
-        marketTable->updateAssetPrice(key, *prices.find(key));
+        marketTable->updatePairPrice(*prices.find(key));
 }
 
 void DashboardController::getPriceChangesUpdates(
@@ -71,5 +71,5 @@ void DashboardController::getPriceChangesUpdates(
 void DashboardController::setPriceChangesToTable() {
     QMap <QString, Price> prices = lastFetchedPrices[selectedExchange->getSymbol()];
     foreach(const QString& key, prices.keys())
-        marketTable->updatePriceChange(key, *prices.find(key));
+        marketTable->updatePairPriceChange(*prices.find(key));
 }

@@ -78,10 +78,8 @@ QMap <QString, QMap <QString, double> >
         
         QString market = result[1];
         QString pair = result[2];
-        if(pair.endsWith("usd")) {
-            pair.chop(3);
+        if(pair.endsWith("usd"))
             prices[market][pair] = price;
-        }
     }
     return prices;
 }
@@ -99,8 +97,6 @@ QMap <QString, QMap <QString, double> >
         QString market = result[0];
         QString pair = result[1];
         if(pair.endsWith("usd")) {
-            pair.chop(3);
-
             QJsonObject pair_array = summaries_array[key].toObject();
             QJsonObject price_array = pair_array["price"].toObject();
             QJsonObject change_array = price_array["change"].toObject();
