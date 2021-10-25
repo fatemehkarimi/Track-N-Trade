@@ -4,8 +4,9 @@
 #include <memory>
 #include <QTableView>
 #include <QStandardItemModel>
-#include <data/asset.h>
+#include <data/pair.h>
 #include <data/price.h>
+#include <data/container.h>
 
 class MarketTable : public QTableView
 {
@@ -13,7 +14,7 @@ class MarketTable : public QTableView
 public:
     explicit MarketTable(QString object_name);
     void clear();
-    void addAsset(std::shared_ptr <Asset> asset);
+    void addPair(std::shared_ptr <Pair> pair);
     void updateAssetPrice(QString symbol, Price price);
     void updatePriceChange(QString symbol, Price price);
 
@@ -22,8 +23,7 @@ signals:
 
 private:
     QStandardItemModel* tableModel;
-    // Key is asset symbol
-    QMap <QString, std::shared_ptr <Asset> > assetList;
+    Container <Pair> pairContainer;
 };
 
 #endif

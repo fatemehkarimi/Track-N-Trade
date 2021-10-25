@@ -26,7 +26,7 @@ void DashboardController::setExchange(QString exchangeSymbol) {
             auto iterator = pairList.createIterator();
             while(iterator.hasNext()) {
                 std::shared_ptr <Pair> pair = iterator.next();
-                marketTable->addAsset(pair->getBase());
+                marketTable->addPair(pair);
             }
 
             setPricesToTable();

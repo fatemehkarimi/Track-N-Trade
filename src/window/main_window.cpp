@@ -59,6 +59,7 @@ void MainWindow::setExchangeMenuOptions(QList <QPair <QString, QVariant> > optio
     }
     QString currentExchangeSymbol = exchangeMenu->currentData().toString();
     controller->setExchange(currentExchangeSymbol);
+    exchangeChanged(exchangeMenu->currentIndex());
 }
 
 void MainWindow::fetchExchangeList() {
