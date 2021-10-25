@@ -7,7 +7,7 @@
 #include <data/api_manager.h>
 #include <data/controller.h>
 #include <data/container.h>
-#include <components/table_market.h>
+#include <components/table_market/table_market.h>
 
 class MainWindow : public QObject
 {

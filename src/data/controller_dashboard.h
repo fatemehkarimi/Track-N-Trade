@@ -2,7 +2,7 @@
 #define CONTROLLER_DASHBOARD_H
 
 #include <window/main_window.h>
-#include <components/table_market.h>
+#include <components/table_market/table_market.h>
 #include "controller.h"
 #include "observer_price.h"
 #include "api_manager.h"
