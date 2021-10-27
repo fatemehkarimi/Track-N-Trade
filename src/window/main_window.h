@@ -3,11 +3,12 @@
 
 #include <QtWidgets>
 #include <QVariant>
-#include <settings/settings_window.h>
 #include <data/api_manager.h>
 #include <data/controller.h>
 #include <data/container.h>
+#include <settings/settings_window.h>
 #include <components/table_market/table_market.h>
+#include <components/search_box/search_box.h>
 
 class MainWindow : public QObject
 {

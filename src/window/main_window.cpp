@@ -26,18 +26,21 @@ void MainWindow::setUpWindow() {
     QObject::connect(exchangeMenu, QOverload<int>::of(&QComboBox::activated),
         this, &MainWindow::exchangeChanged);
 
-    QVBoxLayout* market_layout = new QVBoxLayout();
-    main_layout->addLayout(market_layout);
+    QVBoxLayout* marketLayout = new QVBoxLayout();
+    main_layout->addLayout(marketLayout);
+
+    SearchBox* searchBox = new SearchBox();
+    marketLayout->addWidget(searchBox);
 
     marketTable = new MarketTable("market_table");
-    market_layout->addWidget(marketTable);
+    marketLayout->addWidget(marketTable);
 
     QObject::connect(marketTable, &MarketTable::assetListUpdated, this, [=](){
         exchangeMenu->setEnabled(true);
     });
 
     main_layout->setStretchFactor(exchangeMenu, 1);
-    main_layout->setStretchFactor(market_layout, 1);
+    main_layout->setStretchFactor(marketLayout, 1);
 
     fetchExchangeList();
 }

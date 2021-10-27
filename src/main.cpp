@@ -14,7 +14,7 @@ int main(int argc, char* argv[]) {
     CryptowatchRoutes routes;
     CryptowatchParser parser;
     CryptoAPIManager cryptowatchAPI(&appSettings, &routes, &parser);
-
+    
     DashboardController controller(&cryptowatchAPI);
     return app.exec();
 }

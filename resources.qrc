@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file alias="searchIcon">assets/icons/search-icon.png</file>
+    </qresource>
+    <qresource prefix="/fonts">
+        <file alias="robotoCondensed.ttf">assets/fonts/RobotoCondensed-Regular.ttf</file>
+    </qresource>
+</RCC>
