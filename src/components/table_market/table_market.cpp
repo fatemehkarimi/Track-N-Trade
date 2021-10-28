@@ -19,6 +19,8 @@ MarketTable::MarketTable(QString object_name) {
     QStringList headers = {"Pair", "Price", "24h Changes"};
     QHeaderView* header = this->horizontalHeader();
     header->setSectionResizeMode(QHeaderView::Stretch);
+    header->setDefaultAlignment(Qt::AlignLeft);
+    
     tableModel->setHorizontalHeaderLabels(headers);
 }
 

@@ -17,3 +17,9 @@ QFrame#searchBox QLineEdit:focus {
     outline: none;
     border: none;
 }
+
+QTableView#marketTable QHeaderView {
+    background-color: #fafafa;
+    color: #3d3c37;
+    font-size: 16px;
+}
