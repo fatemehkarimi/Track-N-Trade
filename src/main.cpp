@@ -10,6 +10,12 @@ int main(int argc, char* argv[]) {
 
     Settings::App appSettings;
 
+    // loading stylesheet file
+    QFile stylesheet(":/stylesheets/lightTheme");
+    stylesheet.open(QFile::ReadOnly);
+    app.setStyleSheet(stylesheet.readAll());
+    stylesheet.close();
+
     //TODO: use a factory to create cryptowatch api
     CryptowatchRoutes routes;
     CryptowatchParser parser;

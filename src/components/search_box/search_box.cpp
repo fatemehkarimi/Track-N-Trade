@@ -1,8 +1,10 @@
 #include "search_box.h"
 
-SearchBox::SearchBox(QWidget* parent)
-    : QWidget(parent)
+SearchBox::SearchBox(QString objectName, QWidget* parent)
+    : QFrame(parent)
 {
+    setObjectName(objectName);
+    
     layout = new QHBoxLayout(this);
     layout->setMargin(0);
 

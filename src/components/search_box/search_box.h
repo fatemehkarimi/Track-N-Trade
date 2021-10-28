@@ -4,11 +4,11 @@
 #include <QWidget>
 #include <QtWidgets>
 
-class SearchBox : public QWidget
+class SearchBox : public QFrame
 {
     Q_OBJECT
 public:
-    SearchBox(QWidget* parent=nullptr);
+    SearchBox(QString objectName, QWidget* parent=nullptr);
 
 private:
     QHBoxLayout* layout;

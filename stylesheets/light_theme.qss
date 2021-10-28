@@ -1,0 +1,19 @@
+QWidget#mainWindow {
+    background: #fafafa;
+}
+
+QFrame#searchBox {
+    background: #f2f3f5;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+QFrame#searchBox QLineEdit {
+    background-color: transparent;
+    border: none;
+}
+
+QFrame#searchBox QLineEdit:focus {
+    outline: none;
+    border: none;
+}

@@ -18,6 +18,7 @@ MainWindow::MainWindow(Settings::Window* window_setting,
 
 void MainWindow::setUpWindow() {
     window = new QWidget();
+    window->setObjectName("mainWindow");
     window->resize(settings->windowSize());
 
     QHBoxLayout* main_layout = new QHBoxLayout(window);
@@ -29,10 +30,10 @@ void MainWindow::setUpWindow() {
     QVBoxLayout* marketLayout = new QVBoxLayout();
     main_layout->addLayout(marketLayout);
 
-    SearchBox* searchBox = new SearchBox();
+    SearchBox* searchBox = new SearchBox("searchBox");
     marketLayout->addWidget(searchBox);
 
-    marketTable = new MarketTable("market_table");
+    marketTable = new MarketTable("marketTable");
     marketLayout->addWidget(marketTable);
 
     QObject::connect(marketTable, &MarketTable::assetListUpdated, this, [=](){
