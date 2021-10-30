@@ -17,4 +17,6 @@ SearchBox::SearchBox(QString objectName, QWidget* parent)
 
     layout->addWidget(iconLabel);
     layout->addWidget(input);
+
+    QObject::connect(input, &QLineEdit::textChanged, this, &SearchBox::textChanged);
 }

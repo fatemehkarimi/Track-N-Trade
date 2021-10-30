@@ -23,3 +23,7 @@ QTableView#marketTable QHeaderView {
     color: #3d3c37;
     font-size: 16px;
 }
+
+QTableView#marketTable {
+    selection-background-color: #f0f1f2;
+}

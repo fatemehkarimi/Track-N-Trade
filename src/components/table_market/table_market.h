@@ -18,12 +18,18 @@ public:
     void updatePairPrice(Price price);
     void updatePairPriceChange(Price price);
 
+public slots:
+    void setFilter(QString text);
+
 signals:
     void assetListUpdated();
 
 private:
+    QString filter;
     QStandardItemModel* tableModel;
     Container <Pair> pairContainer;
+    void displayPair(std::shared_ptr <Pair> pair);
+    bool pairMatchesFilter(std::shared_ptr <Pair> pair);
 };
 
 #endif

@@ -40,6 +40,9 @@ void MainWindow::setUpWindow() {
         exchangeMenu->setEnabled(true);
     });
 
+    QObject::connect(searchBox, &SearchBox::textChanged,
+        marketTable, &MarketTable::setFilter);
+
     main_layout->setStretchFactor(exchangeMenu, 1);
     main_layout->setStretchFactor(marketLayout, 1);
 

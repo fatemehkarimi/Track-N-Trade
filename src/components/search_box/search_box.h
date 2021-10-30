@@ -10,6 +10,9 @@ class SearchBox : public QFrame
 public:
     SearchBox(QString objectName, QWidget* parent=nullptr);
 
+signals:
+    void textChanged(QString text);
+
 private:
     QHBoxLayout* layout;
 };

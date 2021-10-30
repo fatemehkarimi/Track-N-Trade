@@ -31,6 +31,11 @@ void MarketTable::clear() {
 
 void MarketTable::addPair(std::shared_ptr <Pair> pair) {
     pairContainer.add(pair);
+    if(pairMatchesFilter(pair))
+        displayPair(pair);
+}
+
+void MarketTable::displayPair(std::shared_ptr <Pair> pair) {
     QMap <QString, QString> data;
     data["symbol"] = pair->getSymbol();
     data["base"] = pair->getBaseSymbol();
@@ -44,6 +49,7 @@ void MarketTable::addPair(std::shared_ptr <Pair> pair) {
 
     QModelIndex index = tableModel->index(
             tableModel->rowCount() - 1, 0, QModelIndex());
+
     tableModel->setData(index, variantData, Qt::DisplayRole);
 }
 
@@ -85,5 +91,29 @@ void MarketTable::updatePairPriceChange(Price price) {
                 break;
             }
         }
+    }
+}
+
+bool MarketTable::pairMatchesFilter(std::shared_ptr <Pair> pair) {
+    if(filter.isEmpty())
+        return true;
+
+    if(pair->getSymbol().toLower().startsWith(filter))
+        return true;
+    return false;
+}
+
+void MarketTable::setFilter(QString text) {
+    this->filter = text.toLower();
+    tableModel->removeRows(0, tableModel->rowCount());
+
+    auto iterator = pairContainer.createIterator();
+    while(iterator.hasNext()) {
+        std::shared_ptr <Pair> pair = iterator.next();
+        if(pair == nullptr)
+            continue;
+
+        if(pairMatchesFilter(pair))
+            displayPair(pair);
     }
 }
