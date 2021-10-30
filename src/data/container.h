@@ -17,13 +17,21 @@ public:
     }
 
     std::shared_ptr <T> getById(QString id) {
-        std::shared_ptr <APIItem> item = itemsById[id];
-        return std::static_pointer_cast <T>(item);
+        bool exists = itemsById.contains(id);
+        if(exists) {
+            std::shared_ptr <APIItem> item = itemsById[id];
+            return std::static_pointer_cast <T>(item);
+        }
+        return nullptr;
     }
 
     std::shared_ptr <T> getBySymbol(QString symbol) {
-        std::shared_ptr <APIItem> item = itemsBySymbol[symbol];
-        return std::static_pointer_cast <T>(item);
+        bool exists = itemsBySymbol.contains(symbol);
+        if(exists){
+            std::shared_ptr <APIItem> item = itemsBySymbol[symbol];
+            return std::static_pointer_cast <T>(item);
+        }
+        return nullptr;
     }
 
     void removeById(QString id) {

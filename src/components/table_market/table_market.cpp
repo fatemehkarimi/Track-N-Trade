@@ -110,8 +110,8 @@ void MarketTable::setFilter(QString text) {
     auto iterator = pairContainer.createIterator();
     while(iterator.hasNext()) {
         std::shared_ptr <Pair> pair = iterator.next();
-        if(pair == nullptr)
-            continue;
+        // if(pair == nullptr)
+            // continue;
 
         if(pairMatchesFilter(pair))
             displayPair(pair);
