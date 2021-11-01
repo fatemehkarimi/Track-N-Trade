@@ -28,6 +28,7 @@ private:
     QString filter;
     QStandardItemModel* tableModel;
     Container <Pair> pairContainer;
+    QMap <QString, Price> priceContainer;
     void displayPair(std::shared_ptr <Pair> pair);
     bool pairMatchesFilter(std::shared_ptr <Pair> pair);
 };

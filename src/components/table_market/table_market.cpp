@@ -57,13 +57,15 @@ void MarketTable::updatePairPrice(Price price) {
     QString pairSymbol = price.getPairSymbol();
     std::shared_ptr <Pair> pair = pairContainer.getBySymbol(pairSymbol);
     if(pair != nullptr) {
+        priceContainer[pairSymbol] = price;
         QVariant variantData;
         variantData.setValue(price);
 
         // TODO: Optimize loop
         for(int i = 0; i < tableModel->rowCount(); ++i) {
             QModelIndex symbol_index = tableModel->index(i, 0, QModelIndex());
-            QMap <QString, QString> delegate_data = symbol_index.data().value <QMap <QString, QString> >();
+            QMap <QString, QString> delegate_data = 
+                symbol_index.data().value <QMap <QString, QString> >();
 
             if(delegate_data["symbol"] == pairSymbol) {
                 QModelIndex price_index = tableModel->index(i, 1, QModelIndex());
@@ -78,12 +80,14 @@ void MarketTable::updatePairPriceChange(Price price) {
     QString pairSymbol = price.getPairSymbol();
     std::shared_ptr <Pair> pair = pairContainer.getBySymbol(pairSymbol);
     if(pair != nullptr) {
+        priceContainer[pairSymbol] = price;
         QVariant variantData;
         variantData.setValue(price);
 
         for(int i = 0; i < tableModel->rowCount(); ++i) {
             QModelIndex symbol_index = tableModel->index(i, 0, QModelIndex());
-            QMap <QString, QString> delegate_data = symbol_index.data().value <QMap <QString, QString> > ();
+            QMap <QString, QString> delegate_data = 
+                symbol_index.data().value <QMap <QString, QString> > ();
 
             if(delegate_data["symbol"] == pairSymbol) {
                 QModelIndex change_index = tableModel->index(i, 2, QModelIndex());
@@ -110,10 +114,13 @@ void MarketTable::setFilter(QString text) {
     auto iterator = pairContainer.createIterator();
     while(iterator.hasNext()) {
         std::shared_ptr <Pair> pair = iterator.next();
-        // if(pair == nullptr)
-            // continue;
 
-        if(pairMatchesFilter(pair))
+        if(pairMatchesFilter(pair)) {
             displayPair(pair);
+            if(priceContainer.contains(pair->getSymbol())) {
+                updatePairPrice(priceContainer[pair->getSymbol()]);
+                updatePairPriceChange(priceContainer[pair->getSymbol()]);
+            }
+        }
     }
 }
