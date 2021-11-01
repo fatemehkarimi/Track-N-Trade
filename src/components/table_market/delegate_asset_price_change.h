@@ -2,6 +2,8 @@
 #define DELEGATE_ASSET_PRICE_CHANGE_H
 
 #include <QtWidgets>
+#include <settings/settings_app.h>
+#include <settings/settings_font.h>
 #include <data/price.h>
 
 class AssetPriceChangeDelegate : public QItemDelegate

@@ -12,6 +12,9 @@ void AssetPriceChangeDelegate::paint( QPainter *painter,
 
     change_reper += (QString::number(percentage) + "%");
 
+    Settings::Font& fontSettings = Settings::App::getInstance()->getFontSettings();
+    QFont font = fontSettings.getMarketTablePriceChangeFont();
+    painter->setFont(font);
     QFontMetrics font_metrics(painter->font());
 
     QRect rect = option.rect;

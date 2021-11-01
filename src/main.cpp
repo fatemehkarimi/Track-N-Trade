@@ -8,7 +8,7 @@
 int main(int argc, char* argv[]) {
     QApplication app(argc, argv);
 
-    Settings::App appSettings;
+    Settings::App* appSettings = Settings::App::getInstance();
 
     // loading stylesheet file
     QFile stylesheet(":/stylesheets/lightTheme");
@@ -19,7 +19,7 @@ int main(int argc, char* argv[]) {
     //TODO: use a factory to create cryptowatch api
     CryptowatchRoutes routes;
     CryptowatchParser parser;
-    CryptoAPIManager cryptowatchAPI(&appSettings, &routes, &parser);
+    CryptoAPIManager cryptowatchAPI(appSettings, &routes, &parser);
     
     DashboardController controller(&cryptowatchAPI);
     return app.exec();

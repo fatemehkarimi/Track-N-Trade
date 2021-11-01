@@ -2,6 +2,8 @@
 #define DELEGATE_ASSET_TITLE_H
 
 #include <QtWidgets>
+#include <settings/settings_app.h>
+#include <settings/settings_font.h>
 
 class AssetTitleDelegate : public QItemDelegate
 {

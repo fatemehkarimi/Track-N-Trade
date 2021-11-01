@@ -7,6 +7,9 @@ void AssetTitleDelegate::paint( QPainter *painter,
     QString base = data["base"].toUpper();
     QString quote = data["quote"].toUpper();
 
+    Settings::Font& fontSettings = Settings::App::getInstance()->getFontSettings();
+    QFont font = fontSettings.getMarketTablePairFont();
+    painter->setFont(font);
     QFontMetrics font_metrics(painter->font());
 
     QRect rect = option.rect;

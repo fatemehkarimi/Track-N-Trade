@@ -9,11 +9,14 @@ void AssetPriceDelegate::paint( QPainter *painter,
     if(price.getLatestPrice() > 0)
         latestP = QString::number(price.getLatestPrice());
 
-    QFontMetrics font_metrics(painter->font());
-
+    Settings::Font& fontSettings = Settings::App::getInstance()->getFontSettings();
+    QFont font = fontSettings.getMarketTablePriceFont();
+    painter->setFont(font);
+    
+    QFontMetrics fontMetrics(painter->font());
     QRect rect = option.rect;
     rect.setX(rect.x() + 5);
-    rect.setY(rect.y() + font_metrics.height() / 2);
+    rect.setY(rect.y() + fontMetrics.height() / 2);
 
     QColor green = QColor(70, 203, 130);
     QColor red = QColor(217, 61, 74);
