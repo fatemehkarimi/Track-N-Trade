@@ -19,7 +19,7 @@ public:
     QFont getMarketTablePriceChangeFont();
 
 private:
-    int normalFontSize = 12;
+    int normalFontSize = 14;
 };
 }
 

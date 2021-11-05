@@ -10,17 +10,18 @@ void AssetTitleDelegate::paint( QPainter *painter,
     Settings::Font& fontSettings = Settings::App::getInstance()->getFontSettings();
     QFont font = fontSettings.getMarketTablePairFont();
     painter->setFont(font);
-    QFontMetrics font_metrics(painter->font());
+    QFontMetrics fontMetrics(painter->font());
+    QRect boundingRect = fontMetrics.boundingRect(base + "/" + quote);
 
     QRect rect = option.rect;
     rect.setX(5);
-    rect.setY(rect.y() + font_metrics.height() / 2);
+    rect.setY(rect.y() + (rect.height() - boundingRect.height()) / 2);
 
     painter->setPen(Qt::black);
     painter->drawText(rect, Qt::AlignLeft, base);
 
     QColor gray = QColor(103, 106, 110);
     painter->setPen(gray);
-    rect.setX(rect.x() + font_metrics.width(base));
+    rect.setX(rect.x() + fontMetrics.width(base));
     painter->drawText(rect, Qt::AlignLeft, "/" + quote);
 }

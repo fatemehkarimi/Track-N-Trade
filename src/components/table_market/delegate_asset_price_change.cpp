@@ -6,20 +6,21 @@ void AssetPriceChangeDelegate::paint( QPainter *painter,
 {
     Price price = index.data().value <Price>();
     double percentage = std::ceil(price.getChangePercentage() * 10000) / 100.0;
-    QString change_reper = "";
+    QString changeReper = "";
     if(percentage > 0)
-        change_reper = "+";
+        changeReper = "+";
 
-    change_reper += (QString::number(percentage) + "%");
+    changeReper += (QString::number(percentage) + "%");
 
     Settings::Font& fontSettings = Settings::App::getInstance()->getFontSettings();
     QFont font = fontSettings.getMarketTablePriceChangeFont();
     painter->setFont(font);
-    QFontMetrics font_metrics(painter->font());
+    QFontMetrics fontMetrics(painter->font());
+    QRect boundingRect = fontMetrics.boundingRect(changeReper);
 
     QRect rect = option.rect;
     rect.setX(rect.x() + 5);
-    rect.setY(rect.y() + font_metrics.height() / 2);
+    rect.setY(rect.y() + (rect.height() - boundingRect.height()) / 2);
 
     QColor green = QColor(70, 203, 130);
     QColor red = QColor(217, 61, 74);
@@ -29,5 +30,5 @@ void AssetPriceChangeDelegate::paint( QPainter *painter,
     else
         painter->setPen(red);
 
-    painter->drawText(rect, Qt::AlignLeft, change_reper);
+    painter->drawText(rect, Qt::AlignLeft, changeReper);
 }

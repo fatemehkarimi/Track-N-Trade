@@ -14,9 +14,10 @@ void AssetPriceDelegate::paint( QPainter *painter,
     painter->setFont(font);
     
     QFontMetrics fontMetrics(painter->font());
+    QRect boundingRect = fontMetrics.boundingRect(latestP);
     QRect rect = option.rect;
     rect.setX(rect.x() + 5);
-    rect.setY(rect.y() + fontMetrics.height() / 2);
+    rect.setY(rect.y() + (rect.height() - boundingRect.height()) / 2);
 
     QColor green = QColor(70, 203, 130);
     QColor red = QColor(217, 61, 74);

@@ -7,7 +7,7 @@ Settings::Font::Font() {
 }
 
 QFont Settings::Font::getMarketTablePairFont() {
-    return QFont(RALEWAY, normalFontSize, QFont::Normal);
+    return QFont(OPENSANSCONDENSED, normalFontSize, QFont::Normal);
 }
 
 QFont Settings::Font::getMarketTablePriceFont() {

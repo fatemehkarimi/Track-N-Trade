@@ -17,11 +17,32 @@ MarketTable::MarketTable(QString object_name) {
     this->setItemDelegateForColumn(2, new AssetPriceChangeDelegate(this));
 
     QStringList headers = {"Pair", "Price", "24h Changes"};
-    QHeaderView* header = this->horizontalHeader();
-    header->setSectionResizeMode(QHeaderView::Stretch);
-    header->setDefaultAlignment(Qt::AlignLeft);
-    
+    QHeaderView* horizontalHeader = this->horizontalHeader();
+    horizontalHeader->setSectionResizeMode(QHeaderView::Stretch);
+    horizontalHeader->setDefaultAlignment(Qt::AlignLeft);
     tableModel->setHorizontalHeaderLabels(headers);
+
+    QHeaderView* verticalHeader = this->verticalHeader();
+    verticalHeader->setDefaultSectionSize(std::max(getRowHeight(), getMinRowHeight()));
+}
+
+int MarketTable::getRowHeight() {
+    Settings::Font& fontSettings = Settings::App::getInstance()->getFontSettings();
+    QFont titleFont = fontSettings.getMarketTablePairFont();
+    QFont priceFont = fontSettings.getMarketTablePriceFont();
+    QFont priceChangeFont = fontSettings.getMarketTablePriceChangeFont();
+
+    QFontMetrics titleFontMetrics(titleFont);
+    QFontMetrics priceFontMetrics(priceFont);
+    QFontMetrics priceChangeFontMetrics(priceChangeFont);
+
+    return std::max(std::max(titleFontMetrics.height(),
+                    priceFontMetrics.height()),
+                    priceChangeFontMetrics.height()) + 10;
+}
+
+int MarketTable::getMinRowHeight() {
+    return 25;
 }
 
 void MarketTable::clear() {

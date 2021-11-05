@@ -7,6 +7,7 @@
 #include <data/pair.h>
 #include <data/price.h>
 #include <data/container.h>
+#include <settings/settings_app.h>
 
 class MarketTable : public QTableView
 {
@@ -17,6 +18,8 @@ public:
     void addPair(std::shared_ptr <Pair> pair);
     void updatePairPrice(Price price);
     void updatePairPriceChange(Price price);
+    int getRowHeight();
+    int getMinRowHeight();
 
 public slots:
     void setFilter(QString text);
