@@ -4,7 +4,7 @@
 DashboardController::DashboardController(APIManager* refAPI)
     :refAPI(refAPI)
 {
-    refAPI->registerPriceObserver(this);
+    // refAPI->registerPriceObserver(this);
 
     Settings::Window* windowSettings = new Settings::Window(0.8, 0.8);
     view = new MainWindow(windowSettings, this, refAPI);
@@ -14,8 +14,13 @@ DashboardController::DashboardController(APIManager* refAPI)
 }
 
 void DashboardController::setExchange(QString exchangeSymbol) {
+    if(selectedExchange != nullptr)
+        selectedExchange->deactivatePriceTracker();
+
     selectedExchange = refAPI->getExchangeBySymbol(exchangeSymbol);
     selectedExchange->getPairList();
+    selectedExchange->activatePriceTracker();
+    selectedExchange->registerPriceObserver(this);
 
     auto conn = std::make_shared <QMetaObject::Connection>();
     *conn = QObject::connect(selectedExchange.get(),

@@ -13,6 +13,12 @@ Exchange::Exchange(Routes* apiRoutes, APIManager* refAPI, JsonParser* jsonParser
     networkManager = NetworkManager::getInstance();
     QObject::connect(networkManager, &NetworkManager::jsonReady,
                     this, &Exchange::parseJson);
+
+    priceTracker = new PriceTracker(routes, parser, QTime(0, 0, 20));//////TODO: fix constant time
+    QObject::connect(priceTracker, &PriceTracker::pricesUpdated,
+                    this, &Exchange::handlePriceUpdates);
+    QObject::connect(priceTracker, &PriceTracker::priceChangesUpdated,
+                    this, &Exchange::handlePriceChangesUpdates);
 }
 
 QString Exchange::getId() {
@@ -53,4 +59,31 @@ std::shared_ptr <Pair> Exchange::getPair(QString symbol) {
 
 void Exchange::getPairList() {
     networkManager->fetchJson(routes->getExchangePairsPath(symbol));
+}
+
+void Exchange::activatePriceTracker() {
+    if(priceTracker->getState() == PriceTracker::RUNNING)
+        return;
+    priceTracker->run();
+}
+
+void Exchange::deactivatePriceTracker() {
+    if(priceTracker->getState() == PriceTracker::STOPPED)
+        return;
+    priceTracker->stop();
+    priceObservers.clear();
+}
+
+void Exchange::registerPriceObserver(PriceObserver* observer) {
+    this->priceObservers.append(observer);
+}
+
+void Exchange::handlePriceUpdates(QMap <QString, QMap <QString, Price> > prices) {
+    for(auto observer : priceObservers)
+        observer->getPriceUpdates(prices);
+}
+
+void Exchange::handlePriceChangesUpdates(QMap <QString, QMap <QString, Price> > prices) {
+    for(auto observer : priceObservers)
+        observer->getPriceChangesUpdates(prices);
 }

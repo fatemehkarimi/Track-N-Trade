@@ -19,7 +19,7 @@ int main(int argc, char* argv[]) {
     //TODO: use a factory to create cryptowatch api
     CryptowatchRoutes routes;
     CryptowatchParser parser;
-    CryptoAPIManager cryptowatchAPI(appSettings, &routes, &parser);
+    CryptoAPIManager cryptowatchAPI(&routes, &parser);
     
     DashboardController controller(&cryptowatchAPI);
     return app.exec();

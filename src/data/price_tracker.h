@@ -11,15 +11,15 @@ class PriceTracker : public QObject
 {
     Q_OBJECT
 public:
-    PriceTracker(Routes* apiRoutes, JsonParser* jsonParser, QTime watchPeriod);
-    ~PriceTracker();
-    void stop();
-    void run();
-
     enum STATE {
         STOPPED,
         RUNNING
     };
+
+    PriceTracker(Routes* apiRoutes, JsonParser* jsonParser, QTime watchPeriod);
+    void stop();
+    void run();
+    STATE getState();
 
 private slots:
     void parseJson(QString url, QJsonObject json);
@@ -34,7 +34,7 @@ signals:
 private:
     Routes* routes;
     JsonParser* parser;
-    STATE state = STATE::RUNNING;
+    STATE state = STATE::STOPPED;
     QTimer timer;
     int watchPeriod; //watch period in msecs
     NetworkManager* networkManager;

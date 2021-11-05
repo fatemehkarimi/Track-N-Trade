@@ -2,21 +2,18 @@
 #include <QtConcurrent>
 #include "api_manager_cryptowatch.h"
 
-CryptoAPIManager::CryptoAPIManager(Settings::App* appSettings,
-        Routes* api_routes, JsonParser* json_parser)
-    : appSettings(appSettings) {
+CryptoAPIManager::CryptoAPIManager(Routes* api_routes, JsonParser* json_parser) {
     routes = api_routes;
     parser = json_parser;
 
-    priceTracker = new PriceTracker(routes, parser, appSettings->getPriceRefreshRate());
+    // priceTracker = new PriceTracker(routes, parser, appSettings->getPriceRefreshRate());
     networkManager = NetworkManager::getInstance();
-
     QObject::connect(networkManager, &NetworkManager::jsonReady,
                     this, &CryptoAPIManager::parseJson);
-    QObject::connect(priceTracker, &PriceTracker::pricesUpdated,
-                    this, &CryptoAPIManager::handlePriceUpdates);
-    QObject::connect(priceTracker, &PriceTracker::priceChangesUpdated,
-                    this, &CryptoAPIManager::handlePriceChangesUpdates);
+    // QObject::connect(priceTracker, &PriceTracker::pricesUpdated,
+    //                 this, &CryptoAPIManager::handlePriceUpdates);
+    // QObject::connect(priceTracker, &PriceTracker::priceChangesUpdated,
+    //                 this, &CryptoAPIManager::handlePriceChangesUpdates);
 
     auto conn = std::make_shared <QMetaObject::Connection>();
     *conn = QObject::connect(this, &CryptoAPIManager::assetListReady,
@@ -117,18 +114,18 @@ void CryptoAPIManager::addExchange(QString id, QString name, QString symbol) {
     exchangeContainer.add(exchange);
 }
 
-void CryptoAPIManager::registerPriceObserver(PriceObserver* observer) {
-    this->priceObservers.append(observer);
-}
+// void CryptoAPIManager::registerPriceObserver(PriceObserver* observer) {
+//     this->priceObservers.append(observer);
+// }
 
-void CryptoAPIManager::handlePriceUpdates(
-        QMap <QString, QMap <QString, Price> > prices) {
-    for(auto observer : priceObservers)
-        observer->getPriceUpdates(prices);
-}
+// void CryptoAPIManager::handlePriceUpdates(
+//         QMap <QString, QMap <QString, Price> > prices) {
+//     for(auto observer : priceObservers)
+//         observer->getPriceUpdates(prices);
+// }
 
-void CryptoAPIManager::handlePriceChangesUpdates(
-        QMap <QString, QMap <QString, Price> > prices) {
-    for(auto observer : priceObservers)
-        observer->getPriceChangesUpdates(prices);
-}
+// void CryptoAPIManager::handlePriceChangesUpdates(
+//         QMap <QString, QMap <QString, Price> > prices) {
+//     for(auto observer : priceObservers)
+//         observer->getPriceChangesUpdates(prices);
+// }

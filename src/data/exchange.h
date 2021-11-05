@@ -7,6 +7,8 @@
 #include "api_item.h"
 #include "container.h"
 #include "parser_json.h"
+#include "price_tracker.h"
+#include "observer_price.h"
 #include <network/network_manager.h>
 
 class APIManager;
@@ -23,6 +25,9 @@ public:
     QString getName();
     void getPairList();
     std::shared_ptr <Pair> getPair(QString symbol);
+    void activatePriceTracker();
+    void deactivatePriceTracker();
+    void registerPriceObserver(PriceObserver* observer);
     
 private slots:
     void parseJson(QString url, QJsonObject json);
@@ -37,9 +42,13 @@ private:
     Routes* routes;
     JsonParser* parser;
     APIManager* refAPI;
+    PriceTracker* priceTracker;
     Container <Pair> pairContainer;
-
     NetworkManager* networkManager;
+    QList <PriceObserver*> priceObservers;
+
+    void handlePriceUpdates(QMap <QString, QMap <QString, Price> > prices);
+    void handlePriceChangesUpdates(QMap <QString, QMap <QString, Price> > prices);
 };
 
 #endif

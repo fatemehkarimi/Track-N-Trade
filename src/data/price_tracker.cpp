@@ -12,17 +12,14 @@ PriceTracker::PriceTracker(Routes* apiRoutes, JsonParser* jsonParser,
     QObject::connect(this->networkManager, &NetworkManager::jsonReady,
         this, &PriceTracker::parseJson);
     QObject::connect(&timer, &QTimer::timeout, this, &PriceTracker::fetchItems);
-    fetchItems();
 }
 
-PriceTracker::~PriceTracker() {
-    delete this->networkManager;
-}
 void PriceTracker::fetchItems() {
     if(state == STATE::RUNNING) {
         fetchPrices();
         fetchChanges();
         timer.start(watchPeriod);
+        qDebug() << "fetching items....";
     }
 }
 
@@ -33,7 +30,11 @@ void PriceTracker::stop() {
 
 void PriceTracker::run() {
     state = STATE::RUNNING;
-    fetchPrices();
+    fetchItems();
+}
+
+PriceTracker::STATE PriceTracker::getState() {
+    return state;
 }
 
 void PriceTracker::fetchPrices() {
@@ -52,6 +53,9 @@ void PriceTracker::parseJson(QString url, QJsonObject json) {
             QFuture < QMap <QString, QMap <QString, double> > > future = 
                 QtConcurrent::run(parser, &JsonParser::parseAllPairPrices, json);
 
+            if(state != STATE::RUNNING)
+                return;
+
             QMap <QString, QMap <QString, double> > result = future.result();
             foreach(const QString& exchange, result.keys())
                 foreach(const QString& pair, result[exchange].keys()) {
@@ -68,12 +72,15 @@ void PriceTracker::parseJson(QString url, QJsonObject json) {
             QFuture < QMap <QString, QMap <QString, double> > > future = 
                 QtConcurrent::run(parser, &JsonParser::parseAllPriceChanges, json);
 
-                QMap <QString, QMap <QString, double> > result = future.result();
-                foreach(const QString& exchange, result.keys())
-                    foreach(const QString& pair, result[exchange].keys()) {
-                        if(prices.contains(exchange) && prices[exchange].contains(pair))
-                            prices[exchange].find(pair)->setChangePercentage(result[exchange][pair]);
-                    }
+            if(state != STATE::RUNNING)
+                return;
+
+            QMap <QString, QMap <QString, double> > result = future.result();
+            foreach(const QString& exchange, result.keys())
+                foreach(const QString& pair, result[exchange].keys()) {
+                    if(prices.contains(exchange) && prices[exchange].contains(pair))
+                        prices[exchange].find(pair)->setChangePercentage(result[exchange][pair]);
+                }
             emit priceChangesUpdated(prices);
         }
     }
