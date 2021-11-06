@@ -1,6 +1,7 @@
 #include <QtConcurrent>
 #include "exchange.h"
 #include "api_manager.h"
+#include <settings/settings_app.h>
 
 Exchange::Exchange(Routes* apiRoutes, APIManager* refAPI, JsonParser* jsonParser,
         QString id, QString exchangeName, QString exchangeSymbol)
@@ -14,7 +15,8 @@ Exchange::Exchange(Routes* apiRoutes, APIManager* refAPI, JsonParser* jsonParser
     QObject::connect(networkManager, &NetworkManager::jsonReady,
                     this, &Exchange::parseJson);
 
-    priceTracker = new PriceTracker(routes, parser, QTime(0, 0, 20));//////TODO: fix constant time
+    priceTracker = new PriceTracker(routes, parser,
+                    Settings::App::getInstance()->getPriceRefreshRate());
     QObject::connect(priceTracker, &PriceTracker::pricesUpdated,
                     this, &Exchange::handlePriceUpdates);
     QObject::connect(priceTracker, &PriceTracker::priceChangesUpdated,

@@ -6,14 +6,9 @@ CryptoAPIManager::CryptoAPIManager(Routes* api_routes, JsonParser* json_parser) 
     routes = api_routes;
     parser = json_parser;
 
-    // priceTracker = new PriceTracker(routes, parser, appSettings->getPriceRefreshRate());
     networkManager = NetworkManager::getInstance();
     QObject::connect(networkManager, &NetworkManager::jsonReady,
                     this, &CryptoAPIManager::parseJson);
-    // QObject::connect(priceTracker, &PriceTracker::pricesUpdated,
-    //                 this, &CryptoAPIManager::handlePriceUpdates);
-    // QObject::connect(priceTracker, &PriceTracker::priceChangesUpdated,
-    //                 this, &CryptoAPIManager::handlePriceChangesUpdates);
 
     auto conn = std::make_shared <QMetaObject::Connection>();
     *conn = QObject::connect(this, &CryptoAPIManager::assetListReady,
@@ -113,19 +108,3 @@ void CryptoAPIManager::addExchange(QString id, QString name, QString symbol) {
     std::shared_ptr <Exchange> exchange(new Exchange(routes, this, parser, id, name, symbol));
     exchangeContainer.add(exchange);
 }
-
-// void CryptoAPIManager::registerPriceObserver(PriceObserver* observer) {
-//     this->priceObservers.append(observer);
-// }
-
-// void CryptoAPIManager::handlePriceUpdates(
-//         QMap <QString, QMap <QString, Price> > prices) {
-//     for(auto observer : priceObservers)
-//         observer->getPriceUpdates(prices);
-// }
-
-// void CryptoAPIManager::handlePriceChangesUpdates(
-//         QMap <QString, QMap <QString, Price> > prices) {
-//     for(auto observer : priceObservers)
-//         observer->getPriceChangesUpdates(prices);
-// }

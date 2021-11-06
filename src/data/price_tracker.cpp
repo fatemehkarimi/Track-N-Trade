@@ -19,7 +19,6 @@ void PriceTracker::fetchItems() {
         fetchPrices();
         fetchChanges();
         timer.start(watchPeriod);
-        qDebug() << "fetching items....";
     }
 }
 
