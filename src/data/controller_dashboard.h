@@ -22,8 +22,8 @@ public:
 
 private slots:
     void exchangeFetched(std::shared_ptr <Exchange> exchange);
-    void getPriceUpdates(QMap <QString, Price> prices) override;
-    void getPriceChangesUpdates(QMap <QString, Price> prices) override;
+    void notifyPriceUpdates() override;
+    void notifyPriceChangeUpdates() override;
 
 signals:
     void selectedExchangeChanged();

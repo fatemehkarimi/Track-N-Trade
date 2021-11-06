@@ -48,7 +48,7 @@ void DashboardController::getAssetList() {
     
 }
 
-void DashboardController::getPriceUpdates(QMap <QString, Price> prices) {
+void DashboardController::notifyPriceUpdates() {
     this->setPricesToTable();
 }
 
@@ -60,7 +60,7 @@ void DashboardController::setPricesToTable() {
         marketTable->updatePairPrice(*prices.find(key));
 }
 
-void DashboardController::getPriceChangesUpdates(QMap <QString, Price> prices) {
+void DashboardController::notifyPriceChangeUpdates() {
     this->setPriceChangesToTable();
 }
 

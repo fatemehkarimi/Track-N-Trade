@@ -86,10 +86,10 @@ void Exchange::registerPriceObserver(PriceObserver* observer) {
 
 void Exchange::handlePriceUpdates(QMap <QString, Price> prices) {
     for(auto observer : priceObservers)
-        observer->getPriceUpdates(prices);
+        observer->notifyPriceUpdates();
 }
 
 void Exchange::handlePriceChangesUpdates(QMap <QString, Price> prices) {
     for(auto observer : priceObservers)
-        observer->getPriceChangesUpdates(prices);
+        observer->notifyPriceChangeUpdates();
 }

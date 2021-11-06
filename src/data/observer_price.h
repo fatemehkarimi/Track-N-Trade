@@ -6,8 +6,8 @@
 class PriceObserver
 {
 public:
-    virtual void getPriceUpdates(QMap <QString, Price> prices) = 0;
-    virtual void getPriceChangesUpdates(QMap <QString, Price> prices) = 0;
+    virtual void notifyPriceUpdates() = 0;
+    virtual void notifyPriceChangeUpdates() = 0;
 };
 
 #endif
