@@ -49,28 +49,25 @@ void DashboardController::getAssetList() {
 }
 
 void DashboardController::getPriceUpdates(QMap <QString, Price> prices) {
-    if(selectedExchange == nullptr)
-        return;
-    lastFetchedPrices[selectedExchange->getSymbol()] = prices;
     this->setPricesToTable();
 }
 
 void DashboardController::setPricesToTable() {
-    QMap <QString, Price> prices = lastFetchedPrices[selectedExchange->getSymbol()];
-
+    if(selectedExchange == nullptr)
+        return;
+    QMap <QString, Price> prices = selectedExchange->getPrices();
     foreach(const QString& key, prices.keys())
         marketTable->updatePairPrice(*prices.find(key));
 }
 
 void DashboardController::getPriceChangesUpdates(QMap <QString, Price> prices) {
-    if(selectedExchange == nullptr)
-        return;
-    lastFetchedPrices[selectedExchange->getSymbol()] = prices;
     this->setPriceChangesToTable();
 }
 
 void DashboardController::setPriceChangesToTable() {
-    QMap <QString, Price> prices = lastFetchedPrices[selectedExchange->getSymbol()];
+    if(selectedExchange == nullptr)
+        return;
+    QMap <QString, Price> prices = selectedExchange->getPrices();
     foreach(const QString& key, prices.keys())
         marketTable->updatePairPriceChange(*prices.find(key));
 }

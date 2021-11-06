@@ -33,7 +33,6 @@ private:
     APIManager* refAPI;
     MainWindow* view;
     MarketTable* marketTable;
-    QMap <QString, QMap <QString, Price> > lastFetchedPrices;
 };
 
 #endif

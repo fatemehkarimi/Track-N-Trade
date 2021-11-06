@@ -35,6 +35,10 @@ QString Exchange::getSymbol() {
     return symbol;
 }
 
+QMap <QString, Price> Exchange::getPrices() {
+    return priceTracker->getPrices();
+}
+
 void Exchange::parseJson(QString url, QJsonObject json) {
     if(url == routes->getExchangePairsPath(symbol)){
         pairContainer.clearAll();

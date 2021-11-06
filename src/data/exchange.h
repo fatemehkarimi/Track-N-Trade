@@ -24,6 +24,7 @@ public:
     QString getSymbol() override;
     QString getName();
     void getPairList();
+    QMap <QString, Price> getPrices();
     std::shared_ptr <Pair> getPair(QString symbol);
     void activatePriceTracker();
     void deactivatePriceTracker();
