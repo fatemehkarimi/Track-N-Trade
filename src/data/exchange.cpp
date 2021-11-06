@@ -15,7 +15,7 @@ Exchange::Exchange(Routes* apiRoutes, APIManager* refAPI, JsonParser* jsonParser
     QObject::connect(networkManager, &NetworkManager::jsonReady,
                     this, &Exchange::parseJson);
 
-    priceTracker = new PriceTracker(routes, parser,
+    priceTracker = new PriceTracker(routes, parser, this->symbol,
                     Settings::App::getInstance()->getPriceRefreshRate());
     QObject::connect(priceTracker, &PriceTracker::pricesUpdated,
                     this, &Exchange::handlePriceUpdates);
@@ -80,12 +80,12 @@ void Exchange::registerPriceObserver(PriceObserver* observer) {
     this->priceObservers.append(observer);
 }
 
-void Exchange::handlePriceUpdates(QMap <QString, QMap <QString, Price> > prices) {
+void Exchange::handlePriceUpdates(QMap <QString, Price> prices) {
     for(auto observer : priceObservers)
         observer->getPriceUpdates(prices);
 }
 
-void Exchange::handlePriceChangesUpdates(QMap <QString, QMap <QString, Price> > prices) {
+void Exchange::handlePriceChangesUpdates(QMap <QString, Price> prices) {
     for(auto observer : priceObservers)
         observer->getPriceChangesUpdates(prices);
 }

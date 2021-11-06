@@ -47,8 +47,8 @@ private:
     NetworkManager* networkManager;
     QList <PriceObserver*> priceObservers;
 
-    void handlePriceUpdates(QMap <QString, QMap <QString, Price> > prices);
-    void handlePriceChangesUpdates(QMap <QString, QMap <QString, Price> > prices);
+    void handlePriceUpdates(QMap <QString, Price> prices);
+    void handlePriceChangesUpdates(QMap <QString, Price> prices);
 };
 
 #endif

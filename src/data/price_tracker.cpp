@@ -3,9 +3,10 @@
 
 
 PriceTracker::PriceTracker(Routes* apiRoutes, JsonParser* jsonParser,
-    QTime watchPeriod) 
+    QString exchangeSymbol, QTime watchPeriod) 
     : routes(apiRoutes),
-      parser(jsonParser) {
+      parser(jsonParser),
+      exchangeSymbol(exchangeSymbol) {
     this->watchPeriod = QTime(0, 0, 0).msecsTo(watchPeriod);
 
     this->networkManager = NetworkManager::getInstance();
@@ -56,15 +57,15 @@ void PriceTracker::parseJson(QString url, QJsonObject json) {
                 return;
 
             QMap <QString, QMap <QString, double> > result = future.result();
-            foreach(const QString& exchange, result.keys())
-                foreach(const QString& pair, result[exchange].keys()) {
-                    if(prices.contains(exchange) && prices[exchange].contains(pair))
-                        prices[exchange].find(pair)->updatePrice(result[exchange][pair]);
+            if(result.contains(exchangeSymbol))  {
+                foreach(const QString& pair, result[exchangeSymbol].keys())
+                    if(prices.contains(pair))
+                        prices.find(pair)->updatePrice(result[exchangeSymbol][pair]);
                     else {
-                        Price price(exchange, pair, result[exchange][pair]);
-                        prices[exchange].insert(pair, price);
+                        Price price(exchangeSymbol, pair, result[exchangeSymbol][pair]);
+                        prices.insert(pair, price);
                     }
-                }
+            }
             emit pricesUpdated(prices);
         }
         else if(url == routes->getAll24hSummeries()) {
@@ -75,11 +76,10 @@ void PriceTracker::parseJson(QString url, QJsonObject json) {
                 return;
 
             QMap <QString, QMap <QString, double> > result = future.result();
-            foreach(const QString& exchange, result.keys())
-                foreach(const QString& pair, result[exchange].keys()) {
-                    if(prices.contains(exchange) && prices[exchange].contains(pair))
-                        prices[exchange].find(pair)->setChangePercentage(result[exchange][pair]);
-                }
+            foreach(const QString& pair, result[exchangeSymbol].keys()) {
+                if(prices.contains(pair))
+                    prices.find(pair)->setChangePercentage(result[exchangeSymbol][pair]);
+            }
             emit priceChangesUpdated(prices);
         }
     }

@@ -4,8 +4,6 @@
 DashboardController::DashboardController(APIManager* refAPI)
     :refAPI(refAPI)
 {
-    // refAPI->registerPriceObserver(this);
-
     Settings::Window* windowSettings = new Settings::Window(0.8, 0.8);
     view = new MainWindow(windowSettings, this, refAPI);
     marketTable = view->getMarketTable();
@@ -50,11 +48,10 @@ void DashboardController::getAssetList() {
     
 }
 
-void DashboardController::getPriceUpdates(
-        QMap <QString, QMap <QString, Price> > prices) {
-    lastFetchedPrices = prices;
+void DashboardController::getPriceUpdates(QMap <QString, Price> prices) {
     if(selectedExchange == nullptr)
         return;
+    lastFetchedPrices[selectedExchange->getSymbol()] = prices;
     this->setPricesToTable();
 }
 
@@ -65,11 +62,10 @@ void DashboardController::setPricesToTable() {
         marketTable->updatePairPrice(*prices.find(key));
 }
 
-void DashboardController::getPriceChangesUpdates(
-        QMap <QString, QMap <QString, Price> > prices) {
-    lastFetchedPrices = prices;
+void DashboardController::getPriceChangesUpdates(QMap <QString, Price> prices) {
     if(selectedExchange == nullptr)
         return;
+    lastFetchedPrices[selectedExchange->getSymbol()] = prices;
     this->setPriceChangesToTable();
 }
 

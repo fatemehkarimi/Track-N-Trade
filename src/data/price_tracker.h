@@ -16,7 +16,8 @@ public:
         RUNNING
     };
 
-    PriceTracker(Routes* apiRoutes, JsonParser* jsonParser, QTime watchPeriod);
+    PriceTracker(Routes* apiRoutes, JsonParser* jsonParser,
+        QString exchangeSymbol, QTime watchPeriod);
     void stop();
     void run();
     STATE getState();
@@ -28,17 +29,18 @@ private slots:
     void fetchChanges();
 
 signals:
-    void pricesUpdated(QMap <QString, QMap <QString, Price> >);
-    void priceChangesUpdated(QMap <QString, QMap <QString, Price> >);
+    void pricesUpdated(QMap <QString, Price>);
+    void priceChangesUpdated(QMap <QString, Price>);
 
 private:
     Routes* routes;
     JsonParser* parser;
     STATE state = STATE::STOPPED;
+    QString exchangeSymbol;
     QTimer timer;
     int watchPeriod; //watch period in msecs
     NetworkManager* networkManager;
-    QMap <QString, QMap <QString, Price> > prices;
+    QMap <QString, Price> prices;
 };
 
 #endif
