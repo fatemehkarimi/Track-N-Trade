@@ -12,13 +12,13 @@ PriceTracker::PriceTracker(Routes* apiRoutes, JsonParser* jsonParser,
     this->networkManager = NetworkManager::getInstance();
     QObject::connect(this->networkManager, &NetworkManager::jsonReady,
         this, &PriceTracker::parseJson);
-    QObject::connect(&timer, &QTimer::timeout, this, &PriceTracker::fetchItems);
+    QObject::connect(&timer, &QTimer::timeout, this, &PriceTracker::getItemsAsync);
 }
 
-void PriceTracker::fetchItems() {
+void PriceTracker::getItemsAsync() {
     if(state == STATE::RUNNING) {
-        fetchPrices();
-        fetchChanges();
+        getPricesAsync();
+        getChangesAsync();
         timer.start(watchPeriod);
     }
 }
@@ -30,22 +30,27 @@ void PriceTracker::stop() {
 
 void PriceTracker::run() {
     state = STATE::RUNNING;
-    fetchItems();
+    getItemsAsync();
 }
 
 PriceTracker::STATE PriceTracker::getState() {
     return state;
 }
 
-void PriceTracker::fetchPrices() {
+QMap <QString, Price> PriceTracker::getPrices() {
+    return prices;
+}
+
+void PriceTracker::getPricesAsync() {
     if(state == STATE::RUNNING) 
         networkManager->fetchJson(routes->getAllPrices());
 }
 
-void PriceTracker::fetchChanges() {
+void PriceTracker::getChangesAsync() {
     if(state == STATE::RUNNING)
         networkManager->fetchJson(routes->getAll24hSummeries());
 }
+
 
 void PriceTracker::parseJson(QString url, QJsonObject json) {
     if(state == STATE::RUNNING) {

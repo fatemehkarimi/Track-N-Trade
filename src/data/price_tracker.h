@@ -21,12 +21,13 @@ public:
     void stop();
     void run();
     STATE getState();
+    QMap <QString, Price> getPrices();
 
 private slots:
     void parseJson(QString url, QJsonObject json);
-    void fetchItems();
-    void fetchPrices();
-    void fetchChanges();
+    void getItemsAsync();
+    void getPricesAsync();
+    void getChangesAsync();
 
 signals:
     void pricesUpdated(QMap <QString, Price>);
