@@ -8,8 +8,6 @@
 int main(int argc, char* argv[]) {
     QApplication app(argc, argv);
 
-    Settings::App* appSettings = Settings::App::getInstance();
-
     // loading stylesheet file
     QFile stylesheet(":/stylesheets/lightTheme");
     stylesheet.open(QFile::ReadOnly);
