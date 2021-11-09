@@ -32,7 +32,6 @@ private:
     std::shared_ptr <Exchange> selectedExchange;
     APIManager* refAPI;
     MainWindow* view;
-    MarketTable* marketTable;
 };
 
 #endif

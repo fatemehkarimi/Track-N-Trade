@@ -6,8 +6,6 @@ DashboardController::DashboardController(APIManager* refAPI)
 {
     Settings::Window* windowSettings = new Settings::Window(0.8, 0.8);
     view = new MainWindow(windowSettings, this, refAPI);
-    marketTable = view->getMarketTable();
-
     view->show();
 }
 
@@ -25,6 +23,7 @@ void DashboardController::setExchange(QString exchangeSymbol) {
             &Exchange::pairListReady, this, [=](Container <Pair> pairList){
             QObject::disconnect(*conn);
 
+            MarketTable* marketTable = view->getMarketTable();
             marketTable->clear();
             auto iterator = pairList.createIterator();
             while(iterator.hasNext()) {
@@ -55,6 +54,7 @@ void DashboardController::notifyPriceUpdates() {
 void DashboardController::setPricesToTable() {
     if(selectedExchange == nullptr)
         return;
+    MarketTable* marketTable = view->getMarketTable();
     QMap <QString, Price> prices = selectedExchange->getPrices();
     foreach(const QString& key, prices.keys())
         marketTable->updatePairPrice(*prices.find(key));
@@ -67,6 +67,7 @@ void DashboardController::notifyPriceChangeUpdates() {
 void DashboardController::setPriceChangesToTable() {
     if(selectedExchange == nullptr)
         return;
+    MarketTable* marketTable = view->getMarketTable();
     QMap <QString, Price> prices = selectedExchange->getPrices();
     foreach(const QString& key, prices.keys())
         marketTable->updatePairPriceChange(*prices.find(key));

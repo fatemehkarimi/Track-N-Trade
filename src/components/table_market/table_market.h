@@ -13,7 +13,7 @@ class MarketTable : public QTableView
 {
     Q_OBJECT
 public:
-    explicit MarketTable(QString object_name);
+    explicit MarketTable(QString objectName);
     void clear();
     void addPair(std::shared_ptr <Pair> pair);
     void updatePairPrice(Price price);

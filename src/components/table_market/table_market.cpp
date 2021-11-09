@@ -4,8 +4,8 @@
 #include "delegate_asset_price.h"
 #include "delegate_asset_price_change.h"
 
-MarketTable::MarketTable(QString object_name) {
-    setObjectName(object_name);
+MarketTable::MarketTable(QString objectName) {
+    setObjectName(objectName);
     this->setShowGrid(false);
     this->setSelectionBehavior(QAbstractItemView::SelectRows);
     this->verticalHeader()->hide();
