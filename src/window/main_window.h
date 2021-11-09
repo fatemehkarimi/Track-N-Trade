@@ -8,6 +8,7 @@
 #include <data/container.h>
 #include <settings/settings_window.h>
 #include <components/table_market/table_market.h>
+#include <components/table_price/table_price.h>
 #include <components/search_box/search_box.h>
 
 class MainWindow : public QObject
@@ -28,12 +29,15 @@ private slots:
 
 private:
     void fetchExchangeList();
+    void setUpExchangeMenu();
+    void setUpPriceTable(QString objectName);
 
     Controller* controller;
     APIManager* apiModel;
     QWidget* window;
     QComboBox* exchangeMenu;
     MarketTable* marketTable;
+    PriceTable* priceTable;
     Settings::Window* settings;
 };
 

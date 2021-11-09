@@ -21,14 +21,26 @@ void MainWindow::setUpWindow() {
     window->setObjectName("mainWindow");
     window->resize(settings->windowSize());
 
-    QHBoxLayout* main_layout = new QHBoxLayout(window);
-    exchangeMenu = new QComboBox();
-    main_layout->addWidget(exchangeMenu);
-    QObject::connect(exchangeMenu, QOverload<int>::of(&QComboBox::activated),
-        this, &MainWindow::exchangeChanged);
+    QHBoxLayout* mainLayout = new QHBoxLayout(window);
+    QVBoxLayout* pairInfoLayout = new QVBoxLayout();
+    mainLayout->addLayout(pairInfoLayout);
+
+    QVBoxLayout* priceLayout = new QVBoxLayout();
+    QVBoxLayout* chartLayout = new QVBoxLayout();
+
+    pairInfoLayout->addLayout(priceLayout);
+    pairInfoLayout->addLayout(chartLayout);
+
+    pairInfoLayout->setStretchFactor(priceLayout, 1);
+    pairInfoLayout->setStretchFactor(chartLayout, 5);
+
+    setUpExchangeMenu();
+    setUpPriceTable("priceTable");
+    priceLayout->addWidget(exchangeMenu);
+    priceLayout->addWidget(priceTable);
 
     QVBoxLayout* marketLayout = new QVBoxLayout();
-    main_layout->addLayout(marketLayout);
+    mainLayout->addLayout(marketLayout);
 
     SearchBox* searchBox = new SearchBox("searchBox");
     marketLayout->addWidget(searchBox);
@@ -43,10 +55,20 @@ void MainWindow::setUpWindow() {
     QObject::connect(searchBox, &SearchBox::textChanged,
         marketTable, &MarketTable::setFilter);
 
-    main_layout->setStretchFactor(exchangeMenu, 1);
-    main_layout->setStretchFactor(marketLayout, 1);
+    mainLayout->setStretchFactor(pairInfoLayout, 1);
+    mainLayout->setStretchFactor(marketLayout, 1);
 
     fetchExchangeList();
+}
+
+void MainWindow::setUpExchangeMenu() {
+    exchangeMenu = new QComboBox();
+    QObject::connect(exchangeMenu, QOverload<int>::of(&QComboBox::activated),
+        this, &MainWindow::exchangeChanged);
+}
+
+void MainWindow::setUpPriceTable(QString objectName) {
+    priceTable = new PriceTable(objectName);
 }
 
 void MainWindow::show() {
