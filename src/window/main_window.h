@@ -29,7 +29,7 @@ private slots:
 
 private:
     void fetchExchangeList();
-    void setUpExchangeMenu();
+    void setUpExchangeMenu(QString objectName);
     void setUpPriceTable(QString objectName);
 
     Controller* controller;

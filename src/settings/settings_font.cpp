@@ -17,3 +17,7 @@ QFont Settings::Font::getMarketTablePriceFont() {
 QFont Settings::Font::getMarketTablePriceChangeFont() {
     return QFont(ROBOTOCONDENSED, normalFontSize, QFont::Normal);
 }
+
+QFont Settings::Font::getExchangeMenuFont() {
+    return QFont(OPENSANSCONDENSED, normalFontSize, QFont::Normal);    
+}

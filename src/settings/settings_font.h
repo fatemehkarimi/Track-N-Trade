@@ -17,6 +17,7 @@ public:
     QFont getMarketTablePairFont();
     QFont getMarketTablePriceFont();
     QFont getMarketTablePriceChangeFont();
+    QFont getExchangeMenuFont();
 
 private:
     int normalFontSize = 14;

@@ -27,3 +27,22 @@ QTableView#marketTable QHeaderView {
 QTableView#marketTable {
     selection-background-color: #f0f1f2;
 }
+
+QTableView#priceTable {
+    background-color: transparent;
+    border: 1px solid #c4c4c4;
+}
+
+QComboBox#exchangeMenu {
+    padding: 2px 4px;
+    background-color: white;
+}
+
+QComboBox#exchangeMenu::item {
+    background-color: white;
+    color: black;
+}
+
+QComboBox#exchangeMenu::item:selected {
+    background-color: #f0f1f2;
+}

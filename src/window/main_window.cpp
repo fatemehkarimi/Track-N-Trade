@@ -2,6 +2,7 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QComboBox>
+#include <settings/settings_app.h>
 #include "main_window.h"
 
 MainWindow::MainWindow(Settings::Window* window_setting,
@@ -34,7 +35,7 @@ void MainWindow::setUpWindow() {
     pairInfoLayout->setStretchFactor(priceLayout, 1);
     pairInfoLayout->setStretchFactor(chartLayout, 5);
 
-    setUpExchangeMenu();
+    setUpExchangeMenu("exchangeMenu");
     setUpPriceTable("priceTable");
     priceLayout->addWidget(exchangeMenu);
     priceLayout->addWidget(priceTable);
@@ -61,8 +62,13 @@ void MainWindow::setUpWindow() {
     fetchExchangeList();
 }
 
-void MainWindow::setUpExchangeMenu() {
+void MainWindow::setUpExchangeMenu(QString objectName) {
     exchangeMenu = new QComboBox();
+    exchangeMenu->setObjectName(objectName);
+    Settings::Font& fontSettings = Settings::App::getInstance()->getFontSettings();
+    QFont font = fontSettings.getExchangeMenuFont();
+    exchangeMenu->setFont(font);
+    
     QObject::connect(exchangeMenu, QOverload<int>::of(&QComboBox::activated),
         this, &MainWindow::exchangeChanged);
 }
