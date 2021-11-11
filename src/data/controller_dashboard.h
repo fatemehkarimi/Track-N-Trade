@@ -3,6 +3,7 @@
 
 #include <window/main_window.h>
 #include <components/table_market/table_market.h>
+#include <components/table_price/table_price.h>
 #include "controller.h"
 #include "observer_price.h"
 #include "api_manager.h"
@@ -24,6 +25,7 @@ private slots:
     void exchangeFetched(std::shared_ptr <Exchange> exchange);
     void notifyPriceUpdates() override;
     void notifyPriceChangeUpdates() override;
+    void trackSinglePair(QString pairSymbol);
 
 signals:
     void selectedExchangeChanged();

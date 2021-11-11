@@ -7,6 +7,10 @@ DashboardController::DashboardController(APIManager* refAPI)
     Settings::Window* windowSettings = new Settings::Window(0.8, 0.8);
     view = new MainWindow(windowSettings, this, refAPI);
     view->show();
+
+    MarketTable* marketTable = view->getMarketTable();
+    QObject::connect(marketTable, &MarketTable::pairSelected,
+        this, &DashboardController::trackSinglePair);
 }
 
 void DashboardController::setExchange(QString exchangeSymbol) {
@@ -71,4 +75,14 @@ void DashboardController::setPriceChangesToTable() {
     QMap <QString, Price> prices = selectedExchange->getPrices();
     foreach(const QString& key, prices.keys())
         marketTable->updatePairPriceChange(*prices.find(key));
+}
+
+void DashboardController::trackSinglePair(QString pairSymbol) {
+    if(selectedExchange == nullptr)
+        return;
+
+    PriceTable* priceTable = view->getPriceTable();
+    std::shared_ptr <Pair> pair = selectedExchange->getPair(pairSymbol);
+    if(pair != nullptr)
+        priceTable->setPair(pair);
 }

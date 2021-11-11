@@ -159,5 +159,8 @@ void MarketTable::handleRowSelection(
         currentPair.data().value <QMap <QString, QString> > ();
     
     QString pairSymbol = delegateData["symbol"];
+    // when table is cleared it triggers the currentRowChanged signal
+    if(pairSymbol.isEmpty())
+        return;
     emit pairSelected(pairSymbol);
 }
