@@ -9,12 +9,17 @@ MarketTable::MarketTable(QString objectName) {
     this->setShowGrid(false);
     this->setSelectionBehavior(QAbstractItemView::SelectRows);
     this->verticalHeader()->hide();
+    this->setSelectionMode(QAbstractItemView::SingleSelection);
 
     tableModel = new QStandardItemModel(0, 3);
     this->setModel(tableModel);
     this->setItemDelegateForColumn(0, new AssetTitleDelegate(this));
     this->setItemDelegateForColumn(1, new AssetPriceDelegate(this));
     this->setItemDelegateForColumn(2, new AssetPriceChangeDelegate(this));
+
+    QItemSelectionModel* selectedRow = this->selectionModel();
+    QObject::connect(selectedRow, &QItemSelectionModel::currentRowChanged,
+        this, &MarketTable::handleRowSelection);
 
     QStringList headers = {"Pair", "Price", "24h Changes"};
     QHeaderView* horizontalHeader = this->horizontalHeader();
@@ -144,4 +149,15 @@ void MarketTable::setFilter(QString text) {
             }
         }
     }
+}
+
+void MarketTable::handleRowSelection(
+    const QModelIndex &current, const QModelIndex &previous) {
+    int row = current.row();
+    QModelIndex currentPair = tableModel->index(row, 0, QModelIndex());
+    QMap <QString, QString> delegateData = 
+        currentPair.data().value <QMap <QString, QString> > ();
+    
+    QString pairSymbol = delegateData["symbol"];
+    emit pairSelected(pairSymbol);
 }

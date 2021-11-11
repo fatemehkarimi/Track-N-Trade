@@ -81,6 +81,10 @@ void MainWindow::show() {
     window->show();
 }
 
+PriceTable* MainWindow::getPriceTable() {
+    return priceTable;
+}
+
 MarketTable* MainWindow::getMarketTable() {
     return marketTable;
 }

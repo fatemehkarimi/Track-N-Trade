@@ -4,6 +4,7 @@
 #include <memory>
 #include <QTableView>
 #include <QStandardItemModel>
+#include <QItemSelectionModel>
 #include <data/pair.h>
 #include <data/price.h>
 #include <data/container.h>
@@ -24,8 +25,12 @@ public:
 public slots:
     void setFilter(QString text);
 
+private slots:
+    void handleRowSelection(const QModelIndex &current, const QModelIndex &previous);
+
 signals:
     void assetListUpdated();
+    void pairSelected(QString pair);
 
 private:
     QString filter;
