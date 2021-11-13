@@ -1,4 +1,4 @@
-#include "delegate_asset_title.h"
+#include <components/tables/table_delegates/delegate_asset_title.h>
 
 void AssetTitleDelegate::paint( QPainter *painter, 
     const QStyleOptionViewItem &option, const QModelIndex &index ) const

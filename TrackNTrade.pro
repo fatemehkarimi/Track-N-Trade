@@ -8,18 +8,20 @@ HEADERS += $$PWD/src/data/*.h
 HEADERS += $$PWD/src/window/*.h
 HEADERS += $$PWD/src/settings/*.h
 HEADERS += $$PWD/src/network/*.h
-HEADERS += $$PWD/src/components/table_market/*.h
-HEADERS += $$PWD/src/components/table_price/*.h
 HEADERS += $$PWD/src/components/search_box/*.h
+HEADERS += $$PWD/src/components/tables/table_market/*.h
+HEADERS += $$PWD/src/components/tables/table_price/*.h
+HEADERS += $$PWD/src/components/tables/table_delegates/*.h
 
 SOURCES += $$PWD/src/*.cpp
 SOURCES += $$PWD/src/data/*.cpp
 SOURCES += $$PWD/src/window/*.cpp
 SOURCES += $$PWD/src/settings/*.cpp
 SOURCES += $$PWD/src/network/*.cpp
-SOURCES += $$PWD/src/components/table_market/*.cpp
-SOURCES += $$PWD/src/components/table_price/*.cpp
 SOURCES += $$PWD/src/components/search_box/*.cpp
+SOURCES += $$PWD/src/components/tables/table_market/*.cpp
+SOURCES += $$PWD/src/components/tables/table_price/*.cpp
+SOURCES += $$PWD/src/components/tables/table_delegates/*.cpp
 
 RESOURCES += \
         resources.qrc

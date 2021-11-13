@@ -1,34 +1,34 @@
 #include <data/price.h>
-#include "delegate_asset_price.h"
+#include <components/tables/table_delegates/delegate_asset_price_change.h>
 
-void AssetPriceDelegate::paint( QPainter *painter, 
+void AssetPriceChangeDelegate::paint( QPainter *painter, 
     const QStyleOptionViewItem &option, const QModelIndex &index ) const
 {
     Price price = index.data().value <Price>();
-    QString latestP = "";
-    if(price.getLatestPrice() > 0)
-        latestP = QString::number(price.getLatestPrice());
+    double percentage = std::ceil(price.getChangePercentage() * 10000) / 100.0;
+    QString changeReper = "";
+    if(percentage > 0)
+        changeReper = "+";
+
+    changeReper += (QString::number(percentage) + "%");
 
     Settings::Font& fontSettings = Settings::App::getInstance()->getFontSettings();
-    QFont font = fontSettings.getMarketTablePriceFont();
+    QFont font = fontSettings.getMarketTablePriceChangeFont();
     painter->setFont(font);
-    
     QFontMetrics fontMetrics(painter->font());
-    QRect boundingRect = fontMetrics.boundingRect(latestP);
+    QRect boundingRect = fontMetrics.boundingRect(changeReper);
+
     QRect rect = option.rect;
     rect.setX(rect.x() + 5);
     rect.setY(rect.y() + (rect.height() - boundingRect.height()) / 2);
 
     QColor green = QColor(70, 203, 130);
     QColor red = QColor(217, 61, 74);
-    QColor gray = QColor(62, 64, 69);
 
-    if(price.getPriceStatus() == Price::INCREASE)
+    if(percentage > 0)
         painter->setPen(green);
-    else if(price.getPriceStatus() == Price::NOCHANGE)
-        painter->setPen(gray);
     else
         painter->setPen(red);
 
-    painter->drawText(rect, Qt::AlignLeft, latestP);
+    painter->drawText(rect, Qt::AlignLeft, changeReper);
 }

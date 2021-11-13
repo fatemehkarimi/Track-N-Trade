@@ -1,8 +1,8 @@
 #include <QVariant>
 #include "table_market.h"
-#include "delegate_asset_title.h"
-#include "delegate_asset_price.h"
-#include "delegate_asset_price_change.h"
+#include <components/tables/table_delegates/delegate_asset_title.h>
+#include <components/tables/table_delegates/delegate_asset_price.h>
+#include <components/tables/table_delegates/delegate_asset_price_change.h>
 
 MarketTable::MarketTable(QString objectName) {
     setObjectName(objectName);

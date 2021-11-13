@@ -7,8 +7,8 @@
 #include <data/controller.h>
 #include <data/container.h>
 #include <settings/settings_window.h>
-#include <components/table_market/table_market.h>
-#include <components/table_price/table_price.h>
+#include <components/tables/table_market/table_market.h>
+#include <components/tables/table_price/table_price.h>
 #include <components/search_box/search_box.h>
 
 class MainWindow : public QObject

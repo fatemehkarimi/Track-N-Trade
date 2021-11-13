@@ -1,5 +1,5 @@
 #include <QVariant>
-#include <components/table_market/delegate_asset_title.h>
+#include <components/tables/table_delegates/delegate_asset_title.h>
 #include "table_price.h"
 
 PriceTable::PriceTable(QString objectName) {
