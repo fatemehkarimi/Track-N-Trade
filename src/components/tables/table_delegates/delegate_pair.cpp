@@ -1,6 +1,6 @@
-#include <components/tables/table_delegates/delegate_asset_title.h>
+#include <components/tables/table_delegates/delegate_pair.h>
 
-void AssetTitleDelegate::paint( QPainter *painter, 
+void PairDelegate::paint( QPainter *painter, 
     const QStyleOptionViewItem &option, const QModelIndex &index ) const
 {
     QMap <QString, QString> data = index.data().value < QMap <QString, QString> >();

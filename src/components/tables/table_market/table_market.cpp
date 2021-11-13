@@ -1,8 +1,8 @@
 #include <QVariant>
 #include "table_market.h"
-#include <components/tables/table_delegates/delegate_asset_title.h>
-#include <components/tables/table_delegates/delegate_asset_price.h>
-#include <components/tables/table_delegates/delegate_asset_price_change.h>
+#include <components/tables/table_delegates/delegate_pair.h>
+#include <components/tables/table_delegates/delegate_price.h>
+#include <components/tables/table_delegates/delegate_price_change.h>
 
 MarketTable::MarketTable(QString objectName) {
     setObjectName(objectName);
@@ -13,9 +13,9 @@ MarketTable::MarketTable(QString objectName) {
 
     tableModel = new QStandardItemModel(0, 3);
     this->setModel(tableModel);
-    this->setItemDelegateForColumn(0, new AssetTitleDelegate(this));
-    this->setItemDelegateForColumn(1, new AssetPriceDelegate(this));
-    this->setItemDelegateForColumn(2, new AssetPriceChangeDelegate(this));
+    this->setItemDelegateForColumn(0, new PairDelegate(this));
+    this->setItemDelegateForColumn(1, new PriceDelegate(this));
+    this->setItemDelegateForColumn(2, new PriceChangeDelegate(this));
 
     QItemSelectionModel* selectedRow = this->selectionModel();
     QObject::connect(selectedRow, &QItemSelectionModel::currentRowChanged,

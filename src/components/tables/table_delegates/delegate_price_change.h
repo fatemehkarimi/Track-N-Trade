@@ -1,16 +1,17 @@
-#ifndef DELEGATE_ASSET_PRICE_H
-#define DELECATE_ASSET_PRICE_H
+#ifndef DELEGATE_PRICE_CHANGE_H
+#define DELEGATE_PRICE_CHANGE_H
 
 #include <QtWidgets>
 #include <settings/settings_app.h>
 #include <settings/settings_font.h>
 #include <data/price.h>
 
-class AssetPriceDelegate : public QItemDelegate
+class PriceChangeDelegate : public QItemDelegate
 {
 public:
-    AssetPriceDelegate(QObject* parent)
-    : QItemDelegate(parent) {}
+    PriceChangeDelegate(QObject* parent)
+    : QItemDelegate(parent)
+    {}
 
     void paint( QPainter *painter, const QStyleOptionViewItem &option, 
         const QModelIndex &index ) const;

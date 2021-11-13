@@ -1,15 +1,14 @@
-#ifndef DELEGATE_ASSET_PRICE_CHANGE_H
-#define DELEGATE_ASSET_PRICE_CHANGE_H
+#ifndef DELEGATE_PAIR_H
+#define DELEGATE_PAIR_H
 
 #include <QtWidgets>
 #include <settings/settings_app.h>
 #include <settings/settings_font.h>
-#include <data/price.h>
 
-class AssetPriceChangeDelegate : public QItemDelegate
+class PairDelegate : public QItemDelegate
 {
 public:
-    AssetPriceChangeDelegate(QObject* parent)
+    PairDelegate( QObject* parent)
     : QItemDelegate(parent)
     {}
 

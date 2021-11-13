@@ -1,5 +1,5 @@
 #include <QVariant>
-#include <components/tables/table_delegates/delegate_asset_title.h>
+#include <components/tables/table_delegates/delegate_pair.h>
 #include "table_price.h"
 
 PriceTable::PriceTable(QString objectName) {
@@ -25,7 +25,7 @@ void PriceTable::setTableViewProperties() {
 void PriceTable::setTableModel() {
     tableModel = new QStandardItemModel(1, 5);
     this->setModel(tableModel);
-    this->setItemDelegateForColumn(0, new AssetTitleDelegate(this));
+    this->setItemDelegateForColumn(0, new PairDelegate(this));
 }
 
 void PriceTable::setPair(std::shared_ptr <Pair> pair) {
