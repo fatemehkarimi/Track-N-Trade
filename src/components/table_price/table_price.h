@@ -17,8 +17,13 @@ public:
     void updatePrice(Price price);
 
 private:
+    void setTableModel();
+    void setTableViewProperties();
+    void displayPair(std::shared_ptr <Pair> pair);
+    
     std::shared_ptr <Pair> pair;
     PriceTableViewModel* viewModel;
+    QStandardItemModel* tableModel;
 };
 
 #endif

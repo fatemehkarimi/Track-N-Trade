@@ -7,5 +7,4 @@ PriceTableViewModel::PriceTableViewModel() {
 
 void PriceTableViewModel::setPair(std::shared_ptr <Pair> pair) {
     this->pair = pair;
-    std::cout << pair->getBase()->getName().toStdString() << std::endl;
 }
