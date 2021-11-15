@@ -18,8 +18,11 @@ public:
 
 private:
     void setTableModel();
-    void setTableViewProperties();
+    void styleTableView();
+    void styleHeaders();
     void displayPair(std::shared_ptr <Pair> pair);
+    int getRowHeight();
+    int getMinRowHeight();
     
     std::shared_ptr <Pair> pair;
     PriceTableViewModel* viewModel;

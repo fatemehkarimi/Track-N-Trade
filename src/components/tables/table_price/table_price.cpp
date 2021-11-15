@@ -1,13 +1,18 @@
 #include <QVariant>
+#include <data/pair.h>
+#include <settings/settings_app.h>
 #include <components/tables/table_delegates/delegate_pair.h>
+#include <components/tables/table_delegates/delegate_price.h>
+#include <components/tables/table_delegates/delegate_price_change.h>
 #include "table_price.h"
 
 PriceTable::PriceTable(QString objectName) {
     setObjectName(objectName);
     viewModel = new PriceTableViewModel();
 
-    setTableViewProperties();
     setTableModel();
+    styleTableView();
+    styleHeaders();
 }
 
 PriceTable::~PriceTable() {
@@ -15,17 +20,49 @@ PriceTable::~PriceTable() {
     viewModel = nullptr;
 }
 
-void PriceTable::setTableViewProperties() {
+void PriceTable::styleTableView() {
     this->setShowGrid(false);
     this->verticalHeader()->hide();
     this->horizontalHeader()->hide();
     this->setSelectionMode(QAbstractItemView::NoSelection);
 }
 
+void PriceTable::styleHeaders() {
+    this->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    this->horizontalHeader()->setDefaultAlignment(Qt::AlignLeft);
+    this->verticalHeader()->setDefaultSectionSize(
+        std::max(getRowHeight(), getMinRowHeight()));
+}
+
 void PriceTable::setTableModel() {
+    Settings::Font fontSettings = Settings::App::getInstance()->getFontSettings();
     tableModel = new QStandardItemModel(1, 5);
     this->setModel(tableModel);
-    this->setItemDelegateForColumn(0, new PairDelegate(this));
+    this->setItemDelegateForColumn(
+        0, new PairDelegate(this, fontSettings.getPriceTableAssetFont()));
+    this->setItemDelegateForColumn(
+        1, new PriceDelegate(this, fontSettings.getPriceTablePriceFont()));
+    this->setItemDelegateForColumn(
+        2, new PriceChangeDelegate(this, fontSettings.getPriceTablePriceChangeFont()));
+}
+
+int PriceTable::getRowHeight() {
+    Settings::Font& fontSettings = Settings::App::getInstance()->getFontSettings();
+    QFont titleFont = fontSettings.getPriceTableAssetFont();
+    QFont priceFont = fontSettings.getPriceTablePriceFont();
+    QFont priceChangeFont = fontSettings.getPriceTablePriceChangeFont();
+
+    QFontMetrics titleFontMetrics(titleFont);
+    QFontMetrics priceFontMetrics(priceFont);
+    QFontMetrics priceChangeFontMetrics(priceChangeFont);
+
+    return std::max(std::max(titleFontMetrics.height(),
+                    priceFontMetrics.height()),
+                    priceChangeFontMetrics.height()) + 10;
+}
+
+int PriceTable::getMinRowHeight() {
+    return 25;
 }
 
 void PriceTable::setPair(std::shared_ptr <Pair> pair) {
@@ -34,13 +71,8 @@ void PriceTable::setPair(std::shared_ptr <Pair> pair) {
 }
 
 void PriceTable::displayPair(std::shared_ptr <Pair> pair) {
-    QMap <QString, QString> data;
-    data["symbol"] = pair->getSymbol();
-    data["base"] = pair->getBaseSymbol();
-    data["quote"] = pair->getQuoteSymbol();
-
     QVariant variantData;
-    variantData.setValue(data);
+    variantData.setValue(pair);
 
     QModelIndex index = tableModel->index(0, 0, QModelIndex());
     tableModel->setData(index, variantData, Qt::DisplayRole);

@@ -32,8 +32,8 @@ MarketTable::MarketTable(QString objectName) {
     horizontalHeader->setDefaultAlignment(Qt::AlignLeft);
     tableModel->setHorizontalHeaderLabels(headers);
 
-    QHeaderView* verticalHeader = this->verticalHeader();
-    verticalHeader->setDefaultSectionSize(std::max(getRowHeight(), getMinRowHeight()));
+    this->verticalHeader()->setDefaultSectionSize(
+        std::max(getRowHeight(), getMinRowHeight()));
 }
 
 int MarketTable::getRowHeight() {
