@@ -5,6 +5,8 @@
 #include "asset.h"
 #include "api_item.h"
 
+Q_DECLARE_SMART_POINTER_METATYPE(std::shared_ptr)
+
 class Pair : public APIItem {
 public:
     Pair(QString id, QString symbol,

@@ -62,13 +62,8 @@ void MarketTable::addPair(std::shared_ptr <Pair> pair) {
 }
 
 void MarketTable::displayPair(std::shared_ptr <Pair> pair) {
-    QMap <QString, QString> data;
-    data["symbol"] = pair->getSymbol();
-    data["base"] = pair->getBaseSymbol();
-    data["quote"] = pair->getQuoteSymbol();
-
     QVariant variantData;
-    variantData.setValue(data);
+    variantData.setValue(pair);
 
     tableModel->insertRow(tableModel->rowCount());
     tableModel->setColumnCount(3);
@@ -90,10 +85,13 @@ void MarketTable::updatePairPrice(Price price) {
         // TODO: Optimize loop
         for(int i = 0; i < tableModel->rowCount(); ++i) {
             QModelIndex symbol_index = tableModel->index(i, 0, QModelIndex());
-            QMap <QString, QString> delegate_data = 
-                symbol_index.data().value <QMap <QString, QString> >();
+            std::shared_ptr <Pair> pair = 
+                symbol_index.data().value <std::shared_ptr <Pair> >();
 
-            if(delegate_data["symbol"] == pairSymbol) {
+            if(pair == nullptr)
+                return;
+
+            if(pair->getSymbol() == pairSymbol) {
                 QModelIndex price_index = tableModel->index(i, 1, QModelIndex());
                 tableModel->setData(price_index, variantData, Qt::DisplayRole);
                 break;
@@ -112,10 +110,13 @@ void MarketTable::updatePairPriceChange(Price price) {
 
         for(int i = 0; i < tableModel->rowCount(); ++i) {
             QModelIndex symbol_index = tableModel->index(i, 0, QModelIndex());
-            QMap <QString, QString> delegate_data = 
-                symbol_index.data().value <QMap <QString, QString> > ();
+            std::shared_ptr <Pair> pair = 
+                symbol_index.data().value <std::shared_ptr <Pair> > ();
+            
+            if(pair == nullptr)
+                return;
 
-            if(delegate_data["symbol"] == pairSymbol) {
+            if(pair->getSymbol() == pairSymbol) {
                 QModelIndex change_index = tableModel->index(i, 2, QModelIndex());
                 tableModel->setData(change_index, variantData, Qt::DisplayRole);
                 break;
@@ -155,10 +156,12 @@ void MarketTable::handleRowSelection(
     const QModelIndex &current, const QModelIndex &previous) {
     int row = current.row();
     QModelIndex currentPair = tableModel->index(row, 0, QModelIndex());
-    QMap <QString, QString> delegateData = 
-        currentPair.data().value <QMap <QString, QString> > ();
+    std::shared_ptr <Pair> pair = 
+        currentPair.data().value <std::shared_ptr <Pair> > ();
     
-    QString pairSymbol = delegateData["symbol"];
+    if(pair == nullptr)
+        return;
+    QString pairSymbol = pair->getSymbol();
     // when table is cleared it triggers the currentRowChanged signal
     if(pairSymbol.isEmpty())
         return;

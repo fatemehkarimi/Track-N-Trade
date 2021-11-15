@@ -1,11 +1,16 @@
+#include <memory>
+#include <data/pair.h>
 #include <components/tables/table_delegates/delegate_pair.h>
 
 void PairDelegate::paint( QPainter *painter, 
     const QStyleOptionViewItem &option, const QModelIndex &index ) const
 {
-    QMap <QString, QString> data = index.data().value < QMap <QString, QString> >();
-    QString base = data["base"].toUpper();
-    QString quote = data["quote"].toUpper();
+    std::shared_ptr <Pair> pair = index.data().value < std::shared_ptr <Pair> >();
+    if(pair == nullptr)
+        return;
+
+    QString base = pair->getBaseSymbol().toUpper();
+    QString quote = pair->getQuoteSymbol().toUpper();
 
     Settings::Font& fontSettings = Settings::App::getInstance()->getFontSettings();
     QFont font = fontSettings.getMarketTablePairFont();

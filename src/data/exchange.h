@@ -13,7 +13,7 @@
 
 class APIManager;
 
-class Exchange : public QObject, public APIItem
+class Exchange : public APIItem
 {
     Q_OBJECT
 public:
