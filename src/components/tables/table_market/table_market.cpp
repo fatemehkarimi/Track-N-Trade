@@ -1,8 +1,9 @@
 #include <QVariant>
-#include "table_market.h"
+#include <settings/settings_app.h>
 #include <components/tables/table_delegates/delegate_pair.h>
 #include <components/tables/table_delegates/delegate_price.h>
 #include <components/tables/table_delegates/delegate_price_change.h>
+#include "table_market.h"
 
 MarketTable::MarketTable(QString objectName) {
     setObjectName(objectName);
@@ -11,11 +12,15 @@ MarketTable::MarketTable(QString objectName) {
     this->verticalHeader()->hide();
     this->setSelectionMode(QAbstractItemView::SingleSelection);
 
+    Settings::Font fontSettings = Settings::App::getInstance()->getFontSettings();
     tableModel = new QStandardItemModel(0, 3);
     this->setModel(tableModel);
-    this->setItemDelegateForColumn(0, new PairDelegate(this));
-    this->setItemDelegateForColumn(1, new PriceDelegate(this));
-    this->setItemDelegateForColumn(2, new PriceChangeDelegate(this));
+    this->setItemDelegateForColumn(
+        0, new PairDelegate(this, fontSettings.getMarketTablePairFont()));
+    this->setItemDelegateForColumn(
+        1, new PriceDelegate(this, fontSettings.getMarketTablePriceFont()));
+    this->setItemDelegateForColumn(
+        2, new PriceChangeDelegate(this, fontSettings.getMarketTablePriceChangeFont()));
 
     QItemSelectionModel* selectedRow = this->selectionModel();
     QObject::connect(selectedRow, &QItemSelectionModel::currentRowChanged,

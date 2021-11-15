@@ -8,8 +8,9 @@
 class PairDelegate : public QItemDelegate
 {
 public:
-    PairDelegate( QObject* parent)
-    : QItemDelegate(parent)
+    PairDelegate( QObject* parent, QFont fontStyle)
+    : QItemDelegate(parent),
+    fontStyle(fontStyle)
     {}
 
     void paint( QPainter *painter, const QStyleOptionViewItem &option, 
@@ -24,6 +25,9 @@ public:
         const QModelIndex &) const {
             return Q_NULLPTR;
     }
+
+private:
+    QFont fontStyle;
 };
 
 #endif

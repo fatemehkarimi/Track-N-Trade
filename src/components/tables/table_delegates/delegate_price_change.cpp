@@ -9,12 +9,9 @@ void PriceChangeDelegate::paint( QPainter *painter,
     QString changeReper = "";
     if(percentage > 0)
         changeReper = "+";
-
     changeReper += (QString::number(percentage) + "%");
 
-    Settings::Font& fontSettings = Settings::App::getInstance()->getFontSettings();
-    QFont font = fontSettings.getMarketTablePriceChangeFont();
-    painter->setFont(font);
+    painter->setFont(fontStyle);
     QFontMetrics fontMetrics(painter->font());
     QRect boundingRect = fontMetrics.boundingRect(changeReper);
 

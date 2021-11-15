@@ -9,10 +9,7 @@ void PriceDelegate::paint( QPainter *painter,
     if(price.getLatestPrice() > 0)
         latestP = QString::number(price.getLatestPrice());
 
-    Settings::Font& fontSettings = Settings::App::getInstance()->getFontSettings();
-    QFont font = fontSettings.getMarketTablePriceFont();
-    painter->setFont(font);
-    
+    painter->setFont(fontStyle);    
     QFontMetrics fontMetrics(painter->font());
     QRect boundingRect = fontMetrics.boundingRect(latestP);
     QRect rect = option.rect;

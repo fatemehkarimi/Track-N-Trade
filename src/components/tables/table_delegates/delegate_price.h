@@ -9,8 +9,10 @@
 class PriceDelegate : public QItemDelegate
 {
 public:
-    PriceDelegate(QObject* parent)
-    : QItemDelegate(parent) {}
+    PriceDelegate(QObject* parent, QFont fontStyle)
+    : QItemDelegate(parent),
+      fontStyle(fontStyle)
+    {}
 
     void paint( QPainter *painter, const QStyleOptionViewItem &option, 
         const QModelIndex &index ) const;
@@ -24,6 +26,9 @@ public:
         const QModelIndex &) const {
             return Q_NULLPTR;
     }
+
+private:
+    QFont fontStyle;
 };
 
 #endif

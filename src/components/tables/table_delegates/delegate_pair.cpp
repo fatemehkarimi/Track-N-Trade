@@ -12,9 +12,7 @@ void PairDelegate::paint( QPainter *painter,
     QString base = pair->getBaseSymbol().toUpper();
     QString quote = pair->getQuoteSymbol().toUpper();
 
-    Settings::Font& fontSettings = Settings::App::getInstance()->getFontSettings();
-    QFont font = fontSettings.getMarketTablePairFont();
-    painter->setFont(font);
+    painter->setFont(fontStyle);
     QFontMetrics fontMetrics(painter->font());
     QRect boundingRect = fontMetrics.boundingRect(base + "/" + quote);
 
