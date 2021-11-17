@@ -10,6 +10,12 @@ void Price::updatePrice(double latestPrice) {
     price = latestPrice;
 }
 
+bool Price::isValid() {
+    if(exchange.isEmpty() || pair.isEmpty())
+        return false;
+    return true;
+}
+
 QString Price::getExchangeSymbol() {
     return exchange;
 }

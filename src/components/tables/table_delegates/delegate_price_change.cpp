@@ -5,6 +5,11 @@ void PriceChangeDelegate::paint( QPainter *painter,
     const QStyleOptionViewItem &option, const QModelIndex &index ) const
 {
     Price price = index.data().value <Price>();
+
+    // if an empty price object is sent then display nothing.
+    if(!price.isValid())
+        return;
+
     double percentage = std::ceil(price.getChangePercentage() * 10000) / 100.0;
     QString changeReper = "";
     if(percentage > 0)

@@ -30,6 +30,7 @@ public:
         DECREASE
     };
 
+    bool isValid();
     void updatePrice(double latestPrice);
     QString getExchangeSymbol();
     QString getPairSymbol();
