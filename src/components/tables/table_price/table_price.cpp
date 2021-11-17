@@ -28,10 +28,26 @@ void PriceTable::styleTableView() {
 }
 
 void PriceTable::styleHeaders() {
-    this->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    this->styleHorizontalHeader();
+    this->styleVerticalHeader();
+}
+
+void PriceTable::styleHorizontalHeader() {
+    this->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
+    adjustColumnsWidth();
     this->horizontalHeader()->setDefaultAlignment(Qt::AlignLeft);
+}
+
+void PriceTable::styleVerticalHeader() {
     this->verticalHeader()->setDefaultSectionSize(
         std::max(getRowHeight(), getMinRowHeight()));
+}
+
+void PriceTable::adjustColumnsWidth() {
+    this->setColumnWidth(1, this->width() / 5);
+    this->setColumnWidth(2, this->width() / 6);
+    this->setColumnWidth(3, this->width() / 6);
+    this->setColumnWidth(4, this->width() / 6);
 }
 
 void PriceTable::setTableModel() {
@@ -84,4 +100,8 @@ void PriceTable::clear() {
 
 void PriceTable::updatePrice(Price price) {
     
+}
+
+void PriceTable::resizeEvent(QResizeEvent* event) {
+    this->adjustColumnsWidth();
 }

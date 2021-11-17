@@ -19,8 +19,15 @@ public:
     QFont getMarketTablePriceChangeFont();
     QFont getExchangeMenuFont();
 
+    // Price table
+    QFont getPriceTableAssetFont();
+    QFont getPriceTablePriceFont();
+    QFont getPriceTablePriceChangeFont();
+
 private:
+    int largeFontSize = 20;
     int normalFontSize = 14;
+    int smallFontSize = 9;
 };
 }
 

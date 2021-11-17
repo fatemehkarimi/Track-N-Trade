@@ -15,10 +15,14 @@ public:
     void setPair(std::shared_ptr <Pair> pair);
     void clear();
     void updatePrice(Price price);
+    void resizeEvent(QResizeEvent* event) override;
 
 private:
     void setTableModel();
     void styleTableView();
+    void styleVerticalHeader();
+    void styleHorizontalHeader();
+    void adjustColumnsWidth();
     void styleHeaders();
     void displayPair(std::shared_ptr <Pair> pair);
     int getRowHeight();

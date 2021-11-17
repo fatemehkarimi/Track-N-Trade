@@ -21,3 +21,15 @@ QFont Settings::Font::getMarketTablePriceChangeFont() {
 QFont Settings::Font::getExchangeMenuFont() {
     return QFont(OPENSANSCONDENSED, normalFontSize, QFont::Normal);    
 }
+
+QFont Settings::Font::getPriceTableAssetFont() {
+    return QFont(OPENSANSCONDENSED, largeFontSize, QFont::Normal);
+}
+
+QFont Settings::Font::getPriceTablePriceFont() {
+    return QFont(ROBOTOCONDENSED, largeFontSize, QFont::Normal);
+}
+
+QFont Settings::Font::getPriceTablePriceChangeFont() {
+    return QFont(ROBOTOCONDENSED, normalFontSize, QFont::Normal);
+}
