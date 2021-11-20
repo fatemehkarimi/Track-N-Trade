@@ -15,14 +15,13 @@ Exchange::Exchange(Routes* apiRoutes, APIManager* refAPI, JsonParser* jsonParser
     QObject::connect(networkManager, &NetworkManager::jsonReady,
                     this, &Exchange::parseJson);
 
-    // priceTracker = new PriceTracker(routes, parser, this->symbol,
-                    // Settings::App::getInstance()->getPriceRefreshRate());
+    pricesTracker = new AllPricesTracker(routes, parser,
+        this->symbol, Settings::App::getInstance()->getPriceRefreshRate());
 
+    QObject::connect(pricesTracker, &AllPricesTracker::pricesUpdated,
+        this, &Exchange::handlePriceUpdates);
 
-    // QObject::connect(priceTracker, &PriceTracker::pricesUpdated,
-                    // this, &Exchange::handlePriceUpdates);
-
-    priceChangesTracker = new AllPriceChangesTracker(routes, parser,
+    priceChangesTracker = new AllPriceChangesTracker(routes, parser, 
         this->symbol, Settings::App::getInstance()->getPriceChangesRefreshRate());
 
     QObject::connect(priceChangesTracker,
@@ -43,8 +42,7 @@ QString Exchange::getSymbol() {
 }
 
 QMap <QString, Price> Exchange::getPrices() {
-    // return priceTracker->getPrices();
-    return priceChangesTracker->getPriceChanges(); //TODO: Fix thissssss!!!!!!!
+    return pricesTracker->getPrices();
 }
 
 QMap <QString, Price> Exchange::getPriceChanges() {
@@ -80,16 +78,20 @@ void Exchange::getPairList() {
 }
 
 void Exchange::activateTracking() {
-    if(priceChangesTracker->getState() == Tracker::RUNNING)
-        return;
-    priceChangesTracker->run();
+    if(priceChangesTracker->getState() != Tracker::RUNNING)
+        priceChangesTracker->run();
+
+    if(pricesTracker->getState() != Tracker::RUNNING)
+        pricesTracker->run();
 }
 
 void Exchange::deactivateTracking() {
-    if(priceChangesTracker->getState() == Tracker::STOPPED)
-        return;
-    priceChangesTracker->stop();
     priceObservers.clear();
+    if(priceChangesTracker->getState() != Tracker::STOPPED)
+        priceChangesTracker->stop();
+
+    if(pricesTracker->getState() != Tracker::STOPPED)
+        pricesTracker->stop();
 }
 
 void Exchange::registerPriceObserver(PriceObserver* observer) {

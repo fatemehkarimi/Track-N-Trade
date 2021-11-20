@@ -1,65 +1,40 @@
-/*/
 #include <QtConcurrent>
-#include "tracker_price.h"
+#include "tracker_all_prices.h"
 
 
-PriceTracker::PriceTracker(Routes* apiRoutes, JsonParser* jsonParser,
+AllPricesTracker::AllPricesTracker(Routes* apiRoutes, JsonParser* parser,
     QString exchangeSymbol, QTime watchPeriod) 
     : routes(apiRoutes),
-      parser(jsonParser),
-      exchangeSymbol(exchangeSymbol) {
-    this->watchPeriod = QTime(0, 0, 0).msecsTo(watchPeriod);
-
+      parser(parser),
+      exchangeSymbol(exchangeSymbol),
+      Tracker(QTime(0, 0, 0).msecsTo(watchPeriod))
+{
     this->networkManager = NetworkManager::getInstance();
     QObject::connect(this->networkManager, &NetworkManager::jsonReady,
-        this, &PriceTracker::parseJson);
-    QObject::connect(&timer, &QTimer::timeout, this, &PriceTracker::getItemsAsync);
+        this, &AllPricesTracker::parseJson);
 }
 
-void PriceTracker::getItemsAsync() {
-    if(state == STATE::RUNNING) {
-        getPricesAsync();
-        getChangesAsync();
-        timer.start(watchPeriod);
-    }
+void AllPricesTracker::performAction() {
+    this->getPricesAsync();
 }
 
-void PriceTracker::stop() {
-    state = STATE::STOPPED;
-    timer.stop();
-}
 
-void PriceTracker::run() {
-    state = STATE::RUNNING;
-    getItemsAsync();
-}
-
-PriceTracker::STATE PriceTracker::getState() {
-    return state;
-}
-
-QMap <QString, Price> PriceTracker::getPrices() {
+QMap <QString, Price> AllPricesTracker::getPrices() {
     return prices;
 }
 
-void PriceTracker::getPricesAsync() {
-    if(state == STATE::RUNNING) 
+void AllPricesTracker::getPricesAsync() {
+    if(this->getState() == Tracker::RUNNING) 
         networkManager->fetchJson(routes->getAllPrices());
 }
 
-void PriceTracker::getChangesAsync() {
-    if(state == STATE::RUNNING)
-        networkManager->fetchJson(routes->getAllPriceChanges());
-}
-
-
-void PriceTracker::parseJson(QString url, QJsonObject json) {
-    if(state == STATE::RUNNING) {
+void AllPricesTracker::parseJson(QString url, QJsonObject json) {
+    if(this->getState() == Tracker::RUNNING) {
         if(url == routes->getAllPrices()) {
             QFuture < QMap <QString, QMap <QString, double> > > future = 
                 QtConcurrent::run(parser, &JsonParser::parseAllPairPrices, json);
 
-            if(state != STATE::RUNNING)
+            if(this->getState() != Tracker::RUNNING)
                 return;
 
             QMap <QString, QMap <QString, double> > result = future.result();
@@ -76,5 +51,3 @@ void PriceTracker::parseJson(QString url, QJsonObject json) {
         }
     }
 }
-
-*/

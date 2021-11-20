@@ -1,50 +1,36 @@
-/*
-#ifndef TRACKER_PRICE_H
-#define TRACKER_PRICE_H
+#ifndef TRACKER_ALL_PRICES_H
+#define TRACKER_ALL_PRICES_H
 
 #include <QTime>
 #include <network/network_manager.h>
-#include "routes.h"
-#include "parser_json.h"
 #include "price.h"
+#include "routes.h"
+#include "tracker.h"
+#include "parser_json.h"
 
-class PriceTracker : public QObject
+class AllPricesTracker : public Tracker
 {
     Q_OBJECT
 public:
-    enum STATE {
-        STOPPED,
-        RUNNING
-    };
-
-    PriceTracker(Routes* apiRoutes, JsonParser* jsonParser,
+    AllPricesTracker(Routes* apiRoutes, JsonParser* parser,
         QString exchangeSymbol, QTime watchPeriod);
-    void stop();
-    void run();
-    STATE getState();
+    
+    void performAction() override;
     QMap <QString, Price> getPrices();
+    void getPricesAsync();
 
 private slots:
     void parseJson(QString url, QJsonObject json);
-    void getItemsAsync();
-    void getPricesAsync();
-    void getChangesAsync();
 
 signals:
     void pricesUpdated(QMap <QString, Price>);
-    void priceChangesUpdated(QMap <QString, Price>);
 
 private:
     Routes* routes;
     JsonParser* parser;
-    STATE state = STATE::STOPPED;
     QString exchangeSymbol;
-    QTimer timer;
-    int watchPeriod; //watch period in msecs
     NetworkManager* networkManager;
     QMap <QString, Price> prices;
 };
 
 #endif
-
-*/

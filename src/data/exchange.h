@@ -8,6 +8,7 @@
 #include "container.h"
 #include "parser_json.h"
 #include "observer_price.h"
+#include "tracker_all_prices.h"
 #include "tracker_all_price_changes.h"
 #include <network/network_manager.h>
 
@@ -48,6 +49,7 @@ private:
     Container <Pair> pairContainer;
     NetworkManager* networkManager;
     QList <PriceObserver*> priceObservers;
+    AllPricesTracker* pricesTracker;
     AllPriceChangesTracker* priceChangesTracker;
 
     void handlePriceUpdates(QMap <QString, Price> prices);

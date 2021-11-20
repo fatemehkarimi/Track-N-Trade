@@ -3,11 +3,11 @@
 
 #include <QTime>
 #include <QtConcurrent>
+#include <network/network_manager.h>
 #include "price.h"
 #include "routes.h"
 #include "tracker.h"
 #include "parser_json.h"
-#include "network/network_manager.h"
 
 class AllPriceChangesTracker : public Tracker
 {
