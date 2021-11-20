@@ -26,6 +26,10 @@ public:
         return priceRefreshRate;
     }
 
+    QTime getPriceChangesRefreshRate() {
+        return priceChangesRefreshRate;
+    }
+
     void setPriceRefreshRate(QTime interval) {
         priceRefreshRate = interval;
     }
@@ -40,8 +44,9 @@ private:
     // the name of default exchange on application startup.
     QString defaultExchange = "binance.US";
 
-    // price tracker's timer interval in secs.
+    // Tracking intervals
     QTime priceRefreshRate = QTime(0, 0, 20);
+    QTime priceChangesRefreshRate = QTime(0, 5, 0);
 
     Settings::Font fontSettings;
 };

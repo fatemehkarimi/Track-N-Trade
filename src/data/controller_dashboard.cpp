@@ -15,18 +15,17 @@ DashboardController::DashboardController(APIManager* refAPI)
 
 void DashboardController::setExchange(QString exchangeSymbol) {
     if(selectedExchange != nullptr)
-        selectedExchange->deactivatePriceTracker();
+        selectedExchange->deactivateTracking();
 
     selectedExchange = refAPI->getExchangeBySymbol(exchangeSymbol);
     selectedExchange->getPairList();
-    selectedExchange->activatePriceTracker();
+    selectedExchange->activateTracking();
     selectedExchange->registerPriceObserver(this);
 
     auto conn = std::make_shared <QMetaObject::Connection>();
     *conn = QObject::connect(selectedExchange.get(),
             &Exchange::pairListReady, this, [=](Container <Pair> pairList){
             QObject::disconnect(*conn);
-
             MarketTable* marketTable = view->getMarketTable();
             marketTable->clear();
             auto iterator = pairList.createIterator();
@@ -72,9 +71,9 @@ void DashboardController::setPriceChangesToTable() {
     if(selectedExchange == nullptr)
         return;
     MarketTable* marketTable = view->getMarketTable();
-    QMap <QString, Price> prices = selectedExchange->getPrices();
-    foreach(const QString& key, prices.keys())
-        marketTable->updatePairPriceChange(*prices.find(key));
+    QMap <QString, Price> priceChanges = selectedExchange->getPriceChanges();
+    foreach(const QString& key, priceChanges.keys())
+        marketTable->updatePairPriceChange(*priceChanges.find(key));
 }
 
 void DashboardController::trackSinglePair(QString pairSymbol) {

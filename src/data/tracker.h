@@ -12,11 +12,13 @@ public:
         RUNNING
     };
 
-    Tracker(int watchPeriod);
     void run();
     void stop();
     STATE getState();
     virtual void performAction() = 0;
+
+protected:
+    Tracker(int watchPeriod);
 
 private slots:
     void handleTimeOut();

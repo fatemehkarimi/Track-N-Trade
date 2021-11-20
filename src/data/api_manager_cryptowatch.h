@@ -8,7 +8,6 @@
 #include "routes.h"
 #include "api_manager.h"
 #include "parser_json.h"
-#include "price_tracker.h"
 #include "observer_price.h"
 #include "container.h"
 

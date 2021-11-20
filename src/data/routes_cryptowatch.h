@@ -35,7 +35,7 @@ public:
         return getBasePath() + marketsPath + allPricesPath;
     }
 
-    QString getAll24hSummeries() override {
+    QString getAllPriceChanges() override {
         return getBasePath() + marketsPath + summariesPath;
     }
 

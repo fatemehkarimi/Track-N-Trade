@@ -1,5 +1,6 @@
-#ifndef PRICE_TRACKER_H
-#define PRICE_TRACKER_H
+/*
+#ifndef TRACKER_PRICE_H
+#define TRACKER_PRICE_H
 
 #include <QTime>
 #include <network/network_manager.h>
@@ -45,3 +46,5 @@ private:
 };
 
 #endif
+
+*/

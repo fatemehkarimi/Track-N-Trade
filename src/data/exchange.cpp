@@ -15,12 +15,19 @@ Exchange::Exchange(Routes* apiRoutes, APIManager* refAPI, JsonParser* jsonParser
     QObject::connect(networkManager, &NetworkManager::jsonReady,
                     this, &Exchange::parseJson);
 
-    priceTracker = new PriceTracker(routes, parser, this->symbol,
-                    Settings::App::getInstance()->getPriceRefreshRate());
-    QObject::connect(priceTracker, &PriceTracker::pricesUpdated,
-                    this, &Exchange::handlePriceUpdates);
-    QObject::connect(priceTracker, &PriceTracker::priceChangesUpdated,
-                    this, &Exchange::handlePriceChangesUpdates);
+    // priceTracker = new PriceTracker(routes, parser, this->symbol,
+                    // Settings::App::getInstance()->getPriceRefreshRate());
+
+
+    // QObject::connect(priceTracker, &PriceTracker::pricesUpdated,
+                    // this, &Exchange::handlePriceUpdates);
+
+    priceChangesTracker = new AllPriceChangesTracker(routes, parser,
+        this->symbol, Settings::App::getInstance()->getPriceChangesRefreshRate());
+
+    QObject::connect(priceChangesTracker,
+        &AllPriceChangesTracker::priceChangesUpdated, this,
+        &Exchange::handlePriceChangesUpdates);
 }
 
 QString Exchange::getId() {
@@ -36,7 +43,12 @@ QString Exchange::getSymbol() {
 }
 
 QMap <QString, Price> Exchange::getPrices() {
-    return priceTracker->getPrices();
+    // return priceTracker->getPrices();
+    return priceChangesTracker->getPriceChanges(); //TODO: Fix thissssss!!!!!!!
+}
+
+QMap <QString, Price> Exchange::getPriceChanges() {
+    return priceChangesTracker->getPriceChanges();
 }
 
 void Exchange::parseJson(QString url, QJsonObject json) {
@@ -44,8 +56,8 @@ void Exchange::parseJson(QString url, QJsonObject json) {
         pairContainer.clearAll();
         QFuture < QList <QString> > future = QtConcurrent::run(parser,
             &JsonParser::parseExchangePairsJson, json);
-        
         QList <QString> symbolList = future.result();
+
         for(int i = 0; i < symbolList.size(); ++i) {
             std::shared_ptr <Pair> pair = refAPI->getPairBySymbol(symbolList[i]);
             if(pair != nullptr) {
@@ -67,16 +79,16 @@ void Exchange::getPairList() {
     networkManager->fetchJson(routes->getExchangePairsPath(symbol));
 }
 
-void Exchange::activatePriceTracker() {
-    if(priceTracker->getState() == PriceTracker::RUNNING)
+void Exchange::activateTracking() {
+    if(priceChangesTracker->getState() == Tracker::RUNNING)
         return;
-    priceTracker->run();
+    priceChangesTracker->run();
 }
 
-void Exchange::deactivatePriceTracker() {
-    if(priceTracker->getState() == PriceTracker::STOPPED)
+void Exchange::deactivateTracking() {
+    if(priceChangesTracker->getState() == Tracker::STOPPED)
         return;
-    priceTracker->stop();
+    priceChangesTracker->stop();
     priceObservers.clear();
 }
 

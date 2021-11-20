@@ -17,7 +17,7 @@ void Tracker::handleTimeOut() {
 void Tracker::run() {
     state = STATE::RUNNING;
     performAction();
-    timer.start();
+    timer.start(watchPeriod);
 }
 
 void Tracker::stop() {

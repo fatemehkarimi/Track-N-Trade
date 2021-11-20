@@ -7,8 +7,8 @@
 #include "api_item.h"
 #include "container.h"
 #include "parser_json.h"
-#include "price_tracker.h"
 #include "observer_price.h"
+#include "tracker_all_price_changes.h"
 #include <network/network_manager.h>
 
 class APIManager;
@@ -17,17 +17,19 @@ class Exchange : public APIItem
 {
     Q_OBJECT
 public:
-    explicit Exchange(Routes* apiRoutes, APIManager* refAPI, JsonParser* jsonParser,
-        QString id, QString exchangeName, QString exchangeSymbol);
+    explicit Exchange(Routes* apiRoutes, APIManager* refAPI,
+        JsonParser* jsonParser, QString id, QString exchangeName,
+        QString exchangeSymbol);
 
     QString getId() override;
     QString getSymbol() override;
     QString getName();
     void getPairList();
     QMap <QString, Price> getPrices();
+    QMap <QString, Price> getPriceChanges();
     std::shared_ptr <Pair> getPair(QString symbol);
-    void activatePriceTracker();
-    void deactivatePriceTracker();
+    void activateTracking();
+    void deactivateTracking();
     void registerPriceObserver(PriceObserver* observer);
     
 private slots:
@@ -43,10 +45,10 @@ private:
     Routes* routes;
     JsonParser* parser;
     APIManager* refAPI;
-    PriceTracker* priceTracker;
     Container <Pair> pairContainer;
     NetworkManager* networkManager;
     QList <PriceObserver*> priceObservers;
+    AllPriceChangesTracker* priceChangesTracker;
 
     void handlePriceUpdates(QMap <QString, Price> prices);
     void handlePriceChangesUpdates(QMap <QString, Price> prices);

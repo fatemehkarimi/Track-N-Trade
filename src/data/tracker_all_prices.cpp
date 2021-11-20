@@ -1,5 +1,6 @@
+/*/
 #include <QtConcurrent>
-#include "price_tracker.h"
+#include "tracker_price.h"
 
 
 PriceTracker::PriceTracker(Routes* apiRoutes, JsonParser* jsonParser,
@@ -48,7 +49,7 @@ void PriceTracker::getPricesAsync() {
 
 void PriceTracker::getChangesAsync() {
     if(state == STATE::RUNNING)
-        networkManager->fetchJson(routes->getAll24hSummeries());
+        networkManager->fetchJson(routes->getAllPriceChanges());
 }
 
 
@@ -73,19 +74,7 @@ void PriceTracker::parseJson(QString url, QJsonObject json) {
             }
             emit pricesUpdated(prices);
         }
-        else if(url == routes->getAll24hSummeries()) {
-            QFuture < QMap <QString, QMap <QString, double> > > future = 
-                QtConcurrent::run(parser, &JsonParser::parseAllPriceChanges, json);
-
-            if(state != STATE::RUNNING)
-                return;
-
-            QMap <QString, QMap <QString, double> > result = future.result();
-            foreach(const QString& pair, result[exchangeSymbol].keys()) {
-                if(prices.contains(pair))
-                    prices.find(pair)->setChangePercentage(result[exchangeSymbol][pair]);
-            }
-            emit priceChangesUpdated(prices);
-        }
     }
 }
+
+*/
