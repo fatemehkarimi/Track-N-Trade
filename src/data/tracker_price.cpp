@@ -12,6 +12,7 @@ PriceTracker::PriceTracker(Routes* apiRoutes, JsonParser* parser,
     this->networkManager = NetworkManager::getInstance();
     QObject::connect(this->networkManager, &NetworkManager::jsonReady,
         this, &PriceTracker::parseJson);
+    latestFetchedPrice = Price(exchangeSymbol, pair->getSymbol(), 0);
 }
 
 void PriceTracker::performAction() {
@@ -28,6 +29,10 @@ Price PriceTracker::getPrice() {
     return latestFetchedPrice;
 }
 
+std::shared_ptr <Pair> PriceTracker::getPair() {
+    return this->pair;
+}
+
 void PriceTracker::parseJson(QString url, QJsonObject json) {
     if(this->getState() == Tracker::RUNNING) {
         if(url == routes->getPairPrice(exchangeSymbol, pair->getSymbol())) {
@@ -38,9 +43,8 @@ void PriceTracker::parseJson(QString url, QJsonObject json) {
                 return;
             
             double result = future.result();
-            Price price(exchangeSymbol, pair->getSymbol(), result);
-            latestFetchedPrice = price;
-            emit priceUpdated(price);
+            latestFetchedPrice.updatePrice(result);
+            emit priceUpdated(latestFetchedPrice);
         }
     }
 }

@@ -8,6 +8,8 @@
 #include "container.h"
 #include "parser_json.h"
 #include "observer_price.h"
+#include "observer_single_pair_price.h"
+#include "tracker_price.h"
 #include "tracker_all_prices.h"
 #include "tracker_all_price_changes.h"
 #include <network/network_manager.h>
@@ -29,9 +31,12 @@ public:
     QMap <QString, Price> getPrices();
     QMap <QString, Price> getPriceChanges();
     std::shared_ptr <Pair> getPair(QString symbol);
-    void activateTracking();
-    void deactivateTracking();
+    void activateAllPairTracking();
+    void deactivateAllPairTracking();
+    void activateSinglePairTracking(std::shared_ptr <Pair> pair);
+    void deactivateSinglePairTracking();
     void registerPriceObserver(PriceObserver* observer);
+    void registerSinglePairPriceObserver(SinglePairPriceObserver* observer);
     
 private slots:
     void parseJson(QString url, QJsonObject json);
@@ -49,8 +54,13 @@ private:
     Container <Pair> pairContainer;
     NetworkManager* networkManager;
     QList <PriceObserver*> priceObservers;
-    AllPricesTracker* pricesTracker;
-    AllPriceChangesTracker* priceChangesTracker;
+    QList <SinglePairPriceObserver*> singlePairPriceObservers;
+
+    PriceTracker* singlePairPriceTracker = nullptr;
+    AllPricesTracker* pricesTracker = nullptr;
+    AllPriceChangesTracker* priceChangesTracker = nullptr;
+
+    void handleSinglePairPriceUpdate(Price price);
 
     void handlePriceUpdates(QMap <QString, Price> prices);
     void handlePriceChangesUpdates(QMap <QString, Price> prices);

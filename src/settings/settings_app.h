@@ -52,7 +52,7 @@ private:
     QTime singlePriceRefreshRate = QTime(0, 0, 5);
     QTime allPriceRefreshRate = QTime(0, 0, 20);
 
-    QTime singlePriceChanegRefreshRate = QTime(0, 5, 0);
+    QTime singlePriceChanegRefreshRate = QTime(0, 10, 0);
     QTime allPriceChangeRefreshRate = QTime(0, 5, 0);
 
     Settings::Font fontSettings;

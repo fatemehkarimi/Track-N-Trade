@@ -20,6 +20,7 @@ public:
     void performAction() override;
     void getPriceAsync();
     Price getPrice();
+    std::shared_ptr <Pair> getPair();
 
 private slots:
     void parseJson(QString url, QJsonObject json);

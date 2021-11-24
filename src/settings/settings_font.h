@@ -25,7 +25,7 @@ public:
     QFont getPriceTablePriceChangeFont();
 
 private:
-    int largeFontSize = 20;
+    int largeFontSize = 32;
     int normalFontSize = 14;
     int smallFontSize = 9;
 };

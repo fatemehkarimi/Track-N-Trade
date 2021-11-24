@@ -77,7 +77,7 @@ void Exchange::getPairList() {
     networkManager->fetchJson(routes->getExchangePairsPath(symbol));
 }
 
-void Exchange::activateTracking() {
+void Exchange::activateAllPairTracking() {
     if(priceChangesTracker->getState() != Tracker::RUNNING)
         priceChangesTracker->run();
 
@@ -85,8 +85,9 @@ void Exchange::activateTracking() {
         pricesTracker->run();
 }
 
-void Exchange::deactivateTracking() {
+void Exchange::deactivateAllPairTracking() {
     priceObservers.clear();
+    singlePairPriceObservers.clear();
     if(priceChangesTracker->getState() != Tracker::STOPPED)
         priceChangesTracker->stop();
 
@@ -98,6 +99,10 @@ void Exchange::registerPriceObserver(PriceObserver* observer) {
     this->priceObservers.append(observer);
 }
 
+void Exchange::registerSinglePairPriceObserver(SinglePairPriceObserver* observer) {
+    this->singlePairPriceObservers.append(observer);
+}
+
 void Exchange::handlePriceUpdates(QMap <QString, Price> prices) {
     for(auto observer : priceObservers)
         observer->notifyPriceUpdates();
@@ -106,4 +111,28 @@ void Exchange::handlePriceUpdates(QMap <QString, Price> prices) {
 void Exchange::handlePriceChangesUpdates(QMap <QString, Price> prices) {
     for(auto observer : priceObservers)
         observer->notifyPriceChangeUpdates();
+}
+
+void Exchange::activateSinglePairTracking(std::shared_ptr <Pair> pair) {
+    deactivateSinglePairTracking();
+
+    singlePairPriceTracker = new PriceTracker(routes, parser, getSymbol(),
+        pair, Settings::App::getInstance()->getSinglePriceRefreshRate());
+    QObject::connect(singlePairPriceTracker, &PriceTracker::priceUpdated,
+        this, &Exchange::handleSinglePairPriceUpdate);
+
+    singlePairPriceTracker->run();
+}
+
+void Exchange::deactivateSinglePairTracking() {
+    if(singlePairPriceTracker == nullptr)
+        return;
+    QObject::disconnect(singlePairPriceTracker);
+    delete singlePairPriceTracker;
+    singlePairPriceTracker = nullptr;
+}
+
+void Exchange::handleSinglePairPriceUpdate(Price price) {
+    for(auto observer : singlePairPriceObservers)
+        observer->notifyPriceUpdate(singlePairPriceTracker->getPair(), price);
 }

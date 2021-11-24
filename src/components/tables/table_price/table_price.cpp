@@ -77,10 +77,6 @@ int PriceTable::getMinRowHeight() {
     return 25;
 }
 
-void PriceTable::setPair(std::shared_ptr <Pair> pair) {
-    displayPair(pair);
-}
-
 void PriceTable::displayPair(std::shared_ptr <Pair> pair) {
     QVariant variantData;
     variantData.setValue(pair);
@@ -89,14 +85,24 @@ void PriceTable::displayPair(std::shared_ptr <Pair> pair) {
     tableModel->setData(index, variantData, Qt::DisplayRole);
 }
 
+void PriceTable::displayPrice(Price price) {
+    QVariant variantData;
+    variantData.setValue(price);
+
+    QModelIndex index = tableModel->index(0, 1, QModelIndex());
+    tableModel->setData(index, variantData, Qt::DisplayRole);
+}
+
 void PriceTable::clear() {
 
 }
 
-void PriceTable::updatePrice(Price price) {
-    
-}
 
 void PriceTable::resizeEvent(QResizeEvent* event) {
     this->adjustColumnsWidth();
+}
+
+void PriceTable::notifyPriceUpdate(std::shared_ptr <Pair> pair, Price price) {
+    displayPair(pair);
+    displayPrice(price);
 }

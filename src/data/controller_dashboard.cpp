@@ -14,13 +14,16 @@ DashboardController::DashboardController(APIManager* refAPI)
 }
 
 void DashboardController::setExchange(QString exchangeSymbol) {
-    if(selectedExchange != nullptr)
-        selectedExchange->deactivateTracking();
+    if(selectedExchange != nullptr) {
+        selectedExchange->deactivateAllPairTracking();
+        selectedExchange->deactivateSinglePairTracking();
+    }
 
     selectedExchange = refAPI->getExchangeBySymbol(exchangeSymbol);
     selectedExchange->getPairList();
-    selectedExchange->activateTracking();
+    selectedExchange->activateAllPairTracking();
     selectedExchange->registerPriceObserver(this);
+    selectedExchange->registerSinglePairPriceObserver(view->getPriceTable());
 
     auto conn = std::make_shared <QMetaObject::Connection>();
     *conn = QObject::connect(selectedExchange.get(),
@@ -80,8 +83,7 @@ void DashboardController::trackSinglePair(QString pairSymbol) {
     if(selectedExchange == nullptr)
         return;
 
-    PriceTable* priceTable = view->getPriceTable();
     std::shared_ptr <Pair> pair = selectedExchange->getPair(pairSymbol);
     if(pair != nullptr)
-        priceTable->setPair(pair);
+        selectedExchange->activateSinglePairTracking(pair);
 }
