@@ -16,13 +16,13 @@ Exchange::Exchange(Routes* apiRoutes, APIManager* refAPI, JsonParser* jsonParser
                     this, &Exchange::parseJson);
 
     pricesTracker = new AllPricesTracker(routes, parser,
-        this->symbol, Settings::App::getInstance()->getPriceRefreshRate());
+        this->symbol, Settings::App::getInstance()->getAllPriceRefreshRate());
 
     QObject::connect(pricesTracker, &AllPricesTracker::pricesUpdated,
         this, &Exchange::handlePriceUpdates);
 
     priceChangesTracker = new AllPriceChangesTracker(routes, parser, 
-        this->symbol, Settings::App::getInstance()->getPriceChangesRefreshRate());
+        this->symbol, Settings::App::getInstance()->getAllPriceChangeRefreshRate());
 
     QObject::connect(priceChangesTracker,
         &AllPriceChangesTracker::priceChangesUpdated, this,

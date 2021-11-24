@@ -22,12 +22,20 @@ public:
         defaultExchange = exchangeName;
     }
 
-    QTime getPriceRefreshRate() {
-        return priceRefreshRate;
+    QTime getSinglePriceRefreshRate() {
+        return singlePriceRefreshRate;
     }
 
-    QTime getPriceChangesRefreshRate() {
-        return priceChangesRefreshRate;
+    QTime getAllPriceRefreshRate() {
+        return allpriceRefreshRate;
+    }
+
+    QTime getSinglePriceChangeRefreshRate() {
+        return singlePriceChanegRefreshRate;
+    }
+
+    QTime getAllPriceChangeRefreshRate() {
+        return allPriceChangeRefreshRate;
     }
 
     void setPriceRefreshRate(QTime interval) {
@@ -45,8 +53,11 @@ private:
     QString defaultExchange = "binance.US";
 
     // Tracking intervals
-    QTime priceRefreshRate = QTime(0, 0, 20);
-    QTime priceChangesRefreshRate = QTime(0, 5, 0);
+    QTime singlePriceRefreshRate = QTime(0, 0, 5);
+    QTime allPriceRefreshRate = QTime(0, 0, 20);
+
+    QTime singlePriceChanegRefreshRate = QTime(0, 5, 0);
+    QTime allPriceChangeRefreshRate = QTime(0, 5, 0);
 
     Settings::Font fontSettings;
 };

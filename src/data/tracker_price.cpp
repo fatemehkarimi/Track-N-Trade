@@ -40,7 +40,6 @@ void PriceTracker::parseJson(QString url, QJsonObject json) {
             double result = future.result();
             Price price(exchangeSymbol, pair->getSymbol(), result);
             latestFetchedPrice = price;
-            qDebug() << "result = " << exchangeSymbol << " " << pair->getSymbol() << " " << result;///////
             emit priceUpdated(price);
         }
     }

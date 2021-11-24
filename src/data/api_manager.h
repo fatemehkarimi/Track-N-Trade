@@ -27,9 +27,6 @@ public:
     virtual void addExchange(QString id, QString name, QString symbol) = 0;
     virtual std::shared_ptr <Exchange> getExchangeBySymbol(QString symbol) = 0;
 
-    // Registering Observers
-    // virtual void registerPriceObserver(PriceObserver*) = 0;
-
 signals:
     void assetReady(std::shared_ptr <Asset> );
     void assetListReady(Container <Asset> assetContainer);
