@@ -27,7 +27,7 @@ public:
     }
 
     QTime getAllPriceRefreshRate() {
-        return allpriceRefreshRate;
+        return allPriceRefreshRate;
     }
 
     QTime getSinglePriceChangeRefreshRate() {
@@ -36,10 +36,6 @@ public:
 
     QTime getAllPriceChangeRefreshRate() {
         return allPriceChangeRefreshRate;
-    }
-
-    void setPriceRefreshRate(QTime interval) {
-        priceRefreshRate = interval;
     }
 
     Settings::Font& getFontSettings() {

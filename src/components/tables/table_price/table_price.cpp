@@ -8,16 +8,12 @@
 
 PriceTable::PriceTable(QString objectName) {
     setObjectName(objectName);
-    viewModel = new PriceTableViewModel();
-
     setTableModel();
     styleTableView();
     styleHeaders();
 }
 
 PriceTable::~PriceTable() {
-    delete viewModel;
-    viewModel = nullptr;
 }
 
 void PriceTable::styleTableView() {
@@ -82,7 +78,6 @@ int PriceTable::getMinRowHeight() {
 }
 
 void PriceTable::setPair(std::shared_ptr <Pair> pair) {
-    viewModel->setPair(pair);
     displayPair(pair);
 }
 

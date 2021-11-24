@@ -5,7 +5,6 @@
 #include <memory>
 #include <data/pair.h>
 #include <data/price.h>
-#include "view_model_table_price.h"
 
 class PriceTable : public QTableView {
     Q_OBJECT
@@ -29,7 +28,6 @@ private:
     int getMinRowHeight();
     
     std::shared_ptr <Pair> pair;
-    PriceTableViewModel* viewModel;
     QStandardItemModel* tableModel;
 };
 
