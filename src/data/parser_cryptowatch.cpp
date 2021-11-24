@@ -136,3 +136,9 @@ QList <QMap <QString, QString> > CryptowatchParser::parsePairsJson(QJsonObject j
     }
     return result;
 }
+
+double CryptowatchParser::parsePairPrice(QJsonObject json) {
+    QJsonObject priceObject = json["result"].toObject();
+    double priceValue = priceObject["price"].toDouble();
+    return priceValue;
+}

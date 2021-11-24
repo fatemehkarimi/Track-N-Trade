@@ -18,6 +18,8 @@ public:
         parseAllPairPrices(QJsonObject json) override;
     QMap <QString, QMap <QString, double> >
         parseAllPriceChanges(QJsonObject json) override;
+
+    double parsePairPrice(QJsonObject json) override;
 };
 
 #endif

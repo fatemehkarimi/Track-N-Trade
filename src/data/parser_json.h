@@ -8,6 +8,7 @@
 #include "asset.h"
 #include "container.h"
 
+
 class JsonParser
 {
 public:
@@ -18,6 +19,8 @@ public:
     virtual bool parseAssetsJson(QJsonObject, Container <Asset>*) = 0;
     virtual QMap <QString, QMap <QString, double> > parseAllPairPrices(QJsonObject) = 0;
     virtual QMap <QString, QMap <QString, double> > parseAllPriceChanges(QJsonObject) = 0;
+
+    virtual double parsePairPrice(QJsonObject) = 0; 
 };
 
 #endif
