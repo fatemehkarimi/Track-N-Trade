@@ -57,6 +57,8 @@ int MarketTable::getMinRowHeight() {
 
 void MarketTable::clear() {
     pairContainer.clearAll();
+    priceContainer.clear();
+    priceChangeContainer.clear();
     tableModel->removeRows(0, tableModel->rowCount());
 }
 
@@ -109,7 +111,7 @@ void MarketTable::updatePairPriceChange(Price price) {
     QString pairSymbol = price.getPairSymbol();
     std::shared_ptr <Pair> pair = pairContainer.getBySymbol(pairSymbol);
     if(pair != nullptr) {
-        priceContainer[pairSymbol] = price;
+        priceChangeContainer[pairSymbol] = price;
         QVariant variantData;
         variantData.setValue(price);
 
@@ -149,10 +151,10 @@ void MarketTable::setFilter(QString text) {
 
         if(pairMatchesFilter(pair)) {
             displayPair(pair);
-            if(priceContainer.contains(pair->getSymbol())) {
+            if(priceContainer.contains(pair->getSymbol()))
                 updatePairPrice(priceContainer[pair->getSymbol()]);
-                updatePairPriceChange(priceContainer[pair->getSymbol()]);
-            }
+            if(priceChangeContainer.contains(pair->getSymbol()))
+                updatePairPriceChange(priceChangeContainer[pair->getSymbol()]);
         }
     }
 }
