@@ -5,6 +5,7 @@
 #include <memory>
 #include <data/pair.h>
 #include <data/price.h>
+#include <data/price_change.h>
 #include <data/observer_single_pair_price.h>
 
 class PriceTable : public QTableView, public SinglePairPriceObserver {
@@ -15,6 +16,7 @@ public:
     void clear();
     void resizeEvent(QResizeEvent* event) override;
     void notifyPriceUpdate(std::shared_ptr <Pair> pair, Price price) override;
+    void notifyPriceChangeUpdate(std::shared_ptr <Pair> pair, PriceChange priceChange) override;
 
 private:
     void setTableModel();
@@ -25,6 +27,7 @@ private:
     void styleHeaders();
     void displayPair(std::shared_ptr <Pair> pair);
     void displayPrice(Price price);
+    void displayPriceChange(PriceChange priceChange);
     int getRowHeight();
     int getMinRowHeight();
     

@@ -21,7 +21,7 @@ void AllPriceChangesTracker::getPriceChangesAsync() {
         networkManager->fetchJson(routes->getAllPriceChanges());
 }
 
-QMap <QString, Price> AllPriceChangesTracker::getPriceChanges() {
+QMap <QString, PriceChange> AllPriceChangesTracker::getPriceChanges() {
     return priceChanges;
 }
 
@@ -36,12 +36,11 @@ void AllPriceChangesTracker::parseJson(QString url, QJsonObject json) {
         QMap <QString, QMap <QString, double> > result = future.result();
         foreach(const QString& pair, result[exchangeSymbol].keys()) {
             if(priceChanges.contains(pair))
-                priceChanges.find(pair)->setChangePercentage(
+                priceChanges.find(pair)->update(
                     result[exchangeSymbol][pair]);
             else {
-                Price price(exchangeSymbol, pair, 0);
-                price.setChangePercentage(result[exchangeSymbol][pair]);
-                priceChanges.insert(pair, price);
+                PriceChange priceChange(exchangeSymbol, pair, result[exchangeSymbol][pair]);
+                priceChanges.insert(pair, priceChange);
             }
         }
         emit priceChangesUpdated(priceChanges);

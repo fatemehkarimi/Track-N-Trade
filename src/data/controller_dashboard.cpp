@@ -74,7 +74,7 @@ void DashboardController::setPriceChangesToTable() {
     if(selectedExchange == nullptr)
         return;
     MarketTable* marketTable = view->getMarketTable();
-    QMap <QString, Price> priceChanges = selectedExchange->getPriceChanges();
+    QMap <QString, PriceChange> priceChanges = selectedExchange->getPriceChanges();
     foreach(const QString& key, priceChanges.keys())
         marketTable->updatePairPriceChange(*priceChanges.find(key));
 }

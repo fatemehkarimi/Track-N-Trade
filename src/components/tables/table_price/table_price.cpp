@@ -93,6 +93,14 @@ void PriceTable::displayPrice(Price price) {
     tableModel->setData(index, variantData, Qt::DisplayRole);
 }
 
+void PriceTable::displayPriceChange(PriceChange priceChange) {
+    QVariant variantData;
+    variantData.setValue(priceChange);
+
+    QModelIndex index = tableModel->index(0, 2, QModelIndex());
+    tableModel->setData(index, variantData, Qt::DisplayRole);
+}
+
 void PriceTable::clear() {
 
 }
@@ -105,4 +113,9 @@ void PriceTable::resizeEvent(QResizeEvent* event) {
 void PriceTable::notifyPriceUpdate(std::shared_ptr <Pair> pair, Price price) {
     displayPair(pair);
     displayPrice(price);
+}
+
+void PriceTable::notifyPriceChangeUpdate(std::shared_ptr <Pair> pair,
+    PriceChange priceChange) {
+    displayPriceChange(priceChange);
 }

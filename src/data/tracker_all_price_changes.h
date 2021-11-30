@@ -4,7 +4,7 @@
 #include <QTime>
 #include <QtConcurrent>
 #include <network/network_manager.h>
-#include "price.h"
+#include "price_change.h"
 #include "routes.h"
 #include "tracker.h"
 #include "parser_json.h"
@@ -17,21 +17,21 @@ public:
         QString exchangeSymbol, QTime watchPeriod);
 
     void performAction() override;
-    QMap <QString, Price> getPriceChanges();
+    QMap <QString, PriceChange> getPriceChanges();
     void getPriceChangesAsync();
 
 private slots:
     void parseJson(QString url, QJsonObject json);
 
 signals:
-    void priceChangesUpdated(QMap <QString, Price>);
+    void priceChangesUpdated(QMap <QString, PriceChange>);
 
 private:
     Routes* routes;
     JsonParser* parser;
     QString exchangeSymbol;
     NetworkManager* networkManager;
-    QMap <QString, Price> priceChanges;    
+    QMap <QString, PriceChange> priceChanges;    
 };
 
 #endif

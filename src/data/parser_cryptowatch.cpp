@@ -148,7 +148,7 @@ QMap <QString, double> CryptowatchParser::parsePairSummary(QJsonObject json) {
     QJsonObject priceObject = json["result"].toObject()["price"].toObject();
     result["high"] = priceObject["high"].toDouble();
     result["low"] = priceObject["low"].toDouble();
-    result["change"] = priceObject["change"].toObject()["percentage"].toDouble() * 100;
+    result["change"] = priceObject["change"].toObject()["percentage"].toDouble();
     return result;
 }
 

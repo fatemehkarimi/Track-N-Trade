@@ -45,7 +45,7 @@ QMap <QString, Price> Exchange::getPrices() {
     return pricesTracker->getPrices();
 }
 
-QMap <QString, Price> Exchange::getPriceChanges() {
+QMap <QString, PriceChange> Exchange::getPriceChanges() {
     return priceChangesTracker->getPriceChanges();
 }
 
@@ -108,7 +108,7 @@ void Exchange::handlePriceUpdates(QMap <QString, Price> prices) {
         observer->notifyPriceUpdates();
 }
 
-void Exchange::handlePriceChangesUpdates(QMap <QString, Price> prices) {
+void Exchange::handlePriceChangesUpdates(QMap <QString, PriceChange> priceChanges) {
     for(auto observer : priceObservers)
         observer->notifyPriceChangeUpdates();
 }
@@ -165,4 +165,7 @@ void Exchange::handleSinglePairPriceUpdate(Price price) {
 }
 
 void Exchange::handleSinglePairPriceChangeUpdate(PriceChange priceChange) {
+    for(auto observer : singlePairPriceObservers)
+        observer->notifyPriceChangeUpdate(
+            singlePairPriceChangeTracker->getPair(), priceChange);
 }

@@ -30,7 +30,7 @@ public:
     QString getName();
     void getPairList();
     QMap <QString, Price> getPrices();
-    QMap <QString, Price> getPriceChanges();
+    QMap <QString, PriceChange> getPriceChanges();
     std::shared_ptr <Pair> getPair(QString symbol);
     void activateAllPairTracking();
     void deactivateAllPairTracking();
@@ -56,7 +56,7 @@ private:
     void handleSinglePairPriceChangeUpdate(PriceChange priceChange);
 
     void handlePriceUpdates(QMap <QString, Price> prices);
-    void handlePriceChangesUpdates(QMap <QString, Price> prices);
+    void handlePriceChangesUpdates(QMap <QString, PriceChange> priceChanges);
 
     QString id;
     QString name;

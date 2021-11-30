@@ -7,6 +7,7 @@
 #include <QItemSelectionModel>
 #include <data/pair.h>
 #include <data/price.h>
+#include <data/price_change.h>
 #include <data/container.h>
 #include <settings/settings_app.h>
 
@@ -18,7 +19,7 @@ public:
     void clear();
     void addPair(std::shared_ptr <Pair> pair);
     void updatePairPrice(Price price);
-    void updatePairPriceChange(Price price);
+    void updatePairPriceChange(PriceChange price);
     int getRowHeight();
     int getMinRowHeight();
 
@@ -37,7 +38,7 @@ private:
     QStandardItemModel* tableModel;
     Container <Pair> pairContainer;
     QMap <QString, Price> priceContainer;
-    QMap <QString, Price> priceChangeContainer;
+    QMap <QString, PriceChange> priceChangeContainer;
     void displayPair(std::shared_ptr <Pair> pair);
     bool pairMatchesFilter(std::shared_ptr <Pair> pair);
 };

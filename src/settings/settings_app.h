@@ -50,10 +50,10 @@ private:
 
     // Tracking intervals
     QTime singlePriceRefreshRate = QTime(0, 0, 5);
-    QTime singlePriceChanegRefreshRate = QTime(0, 0, 10);
+    QTime singlePriceChanegRefreshRate = QTime(0, 0, 15);
 
     QTime allPriceRefreshRate = QTime(0, 0, 20);
-    QTime allPriceChangeRefreshRate = QTime(0, 5, 0);
+    QTime allPriceChangeRefreshRate = QTime(0, 1, 0);
 
     Settings::Font fontSettings;
 };

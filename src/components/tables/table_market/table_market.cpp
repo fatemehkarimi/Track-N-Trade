@@ -107,13 +107,13 @@ void MarketTable::updatePairPrice(Price price) {
     }
 }
 
-void MarketTable::updatePairPriceChange(Price price) {
-    QString pairSymbol = price.getPairSymbol();
+void MarketTable::updatePairPriceChange(PriceChange priceChange) {
+    QString pairSymbol = priceChange.getPairSymbol();
     std::shared_ptr <Pair> pair = pairContainer.getBySymbol(pairSymbol);
     if(pair != nullptr) {
-        priceChangeContainer[pairSymbol] = price;
+        priceChangeContainer[pairSymbol] = priceChange;
         QVariant variantData;
-        variantData.setValue(price);
+        variantData.setValue(priceChange);
 
         for(int i = 0; i < tableModel->rowCount(); ++i) {
             QModelIndex symbol_index = tableModel->index(i, 0, QModelIndex());

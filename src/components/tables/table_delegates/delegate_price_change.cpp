@@ -1,16 +1,16 @@
-#include <data/price.h>
+#include <data/price_change.h>
 #include <components/tables/table_delegates/delegate_price_change.h>
 
 void PriceChangeDelegate::paint( QPainter *painter, 
     const QStyleOptionViewItem &option, const QModelIndex &index ) const
 {
-    Price price = index.data().value <Price>();
+    PriceChange priceChange = index.data().value <PriceChange>();
 
     // if an empty price object is sent then display nothing.
-    if(!price.isValid())
+    if(priceChange.isEmpty())
         return;
 
-    double percentage = std::ceil(price.getChangePercentage() * 10000) / 100.0;
+    double percentage = std::ceil(priceChange.getChangePercentage() * 10000) / 100.0;
     QString changeReper = "";
     if(percentage > 0)
         changeReper = "+";
