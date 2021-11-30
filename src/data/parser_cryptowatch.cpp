@@ -142,3 +142,17 @@ double CryptowatchParser::parsePairPrice(QJsonObject json) {
     double priceValue = priceObject["price"].toDouble();
     return priceValue;
 }
+
+QMap <QString, double> CryptowatchParser::parsePairSummary(QJsonObject json) {
+    QMap <QString, double> result;
+    QJsonObject priceObject = json["result"].toObject()["price"].toObject();
+    result["high"] = priceObject["high"].toDouble();
+    result["low"] = priceObject["low"].toDouble();
+    result["change"] = priceObject["change"].toObject()["percentage"].toDouble() * 100;
+    return result;
+}
+
+double CryptowatchParser::parsePairPriceChange(QJsonObject json) {
+    QMap <QString, double> summary = parsePairSummary(json);
+    return summary["change"];
+}

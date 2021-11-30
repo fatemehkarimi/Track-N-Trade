@@ -113,18 +113,32 @@ void Exchange::handlePriceChangesUpdates(QMap <QString, Price> prices) {
         observer->notifyPriceChangeUpdates();
 }
 
-void Exchange::activateSinglePairTracking(std::shared_ptr <Pair> pair) {
-    deactivateSinglePairTracking();
-
+void Exchange::createSinglePairPriceTracker(std::shared_ptr <Pair> pair) {
     singlePairPriceTracker = new PriceTracker(routes, parser, getSymbol(),
         pair, Settings::App::getInstance()->getSinglePriceRefreshRate());
     QObject::connect(singlePairPriceTracker, &PriceTracker::priceUpdated,
         this, &Exchange::handleSinglePairPriceUpdate);
-
-    singlePairPriceTracker->run();
 }
 
-void Exchange::deactivateSinglePairTracking() {
+void Exchange::createSinglePairPriceChangeTracker(std::shared_ptr <Pair> pair) {
+    singlePairPriceChangeTracker = new PriceChangeTracker(routes,
+        parser, getSymbol(), pair,
+        Settings::App::getInstance()->getSinglePriceChangeRefreshRate());
+    QObject::connect(singlePairPriceChangeTracker,
+        &PriceChangeTracker::priceChangeUpdated, this,
+        &Exchange::handleSinglePairPriceChangeUpdate);
+}
+
+void Exchange::activateSinglePairTracking(std::shared_ptr <Pair> pair) {
+    deactivateSinglePairTracking();
+    this->createSinglePairPriceTracker(pair);
+    singlePairPriceTracker->run();
+
+    this->createSinglePairPriceChangeTracker(pair);
+    singlePairPriceChangeTracker->run();
+}
+
+void Exchange::deleteSinglePairPriceTracker() {
     if(singlePairPriceTracker == nullptr)
         return;
     QObject::disconnect(singlePairPriceTracker);
@@ -132,7 +146,23 @@ void Exchange::deactivateSinglePairTracking() {
     singlePairPriceTracker = nullptr;
 }
 
+void Exchange::deleteSinglePairPriceChangeTracker() {
+    if(singlePairPriceChangeTracker == nullptr)
+        return;
+    QObject::disconnect(singlePairPriceChangeTracker);
+    delete singlePairPriceChangeTracker;
+    singlePairPriceChangeTracker = nullptr;
+}
+
+void Exchange::deactivateSinglePairTracking() {
+    deleteSinglePairPriceTracker();
+    deleteSinglePairPriceChangeTracker();
+}
+
 void Exchange::handleSinglePairPriceUpdate(Price price) {
     for(auto observer : singlePairPriceObservers)
         observer->notifyPriceUpdate(singlePairPriceTracker->getPair(), price);
+}
+
+void Exchange::handleSinglePairPriceChangeUpdate(PriceChange priceChange) {
 }

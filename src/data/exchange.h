@@ -11,6 +11,7 @@
 #include "observer_single_pair_price.h"
 #include "tracker_price.h"
 #include "tracker_all_prices.h"
+#include "tracker_price_change.h"
 #include "tracker_all_price_changes.h"
 #include <network/network_manager.h>
 
@@ -45,6 +46,18 @@ signals:
     void pairListReady(Container <Pair>);
 
 private:
+    void createSinglePairPriceTracker(std::shared_ptr <Pair>);
+    void createSinglePairPriceChangeTracker(std::shared_ptr <Pair>);
+
+    void deleteSinglePairPriceTracker();
+    void deleteSinglePairPriceChangeTracker();
+
+    void handleSinglePairPriceUpdate(Price price);
+    void handleSinglePairPriceChangeUpdate(PriceChange priceChange);
+
+    void handlePriceUpdates(QMap <QString, Price> prices);
+    void handlePriceChangesUpdates(QMap <QString, Price> prices);
+
     QString id;
     QString name;
     QString symbol;
@@ -58,12 +71,8 @@ private:
 
     PriceTracker* singlePairPriceTracker = nullptr;
     AllPricesTracker* pricesTracker = nullptr;
+    PriceChangeTracker* singlePairPriceChangeTracker = nullptr;
     AllPriceChangesTracker* priceChangesTracker = nullptr;
-
-    void handleSinglePairPriceUpdate(Price price);
-
-    void handlePriceUpdates(QMap <QString, Price> prices);
-    void handlePriceChangesUpdates(QMap <QString, Price> prices);
 };
 
 #endif

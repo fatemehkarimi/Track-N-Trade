@@ -21,6 +21,8 @@ public:
     virtual QMap <QString, QMap <QString, double> > parseAllPriceChanges(QJsonObject) = 0;
 
     virtual double parsePairPrice(QJsonObject) = 0; 
+    virtual double parsePairPriceChange(QJsonObject) = 0;
+    virtual QMap <QString, double> parsePairSummary(QJsonObject) = 0;
 };
 
 #endif

@@ -20,6 +20,8 @@ public:
         parseAllPriceChanges(QJsonObject json) override;
 
     double parsePairPrice(QJsonObject json) override;
+    double parsePairPriceChange(QJsonObject) override;
+    QMap <QString, double> parsePairSummary(QJsonObject) override;
 };
 
 #endif
