@@ -1,5 +1,5 @@
-#ifndef TRACKER_PRICE_H
-#define TRACKER_PRICE_H
+#ifndef TRACKER_LATEST_PRICE_H
+#define TRACKER_LATEST_PRICE_H
 
 #include <memory>
 #include <network/network_manager.h>
@@ -10,11 +10,11 @@
 #include "parser_json.h"
 
 
-class PriceTracker : public Tracker
+class LatestPriceTracker : public Tracker
 {
     Q_OBJECT
 public:
-    PriceTracker(Routes* apiRoutes, JsonParser* parser,
+    LatestPriceTracker(Routes* apiRoutes, JsonParser* parser,
         QString exchangeSymbol, std::shared_ptr <Pair> pair, QTime watchPeriod);
 
     void performAction() override;

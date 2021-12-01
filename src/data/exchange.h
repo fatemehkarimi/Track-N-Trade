@@ -9,7 +9,7 @@
 #include "parser_json.h"
 #include "observer_price.h"
 #include "observer_single_pair_price.h"
-#include "tracker_price.h"
+#include "tracker_latest_price.h"
 #include "tracker_all_prices.h"
 #include "tracker_price_change.h"
 #include "tracker_all_price_changes.h"
@@ -69,7 +69,7 @@ private:
     QList <PriceObserver*> priceObservers;
     QList <SinglePairPriceObserver*> singlePairPriceObservers;
 
-    PriceTracker* singlePairPriceTracker = nullptr;
+    LatestPriceTracker* singlePairPriceTracker = nullptr;
     AllPricesTracker* pricesTracker = nullptr;
     PriceChangeTracker* singlePairPriceChangeTracker = nullptr;
     AllPriceChangesTracker* priceChangesTracker = nullptr;

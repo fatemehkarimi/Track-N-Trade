@@ -114,9 +114,9 @@ void Exchange::handlePriceChangesUpdates(QMap <QString, PriceChange> priceChange
 }
 
 void Exchange::createSinglePairPriceTracker(std::shared_ptr <Pair> pair) {
-    singlePairPriceTracker = new PriceTracker(routes, parser, getSymbol(),
+    singlePairPriceTracker = new LatestPriceTracker(routes, parser, getSymbol(),
         pair, Settings::App::getInstance()->getSinglePriceRefreshRate());
-    QObject::connect(singlePairPriceTracker, &PriceTracker::priceUpdated,
+    QObject::connect(singlePairPriceTracker, &LatestPriceTracker::priceUpdated,
         this, &Exchange::handleSinglePairPriceUpdate);
 }
 
