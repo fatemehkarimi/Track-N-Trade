@@ -10,6 +10,7 @@
 #include "observer_price.h"
 #include "observer_single_pair_price.h"
 #include "tracker_latest_price.h"
+#include "tracker_lowest_price.h"
 #include "tracker_all_prices.h"
 #include "tracker_price_change.h"
 #include "tracker_all_price_changes.h"
@@ -48,12 +49,15 @@ signals:
 private:
     void createSinglePairPriceTracker(std::shared_ptr <Pair>);
     void createSinglePairPriceChangeTracker(std::shared_ptr <Pair>);
+    void createLowestPriceTracker(std::shared_ptr <Pair>);
 
     void deleteSinglePairPriceTracker();
     void deleteSinglePairPriceChangeTracker();
+    void deleteLowestPriceTracker();
 
     void handleSinglePairPriceUpdate(Price price);
     void handleSinglePairPriceChangeUpdate(PriceChange priceChange);
+    void handleLowestPriceUpdate(Price price);
 
     void handlePriceUpdates(QMap <QString, Price> prices);
     void handlePriceChangesUpdates(QMap <QString, PriceChange> priceChanges);
@@ -70,6 +74,7 @@ private:
     QList <SinglePairPriceObserver*> singlePairPriceObservers;
 
     LatestPriceTracker* singlePairPriceTracker = nullptr;
+    LowestPriceTracker* lowestPriceTracker = nullptr;
     AllPricesTracker* pricesTracker = nullptr;
     PriceChangeTracker* singlePairPriceChangeTracker = nullptr;
     AllPriceChangesTracker* priceChangesTracker = nullptr;

@@ -17,6 +17,7 @@ public:
     void resizeEvent(QResizeEvent* event) override;
     void notifyPriceUpdate(std::shared_ptr <Pair> pair, Price price) override;
     void notifyPriceChangeUpdate(std::shared_ptr <Pair> pair, PriceChange priceChange) override;
+    void notifyLowestPriceUpdate(std::shared_ptr <Pair> pair, Price price) override;
 
 private:
     void setTableModel();
@@ -28,6 +29,7 @@ private:
     void displayPair(std::shared_ptr <Pair> pair);
     void displayPrice(Price price);
     void displayPriceChange(PriceChange priceChange);
+    void displayLowestPrice(Price price);
     int getRowHeight();
     int getMinRowHeight();
     

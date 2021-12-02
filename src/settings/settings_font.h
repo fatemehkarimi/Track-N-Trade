@@ -23,6 +23,7 @@ public:
     QFont getPriceTableAssetFont();
     QFont getPriceTablePriceFont();
     QFont getPriceTablePriceChangeFont();
+    QFont getPriceTableLowestPriceFont();
 
 private:
     int largeFontSize = 32;

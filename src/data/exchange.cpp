@@ -129,6 +129,13 @@ void Exchange::createSinglePairPriceChangeTracker(std::shared_ptr <Pair> pair) {
         &Exchange::handleSinglePairPriceChangeUpdate);
 }
 
+void Exchange::createLowestPriceTracker(std::shared_ptr <Pair> pair) {
+    lowestPriceTracker = new LowestPriceTracker(routes, parser, getSymbol(),
+        pair, Settings::App::getInstance()->getSinglePairLowestPriceRefreshRate());
+    QObject::connect(lowestPriceTracker, &LowestPriceTracker::lowestPriceUpdated,
+        this, &Exchange::handleLowestPriceUpdate);
+}
+
 void Exchange::activateSinglePairTracking(std::shared_ptr <Pair> pair) {
     deactivateSinglePairTracking();
     this->createSinglePairPriceTracker(pair);
@@ -136,6 +143,9 @@ void Exchange::activateSinglePairTracking(std::shared_ptr <Pair> pair) {
 
     this->createSinglePairPriceChangeTracker(pair);
     singlePairPriceChangeTracker->run();
+
+    this->createLowestPriceTracker(pair);
+    lowestPriceTracker->run();
 }
 
 void Exchange::deleteSinglePairPriceTracker() {
@@ -154,9 +164,18 @@ void Exchange::deleteSinglePairPriceChangeTracker() {
     singlePairPriceChangeTracker = nullptr;
 }
 
+void Exchange::deleteLowestPriceTracker() {
+    if(lowestPriceTracker == nullptr)
+        return;
+    QObject::disconnect(lowestPriceTracker);
+    delete lowestPriceTracker;
+    lowestPriceTracker = nullptr;
+}
+
 void Exchange::deactivateSinglePairTracking() {
     deleteSinglePairPriceTracker();
     deleteSinglePairPriceChangeTracker();
+    deleteLowestPriceTracker();
 }
 
 void Exchange::handleSinglePairPriceUpdate(Price price) {
@@ -168,4 +187,10 @@ void Exchange::handleSinglePairPriceChangeUpdate(PriceChange priceChange) {
     for(auto observer : singlePairPriceObservers)
         observer->notifyPriceChangeUpdate(
             singlePairPriceChangeTracker->getPair(), priceChange);
+}
+
+void Exchange::handleLowestPriceUpdate(Price price) {
+    for(auto observer : singlePairPriceObservers)
+        observer->notifyLowestPriceUpdate(
+            lowestPriceTracker->getPair(), price);
 }

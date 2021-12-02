@@ -156,3 +156,8 @@ double CryptowatchParser::parsePairPriceChange(QJsonObject json) {
     QMap <QString, double> summary = parsePairSummary(json);
     return summary["change"];
 }
+
+double CryptowatchParser::parsePairLowestPrice(QJsonObject json) {
+    QMap <QString, double> summary = parsePairSummary(json);
+    return summary["low"];
+}
