@@ -8,14 +8,14 @@ class ObserverPool {
 public:
     ObserverPool<T>(){}
     void registerObserver(QString url, std::shared_ptr<T> observer) {
-        if(pool[url].contains(observer))
-            return;
-
-        pool[url].insert(observer);
+        for(auto o : pool[url])
+            if(o == observer)
+                return;
+        pool[url].append(observer);
     }
 
-    void removeObserver(QString url, std::shared_ptr<T> observer) {
-        pool[url].remove(observer);
+    void removeObservers(QString url) {
+        pool[url].clear();
     }
 
     ObserverPoolIterator<T> createIterator(QString url) {
@@ -24,7 +24,7 @@ public:
     }
 
 private:
-    QMap <QString, QSet <std::shared_ptr <T> > > pool;
+    QMap <QString, QList <std::shared_ptr <T> > > pool;
 };
 
 #endif

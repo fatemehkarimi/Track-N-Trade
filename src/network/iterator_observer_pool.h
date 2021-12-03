@@ -8,26 +8,26 @@ template <class T>
 class ObserverPoolIterator : public Iterator <T> 
 {
 public:
-    ObserverPoolIterator<T>(QSet <std::shared_ptr <T> > observerSet) {
-        this->set = observerSet;
-        iterator = this->set.begin();
+    ObserverPoolIterator(QList <std::shared_ptr <T> > observerList) {
+        this->list = observerList;
+        iterator = this->list.begin();
     }
 
     bool hasNext() override {
-        if(iterator == set.end())
+        if(iterator == list.end())
             return false;
         return true;
     }
 
     std::shared_ptr <T> next() {
-        auto current = iterator.value();
+        auto current = *iterator;
         ++iterator;
         return current;
     }
 
 private:
-    QSet <std::shared_ptr <T> > set;
-    typename QSet <std::shared_ptr <T> >::iterator iterator;
+    QList <std::shared_ptr <T> > list;
+    typename QList <std::shared_ptr <T> >::iterator iterator;
 };
 
 #endif

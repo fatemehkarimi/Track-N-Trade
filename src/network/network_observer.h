@@ -4,7 +4,8 @@
 #include <QtWidgets>
 
 class NetworkObserver {
-    virtual void receiveJson(QString url, QJsonObject json) = 0;
+public:
+    virtual void handleJsonResponse(QString url, QJsonObject json) = 0;
 };
 
 #endif
