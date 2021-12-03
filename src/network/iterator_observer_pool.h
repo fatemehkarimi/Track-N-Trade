@@ -1,5 +1,5 @@
-#ifndef OBSERVER_POOL_ITERATOR_H
-#define OBSERVER_POOL_ITERATOR_H
+#ifndef ITERATOR_OBSERVER_POOL_H
+#define ITERATOR_OBSERVER_POOL_H
 
 #include <QSet>
 #include <data/iterator.h>
@@ -10,25 +10,24 @@ class ObserverPoolIterator : public Iterator <T>
 public:
     ObserverPoolIterator<T>(QSet <std::shared_ptr <T> > observerSet) {
         this->set = observerSet;
-        // iterator = this->set.begin();
+        iterator = this->set.begin();
     }
 
     bool hasNext() override {
-        // if(iterator == set.end())
-            // return false;
+        if(iterator == set.end())
+            return false;
         return true;
     }
 
     std::shared_ptr <T> next() {
-        // auto current = iterator.value();
-        // ++iterator;
-        // return current;
-        return nullptr;
+        auto current = iterator.value();
+        ++iterator;
+        return current;
     }
 
 private:
     QSet <std::shared_ptr <T> > set;
-    // QSet <std::shared_ptr <T> >::iterator iterator;
+    typename QSet <std::shared_ptr <T> >::iterator iterator;
 };
 
 #endif

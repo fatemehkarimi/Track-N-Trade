@@ -1,7 +1,7 @@
 #ifndef OBSERVER_POOL_H
 #define OBSERVER_POOL_H
 
-#include "observer_pool_iterator.h"
+#include "iterator_observer_pool.h"
 
 template <class T>
 class ObserverPool {
