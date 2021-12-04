@@ -2,7 +2,7 @@
 #define TRACKER_LATEST_PRICE_H
 
 #include <memory>
-#include <network/network_manager.h>
+#include <network/network_wrapper.h>
 #include "pair.h"
 #include "price.h"
 #include "routes.h"
@@ -10,13 +10,15 @@
 #include "parser_json.h"
 
 
-class LatestPriceTracker : public Tracker
+class LatestPriceTracker : public Tracker, public NetworkObserver
 {
     Q_OBJECT
 public:
     LatestPriceTracker(Routes* apiRoutes, JsonParser* parser,
         QString exchangeSymbol, std::shared_ptr <Pair> pair, QTime watchPeriod);
+    ~LatestPriceTracker();
 
+    void handleJsonResponse(QString url, QJsonObject json) override;
     void performAction() override;
     void getPriceAsync();
     Price getPrice();
@@ -33,7 +35,7 @@ private:
     JsonParser* parser;
     QString exchangeSymbol;
     std::shared_ptr <Pair> pair;
-    NetworkManager* networkManager;
+    NetworkWrapper* network;
     Price latestFetchedPrice;
 };
 

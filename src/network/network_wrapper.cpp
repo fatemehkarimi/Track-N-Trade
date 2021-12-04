@@ -8,6 +8,7 @@ NetworkWrapper::NetworkWrapper() {
 
 NetworkWrapper::~NetworkWrapper() {
     QObject::disconnect(this);
+    observerPool.removeAll();
 }
 
 void NetworkWrapper::fetchJson(QString url, NetworkObserver* o) {

@@ -18,6 +18,12 @@ public:
         pool[url].clear();
     }
 
+    void removeAll() {
+        for(auto url : pool.keys())
+            removeObservers(url);
+        pool.clear();
+    }
+
     ObserverPoolIterator<T> createIterator(QString url) {
         ObserverPoolIterator<T> iterator(pool[url]);
         return iterator;
