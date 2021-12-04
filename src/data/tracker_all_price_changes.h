@@ -3,18 +3,19 @@
 
 #include <QTime>
 #include <QtConcurrent>
-#include <network/network_manager.h>
+#include <network/network_wrapper.h>
 #include "price_change.h"
 #include "routes.h"
 #include "tracker.h"
 #include "parser_json.h"
 
-class AllPriceChangesTracker : public Tracker
+class AllPriceChangesTracker : public Tracker, public NetworkObserver
 {
     Q_OBJECT
 public:
     AllPriceChangesTracker(Routes* apiRoutes, JsonParser* parser,
         QString exchangeSymbol, QTime watchPeriod);
+    void handleJsonResponse(QString url, QJsonObject json) override;
 
     void performAction() override;
     QMap <QString, PriceChange> getPriceChanges();
@@ -30,7 +31,7 @@ private:
     Routes* routes;
     JsonParser* parser;
     QString exchangeSymbol;
-    NetworkManager* networkManager;
+    NetworkWrapper* network = nullptr;
     QMap <QString, PriceChange> priceChanges;    
 };
 
