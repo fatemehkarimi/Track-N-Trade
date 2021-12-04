@@ -126,4 +126,5 @@ void MainWindow::exchangeChanged(int) {
     QString currentExchangeSymbol = exchangeMenu->currentData().toString();
     controller->setExchange(currentExchangeSymbol);
     exchangeMenu->setEnabled(false);
+    marketTable->clear();
 }
