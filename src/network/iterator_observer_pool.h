@@ -5,10 +5,10 @@
 #include <data/iterator.h>
 
 template <class T>
-class ObserverPoolIterator : public Iterator <std::shared_ptr <T> >
+class ObserverPoolIterator : public Iterator <T*>
 {
 public:
-    ObserverPoolIterator(QList <std::shared_ptr <T> > observerList) {
+    ObserverPoolIterator(QList <T*> observerList) {
         this->list = observerList;
         iterator = this->list.begin();
     }
@@ -19,15 +19,15 @@ public:
         return true;
     }
 
-    std::shared_ptr <T> next() {
+    T* next() {
         auto current = *iterator;
         ++iterator;
         return current;
     }
 
 private:
-    QList <std::shared_ptr <T> > list;
-    typename QList <std::shared_ptr <T> >::iterator iterator;
+    QList <T*> list;
+    typename QList <T*>::iterator iterator;
 };
 
 #endif

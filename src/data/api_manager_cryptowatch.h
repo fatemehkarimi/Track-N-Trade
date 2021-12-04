@@ -4,18 +4,19 @@
 #include <QtWidgets>
 #include <QJsonObject>
 #include <settings/settings_app.h>
-#include <network/network_manager.h>
+#include <network/network_wrapper.h>
 #include "routes.h"
 #include "api_manager.h"
 #include "parser_json.h"
 #include "observer_price.h"
 #include "container.h"
 
-class CryptoAPIManager : public APIManager
+class CryptoAPIManager : public APIManager, public NetworkObserver
 {
     Q_OBJECT
 public:
     explicit CryptoAPIManager(Routes* api_routes, JsonParser* parser);
+    void handleJsonResponse(QString url, QJsonObject json) override;
 
     void getAssetList() override;
     std::shared_ptr <Asset> getAsset(QString assetSymbol) override;
@@ -40,7 +41,7 @@ private:
     Container <Exchange> exchangeContainer;
     Container <Asset> assetContainer;
     Container <Pair> pairContainer;
-    NetworkManager* networkManager;
+    NetworkWrapper* network = nullptr;
 };
 
 #endif

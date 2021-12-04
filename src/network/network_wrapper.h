@@ -10,8 +10,8 @@ class NetworkWrapper : public QObject {
 public:
     explicit NetworkWrapper();
     ~NetworkWrapper();
-    void fetchJson(QString url, std::shared_ptr <NetworkObserver> o);
-    void registerObserver(QString url, std::shared_ptr <NetworkObserver> observer);
+    void fetchJson(QString url, NetworkObserver* o);
+    void registerObserver(QString url, NetworkObserver* observer);
 
 public slots:
     void handleResponseReady(QString url, QJsonObject json);

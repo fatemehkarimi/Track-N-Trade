@@ -6,10 +6,7 @@ CryptoAPIManager::CryptoAPIManager(Routes* api_routes, JsonParser* json_parser) 
     routes = api_routes;
     parser = json_parser;
 
-    networkManager = NetworkManager::getInstance();
-    QObject::connect(networkManager, &NetworkManager::jsonReady,
-                    this, &CryptoAPIManager::parseJson);
-
+    network = new NetworkWrapper();
     auto conn = std::make_shared <QMetaObject::Connection>();
     *conn = QObject::connect(this, &CryptoAPIManager::assetListReady,
             this, [=](){
@@ -20,8 +17,12 @@ CryptoAPIManager::CryptoAPIManager(Routes* api_routes, JsonParser* json_parser) 
     getAssetList();
 }
 
+void CryptoAPIManager::handleJsonResponse(QString url, QJsonObject json) {
+    this->parseJson(url, json);
+}
+
 void CryptoAPIManager::getAssetList() {
-    networkManager->fetchJson(routes->getAssets());
+    network->fetchJson(routes->getAssets(), this);
 }
 
 std::shared_ptr <Asset> CryptoAPIManager::getAsset(QString symbol) {
@@ -35,7 +36,7 @@ std::shared_ptr <Asset> CryptoAPIManager::getAsset(QString symbol) {
 }
 
 void CryptoAPIManager::getPairList() {
-    networkManager->fetchJson(routes->getPairs());
+    network->fetchJson(routes->getPairs(), this);
 }
 
 std::shared_ptr <Pair> CryptoAPIManager::getPairBySymbol(QString symbol) {
@@ -97,7 +98,7 @@ void CryptoAPIManager::parseJson(QString url, QJsonObject json) {
 }
 
 void CryptoAPIManager::getExchangeList() {
-    networkManager->fetchJson(routes->getExchangeListPath());
+    network->fetchJson(routes->getExchangeListPath(), this);
 }
 
 std::shared_ptr <Exchange> CryptoAPIManager::getExchangeBySymbol(QString symbol) {

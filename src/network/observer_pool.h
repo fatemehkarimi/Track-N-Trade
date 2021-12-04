@@ -7,7 +7,7 @@ template <class T>
 class ObserverPool {
 public:
     ObserverPool<T>(){}
-    void registerObserver(QString url, std::shared_ptr<T> observer) {
+    void registerObserver(QString url, T* observer) {
         for(auto o : pool[url])
             if(o == observer)
                 return;
@@ -24,7 +24,7 @@ public:
     }
 
 private:
-    QMap <QString, QList <std::shared_ptr <T> > > pool;
+    QMap <QString, QList <T*> > pool;
 };
 
 #endif
