@@ -1,6 +1,7 @@
 #ifndef EXCHANGE_H
 #define EXCHANGE_H
 
+#include <network/network_wrapper.h>
 #include "pair.h"
 #include "asset.h"
 #include "routes.h"
@@ -14,17 +15,17 @@
 #include "tracker_all_prices.h"
 #include "tracker_price_change.h"
 #include "tracker_all_price_changes.h"
-#include <network/network_manager.h>
 
 class APIManager;
 
-class Exchange : public APIItem
+class Exchange : public APIItem, public NetworkObserver
 {
     Q_OBJECT
 public:
     explicit Exchange(Routes* apiRoutes, APIManager* refAPI,
         JsonParser* jsonParser, QString id, QString exchangeName,
         QString exchangeSymbol);
+    void handleJsonResponse(QString url, QJsonObject json) override;
 
     QString getId() override;
     QString getSymbol() override;
@@ -69,7 +70,7 @@ private:
     JsonParser* parser;
     APIManager* refAPI;
     Container <Pair> pairContainer;
-    NetworkManager* networkManager;
+    NetworkWrapper* network = nullptr;
     QList <PriceObserver*> priceObservers;
     QList <SinglePairPriceObserver*> singlePairPriceObservers;
 

@@ -11,9 +11,7 @@ Exchange::Exchange(Routes* apiRoutes, APIManager* refAPI, JsonParser* jsonParser
     routes(apiRoutes),
     refAPI(refAPI),
     parser(jsonParser) {
-    networkManager = NetworkManager::getInstance();
-    QObject::connect(networkManager, &NetworkManager::jsonReady,
-                    this, &Exchange::parseJson);
+    network = new NetworkWrapper();
 
     pricesTracker = new AllPricesTracker(routes, parser,
         this->symbol, Settings::App::getInstance()->getAllPriceRefreshRate());
@@ -27,6 +25,10 @@ Exchange::Exchange(Routes* apiRoutes, APIManager* refAPI, JsonParser* jsonParser
     QObject::connect(priceChangesTracker,
         &AllPriceChangesTracker::priceChangesUpdated, this,
         &Exchange::handlePriceChangesUpdates);
+}
+
+void Exchange::handleJsonResponse(QString url, QJsonObject json) {
+    this->parseJson(url, json);
 }
 
 QString Exchange::getId() {
@@ -74,7 +76,7 @@ std::shared_ptr <Pair> Exchange::getPair(QString symbol) {
 }
 
 void Exchange::getPairList() {
-    networkManager->fetchJson(routes->getExchangePairsPath(symbol));
+    network->fetchJson(routes->getExchangePairsPath(symbol), this);
 }
 
 void Exchange::activateAllPairTracking() {
