@@ -5,7 +5,7 @@
 #include <data/iterator.h>
 
 template <class T>
-class ObserverPoolIterator : public Iterator <T> 
+class ObserverPoolIterator : public Iterator <std::shared_ptr <T> >
 {
 public:
     ObserverPoolIterator(QList <std::shared_ptr <T> > observerList) {

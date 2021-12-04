@@ -6,7 +6,7 @@
 #include "api_item.h"
 
 template <class T>
-class ContainerIterator : public Iterator <T>
+class ContainerIterator : public Iterator <std::shared_ptr <T> >
 {
 public:
     ContainerIterator<T>(QMap <QString, std::shared_ptr <APIItem> > items) {
