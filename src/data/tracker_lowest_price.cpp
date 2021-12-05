@@ -9,11 +9,17 @@ LowestPriceTracker::LowestPriceTracker(Routes* apiRoutes, JsonParser* parser,
       pair(pair),
       Tracker(QTime(0, 0, 0).msecsTo(watchPeriod))
 {
-    this->networkManager = NetworkManager::getInstance();
-    QObject::connect(this->networkManager, &NetworkManager::jsonReady,
-        this, &LowestPriceTracker::parseJson);
-    
+    network = new NetworkWrapper();
     lowestFetchedPrice = Price(exchangeSymbol, pair->getSymbol(), 0);
+}
+
+LowestPriceTracker::~LowestPriceTracker() {
+    delete network;
+    network = nullptr;
+}
+
+void LowestPriceTracker::handleJsonResponse(QString url, QJsonObject json) {
+    this->parseJson(url, json);
 }
 
 void LowestPriceTracker::performAction() {
@@ -22,8 +28,8 @@ void LowestPriceTracker::performAction() {
 
 void LowestPriceTracker::getLowestPriceAsync() {
     if(this->getState() == Tracker::RUNNING)
-        networkManager->fetchJson(
-            routes->getPairLowestPrice(exchangeSymbol, pair->getSymbol()));
+        network->fetchJson(
+            routes->getPairLowestPrice(exchangeSymbol, pair->getSymbol()), this);
 }
 
 Price LowestPriceTracker::getLowestPrice() {

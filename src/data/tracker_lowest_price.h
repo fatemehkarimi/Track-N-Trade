@@ -6,14 +6,17 @@
 #include "routes.h"
 #include "tracker.h"
 #include "parser_json.h"
-#include <network/network_manager.h>
+#include <network/network_wrapper.h>
 
-class LowestPriceTracker : public Tracker 
+class LowestPriceTracker : public Tracker, public NetworkObserver
 {
     Q_OBJECT
 public:
     LowestPriceTracker(Routes* apiRoutes, JsonParser* parser,
         QString exchangeSymbol, std::shared_ptr <Pair> pair, QTime watchPeriod);
+    ~LowestPriceTracker();
+
+    void handleJsonResponse(QString url, QJsonObject json) override;
     
     void performAction() override;
     void getLowestPriceAsync();
@@ -31,7 +34,7 @@ private:
     JsonParser* parser;
     QString exchangeSymbol;
     std::shared_ptr <Pair> pair;
-    NetworkManager* networkManager;
+    NetworkWrapper* network = nullptr;
     Price lowestFetchedPrice;
 };
 
