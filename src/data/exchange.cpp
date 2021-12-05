@@ -27,6 +27,11 @@ Exchange::Exchange(Routes* apiRoutes, APIManager* refAPI, JsonParser* jsonParser
         &Exchange::handlePriceChangesUpdates);
 }
 
+Exchange::~Exchange() {
+    delete network;
+    network = nullptr;
+}
+
 void Exchange::handleJsonResponse(QString url, QJsonObject json) {
     this->parseJson(url, json);
 }

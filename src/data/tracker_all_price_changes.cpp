@@ -10,6 +10,11 @@ AllPriceChangesTracker::AllPriceChangesTracker(Routes* apiRoutes,
     network = new NetworkWrapper();
 }
 
+AllPriceChangesTracker::~AllPriceChangesTracker() {
+    delete network;
+    network = nullptr;
+}
+
 void AllPriceChangesTracker::handleJsonResponse(QString url, QJsonObject json) {
     this->parseJson(url, json);
 }

@@ -16,6 +16,7 @@ class CryptoAPIManager : public APIManager, public NetworkObserver
     Q_OBJECT
 public:
     explicit CryptoAPIManager(Routes* api_routes, JsonParser* parser);
+    ~CryptoAPIManager();
     void handleJsonResponse(QString url, QJsonObject json) override;
 
     void getAssetList() override;

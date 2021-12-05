@@ -6,14 +6,17 @@
 #include "pair.h"
 #include "parser_json.h"
 #include "price_change.h"
-#include <network/network_manager.h>
+#include <network/network_wrapper.h>
 
-class PriceChangeTracker : public Tracker
+class PriceChangeTracker : public Tracker, public NetworkObserver
 {
     Q_OBJECT
 public:
     PriceChangeTracker(Routes* apiRoutes, JsonParser* parser,
         QString exchangeSymbol, std::shared_ptr <Pair> pair, QTime watchPeriod);
+    ~PriceChangeTracker();
+
+    void handleJsonResponse(QString url, QJsonObject json) override;
 
     void performAction() override;
     void getPriceChangeAsync();
@@ -31,7 +34,7 @@ private:
     JsonParser* parser;
     QString exchangeSymbol;
     std::shared_ptr <Pair> pair;
-    NetworkManager* networkManager;
+    NetworkWrapper* network = nullptr;
     PriceChange priceChange;
 };
 

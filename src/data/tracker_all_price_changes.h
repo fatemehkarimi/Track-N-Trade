@@ -15,6 +15,8 @@ class AllPriceChangesTracker : public Tracker, public NetworkObserver
 public:
     AllPriceChangesTracker(Routes* apiRoutes, JsonParser* parser,
         QString exchangeSymbol, QTime watchPeriod);
+    ~AllPriceChangesTracker();
+    
     void handleJsonResponse(QString url, QJsonObject json) override;
 
     void performAction() override;

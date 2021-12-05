@@ -12,6 +12,11 @@ AllPricesTracker::AllPricesTracker(Routes* apiRoutes, JsonParser* parser,
     network = new NetworkWrapper();
 }
 
+AllPricesTracker::~AllPricesTracker() {
+    delete network;
+    network = nullptr;
+}
+
 void AllPricesTracker::handleJsonResponse(QString url, QJsonObject json) {
     this->parseJson(url, json);
 }

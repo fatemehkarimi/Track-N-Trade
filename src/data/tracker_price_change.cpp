@@ -10,10 +10,17 @@ PriceChangeTracker::PriceChangeTracker(Routes* apiRoutes, JsonParser* parser,
       pair(pair),
       Tracker(QTime(0, 0, 0).msecsTo(watchPeriod))
 {
-    this->networkManager = NetworkManager::getInstance();
-    QObject::connect(this->networkManager, &NetworkManager::jsonReady,
-        this, &PriceChangeTracker::parseJson);
+    network = new NetworkWrapper();
     priceChange = PriceChange(exchangeSymbol, pair->getSymbol(), 0);
+}
+
+PriceChangeTracker::~PriceChangeTracker() {
+    delete network;
+    network = nullptr;
+}
+
+void PriceChangeTracker::handleJsonResponse(QString url, QJsonObject json) {
+    this->parseJson(url, json);
 }
 
 void PriceChangeTracker::performAction() {
@@ -22,8 +29,8 @@ void PriceChangeTracker::performAction() {
 
 void PriceChangeTracker::getPriceChangeAsync() {
     if(this->getState() == Tracker::RUNNING)
-        networkManager->fetchJson(
-            routes->getPairPriceChange(exchangeSymbol, pair->getSymbol()));
+        network->fetchJson(
+            routes->getPairPriceChange(exchangeSymbol, pair->getSymbol()), this);
 }
 
 PriceChange PriceChangeTracker::getPriceChange() {

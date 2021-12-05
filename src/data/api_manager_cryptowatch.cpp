@@ -17,6 +17,11 @@ CryptoAPIManager::CryptoAPIManager(Routes* api_routes, JsonParser* json_parser) 
     getAssetList();
 }
 
+CryptoAPIManager::~CryptoAPIManager() {
+    delete network;
+    network = nullptr;
+}
+
 void CryptoAPIManager::handleJsonResponse(QString url, QJsonObject json) {
     this->parseJson(url, json);
 }

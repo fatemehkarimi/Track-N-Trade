@@ -25,6 +25,8 @@ public:
     explicit Exchange(Routes* apiRoutes, APIManager* refAPI,
         JsonParser* jsonParser, QString id, QString exchangeName,
         QString exchangeSymbol);
+    ~Exchange();
+    
     void handleJsonResponse(QString url, QJsonObject json) override;
 
     QString getId() override;
