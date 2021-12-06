@@ -112,7 +112,8 @@ void PriceTable::displayLowestPrice(Price price) {
 }
 
 void PriceTable::clear() {
-
+    for(int i = 0; i < tableModel->columnCount(); ++i)
+        tableModel->clearItemData(tableModel->index(0, i, QModelIndex()));
 }
 
 

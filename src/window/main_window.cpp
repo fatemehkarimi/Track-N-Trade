@@ -127,4 +127,5 @@ void MainWindow::exchangeChanged(int) {
     controller->setExchange(currentExchangeSymbol);
     exchangeMenu->setEnabled(false);
     marketTable->clear();
+    priceTable->clear();
 }
