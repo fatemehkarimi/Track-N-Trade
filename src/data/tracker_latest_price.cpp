@@ -3,23 +3,10 @@
 
 LatestPriceTracker::LatestPriceTracker(Routes* apiRoutes, JsonParser* parser,
     QString exchangeSymbol, std::shared_ptr <Pair> pair, QTime watchPeriod)
-    : routes(apiRoutes),
-      parser(parser),
+    : MarketTracker(apiRoutes, parser, watchPeriod),
       exchangeSymbol(exchangeSymbol),
-      pair(pair),
-      Tracker(QTime(0, 0, 0).msecsTo(watchPeriod))
-{
-    network = new NetworkWrapper();
-}
-
-LatestPriceTracker::~LatestPriceTracker() {
-    delete network;
-    network = nullptr;
-}
-
-void LatestPriceTracker::handleJsonResponse(QString url, QJsonObject json) {
-    this->parseJson(url, json);
-}
+      pair(pair)
+{}
 
 void LatestPriceTracker::performAction() {
     this->getPriceAsync();

@@ -4,23 +4,11 @@
 
 PriceChangeTracker::PriceChangeTracker(Routes* apiRoutes, JsonParser* parser,
     QString exchangeSymbol, std::shared_ptr <Pair> pair, QTime watchPeriod)
-    : routes(apiRoutes),
-      parser(parser),
+    : MarketTracker(apiRoutes, parser, watchPeriod),
       exchangeSymbol(exchangeSymbol),
-      pair(pair),
-      Tracker(QTime(0, 0, 0).msecsTo(watchPeriod))
+      pair(pair)
 {
-    network = new NetworkWrapper();
     priceChange = PriceChange(exchangeSymbol, pair->getSymbol(), 0);
-}
-
-PriceChangeTracker::~PriceChangeTracker() {
-    delete network;
-    network = nullptr;
-}
-
-void PriceChangeTracker::handleJsonResponse(QString url, QJsonObject json) {
-    this->parseJson(url, json);
 }
 
 void PriceChangeTracker::performAction() {

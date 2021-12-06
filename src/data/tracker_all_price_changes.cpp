@@ -2,22 +2,9 @@
 
 AllPriceChangesTracker::AllPriceChangesTracker(Routes* apiRoutes,
     JsonParser* parser, QString exchangeSymbol,QTime watchPeriod)
-    : routes(apiRoutes),
-    parser(parser),
-    exchangeSymbol(exchangeSymbol),
-    Tracker(QTime(0, 0, 0).msecsTo(watchPeriod))
-{
-    network = new NetworkWrapper();
-}
-
-AllPriceChangesTracker::~AllPriceChangesTracker() {
-    delete network;
-    network = nullptr;
-}
-
-void AllPriceChangesTracker::handleJsonResponse(QString url, QJsonObject json) {
-    this->parseJson(url, json);
-}
+    : MarketTracker(apiRoutes, parser, watchPeriod),
+      exchangeSymbol(exchangeSymbol)
+{}
 
 void AllPriceChangesTracker::performAction() {
     this->getPriceChangesAsync();

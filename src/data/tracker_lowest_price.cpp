@@ -3,23 +3,11 @@
 
 LowestPriceTracker::LowestPriceTracker(Routes* apiRoutes, JsonParser* parser,
     QString exchangeSymbol, std::shared_ptr <Pair> pair, QTime watchPeriod)
-    : routes(apiRoutes),
-      parser(parser),
+    : MarketTracker(apiRoutes, parser, watchPeriod),
       exchangeSymbol(exchangeSymbol),
-      pair(pair),
-      Tracker(QTime(0, 0, 0).msecsTo(watchPeriod))
+      pair(pair)
 {
-    network = new NetworkWrapper();
     lowestFetchedPrice = Price(exchangeSymbol, pair->getSymbol(), 0);
-}
-
-LowestPriceTracker::~LowestPriceTracker() {
-    delete network;
-    network = nullptr;
-}
-
-void LowestPriceTracker::handleJsonResponse(QString url, QJsonObject json) {
-    this->parseJson(url, json);
 }
 
 void LowestPriceTracker::performAction() {
