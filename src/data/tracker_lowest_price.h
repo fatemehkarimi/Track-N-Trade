@@ -13,7 +13,7 @@ public:
         QString exchangeSymbol, std::shared_ptr <Pair> pair, QTime watchPeriod);
     
     void performAction() override;
-    void parseJson(QString url, QJsonObject json);
+    void parseJson(QString url, QJsonObject json) override;
     void getLowestPriceAsync();
     Price getLowestPrice();
     std::shared_ptr <Pair> getPair();

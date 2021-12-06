@@ -143,6 +143,13 @@ void Exchange::createLowestPriceTracker(std::shared_ptr <Pair> pair) {
         this, &Exchange::handleLowestPriceUpdate);
 }
 
+void Exchange::createHighestPriceTracker(std::shared_ptr <Pair> pair) {
+    highestPriceTracker = new HighestPriceTracker(routes, parser, getSymbol(),
+        pair, Settings::App::getInstance()->getSinglePairHighestPriceRefreshRate());
+    QObject::connect(highestPriceTracker, &HighestPriceTracker::highestPriceUpdated,
+        this, &Exchange::handleHighestPriceUpdate);
+}
+
 void Exchange::activateSinglePairTracking(std::shared_ptr <Pair> pair) {
     deactivateSinglePairTracking();
     this->createSinglePairPriceTracker(pair);
@@ -153,6 +160,9 @@ void Exchange::activateSinglePairTracking(std::shared_ptr <Pair> pair) {
 
     this->createLowestPriceTracker(pair);
     lowestPriceTracker->run();
+
+    this->createHighestPriceTracker(pair);
+    highestPriceTracker->run();
 }
 
 void Exchange::deleteSinglePairPriceTracker() {
@@ -179,10 +189,19 @@ void Exchange::deleteLowestPriceTracker() {
     lowestPriceTracker = nullptr;
 }
 
+void Exchange::deleteHighestPriceTracker() {
+    if(highestPriceTracker == nullptr)
+        return;
+    QObject::disconnect(highestPriceTracker);
+    delete highestPriceTracker;
+    highestPriceTracker = nullptr;
+}
+
 void Exchange::deactivateSinglePairTracking() {
     deleteSinglePairPriceTracker();
     deleteSinglePairPriceChangeTracker();
     deleteLowestPriceTracker();
+    deleteHighestPriceTracker();
 }
 
 void Exchange::handleSinglePairPriceUpdate(Price price) {
@@ -200,4 +219,7 @@ void Exchange::handleLowestPriceUpdate(Price price) {
     for(auto observer : singlePairPriceObservers)
         observer->notifyLowestPriceUpdate(
             lowestPriceTracker->getPair(), price);
+}
+
+void Exchange::handleHighestPriceUpdate(Price price) {
 }
