@@ -37,3 +37,7 @@ QFont Settings::Font::getPriceTablePriceChangeFont() {
 QFont Settings::Font::getPriceTableLowestPriceFont() {
     return QFont(ROBOTOCONDENSED, normalFontSize, QFont::Normal);
 }
+
+QFont Settings::Font::getPriceTableHighestPriceFont() {
+    return QFont(ROBOTOCONDENSED, normalFontSize, QFont::Normal);
+}

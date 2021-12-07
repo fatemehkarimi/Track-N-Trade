@@ -59,8 +59,8 @@ private:
     // Tracking intervals
     QTime singlePriceRefreshRate = QTime(0, 0, 5);
     QTime singlePriceChanegRefreshRate = QTime(0, 0, 15);
-    QTime singleLowestPriceRefreshRate = QTime(0, 0, 30);
-    QTime singleHighestPriceRefreshRate = QTime(0, 0, 30);
+    QTime singleLowestPriceRefreshRate = QTime(0, 1, 0);
+    QTime singleHighestPriceRefreshRate = QTime(0, 1, 0);
 
     QTime allPriceRefreshRate = QTime(0, 0, 20);
     QTime allPriceChangeRefreshRate = QTime(0, 1, 0);

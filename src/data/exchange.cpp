@@ -222,4 +222,7 @@ void Exchange::handleLowestPriceUpdate(Price price) {
 }
 
 void Exchange::handleHighestPriceUpdate(Price price) {
+    for(auto observer : singlePairPriceObservers)
+        observer->notifyHighestPriceUpdate(
+            highestPriceTracker->getPair(), price);
 }

@@ -58,6 +58,8 @@ void PriceTable::setTableModel() {
         2, new PriceChangeDelegate(this, fontSettings.getPriceTablePriceChangeFont()));
     this->setItemDelegateForColumn(
         3, new PriceDelegate(this, fontSettings.getPriceTableLowestPriceFont()));
+    this->setItemDelegateForColumn(
+        4, new PriceDelegate(this, fontSettings.getPriceTableHighestPriceFont()));
 }
 
 int PriceTable::getRowHeight() {
@@ -111,6 +113,14 @@ void PriceTable::displayLowestPrice(Price price) {
     tableModel->setData(index, variantData, Qt::DisplayRole);
 }
 
+void PriceTable::displayHighestPrice(Price price) {
+    QVariant variantData;
+    variantData.setValue(price);
+
+    QModelIndex index = tableModel->index(0, 4, QModelIndex());
+    tableModel->setData(index, variantData, Qt::DisplayRole);
+}
+
 void PriceTable::clear() {
     for(int i = 0; i < tableModel->columnCount(); ++i)
         tableModel->clearItemData(tableModel->index(0, i, QModelIndex()));
@@ -131,7 +141,12 @@ void PriceTable::notifyPriceChangeUpdate(std::shared_ptr <Pair> pair,
     displayPriceChange(priceChange);
 }
 
-void PriceTable::notifyLowestPriceUpdate(std::shared_ptr <Pair> pair,
-    Price price) {
+void PriceTable::notifyLowestPriceUpdate(
+    std::shared_ptr <Pair> pair, Price price) {
     displayLowestPrice(price);
+}
+
+void PriceTable::notifyHighestPriceUpdate(
+    std::shared_ptr <Pair> pair, Price price) {
+    displayHighestPrice(price);
 }
