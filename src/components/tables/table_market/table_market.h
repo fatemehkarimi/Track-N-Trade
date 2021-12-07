@@ -22,6 +22,7 @@ public:
     void updatePairPriceChange(PriceChange price);
     int getRowHeight();
     int getMinRowHeight();
+    void keyPressEvent(QKeyEvent* event) override;
 
 public slots:
     void setFilter(QString text);

@@ -174,3 +174,7 @@ void MarketTable::handleRowSelection(
         return;
     emit pairSelected(pairSymbol);
 }
+
+void MarketTable::keyPressEvent(QKeyEvent* event) {
+    return;
+}
