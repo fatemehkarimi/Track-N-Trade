@@ -13,21 +13,27 @@ Exchange::Exchange(Routes* apiRoutes, APIManager* refAPI, JsonParser* jsonParser
     parser(jsonParser) {
     network = new NetworkWrapper();
 
-    pricesTracker = new AllPricesTracker(routes, parser,
-        this->symbol, Settings::App::getInstance()->getAllPriceRefreshRate());
+    pricesTracker = std::make_shared <AllPricesTracker> (
+        routes, parser,
+        this->symbol,
+        Settings::App::getInstance()->getAllPriceRefreshRate());
 
-    QObject::connect(pricesTracker, &AllPricesTracker::pricesUpdated,
+    QObject::connect(
+        pricesTracker.get(), &AllPricesTracker::pricesUpdated,
         this, &Exchange::handlePriceUpdates);
 
-    priceChangesTracker = new AllPriceChangesTracker(routes, parser, 
-        this->symbol, Settings::App::getInstance()->getAllPriceChangeRefreshRate());
+    priceChangesTracker = std::make_shared <AllPriceChangesTracker> (
+        routes, parser, 
+        this->symbol,
+        Settings::App::getInstance()->getAllPriceChangeRefreshRate());
 
-    QObject::connect(priceChangesTracker,
-        &AllPriceChangesTracker::priceChangesUpdated, this,
-        &Exchange::handlePriceChangesUpdates);
+    QObject::connect(
+        priceChangesTracker.get(), &AllPriceChangesTracker::priceChangesUpdated,
+        this, &Exchange::handlePriceChangesUpdates);
 }
 
 Exchange::~Exchange() {
+    deactivateSinglePairTracking();
     delete network;
     network = nullptr;
 }

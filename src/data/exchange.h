@@ -83,9 +83,9 @@ private:
     LatestPriceTracker* singlePairPriceTracker = nullptr;
     LowestPriceTracker* lowestPriceTracker = nullptr;
     HighestPriceTracker* highestPriceTracker = nullptr;
-    AllPricesTracker* pricesTracker = nullptr;
     PriceChangeTracker* singlePairPriceChangeTracker = nullptr;
-    AllPriceChangesTracker* priceChangesTracker = nullptr;
+    std::shared_ptr <AllPricesTracker> pricesTracker = nullptr;
+    std::shared_ptr <AllPriceChangesTracker> priceChangesTracker = nullptr;
 };
 
 #endif
