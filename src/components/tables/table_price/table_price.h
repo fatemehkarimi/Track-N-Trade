@@ -34,6 +34,8 @@ private:
     void displayHighestPrice(Price price);
     int getRowHeight();
     int getMinRowHeight();
+    void hideLabels();
+    void showLabels();
     
     QStandardItemModel* tableModel;
 };

@@ -11,6 +11,7 @@ PriceTable::PriceTable(QString objectName) {
     setTableModel();
     styleTableView();
     styleHeaders();
+    hideLabels();
 }
 
 PriceTable::~PriceTable() {
@@ -19,7 +20,6 @@ PriceTable::~PriceTable() {
 void PriceTable::styleTableView() {
     this->setShowGrid(false);
     this->verticalHeader()->hide();
-    this->horizontalHeader()->hide();
     this->setSelectionMode(QAbstractItemView::NoSelection);
 }
 
@@ -60,6 +60,11 @@ void PriceTable::setTableModel() {
         3, new PriceDelegate(this, fontSettings.getPriceTableLowestPriceFont()));
     this->setItemDelegateForColumn(
         4, new PriceDelegate(this, fontSettings.getPriceTableHighestPriceFont()));
+
+    QStringList headers = {
+        "Pair", "Price", "24h Changes",
+        "highest 24h price", "lowest 24h price"};
+    tableModel->setHorizontalHeaderLabels(headers);
 }
 
 int PriceTable::getRowHeight() {
@@ -121,17 +126,26 @@ void PriceTable::displayHighestPrice(Price price) {
     tableModel->setData(index, variantData, Qt::DisplayRole);
 }
 
+void PriceTable::hideLabels() {
+    this->horizontalHeader()->hide();
+}
+
+void PriceTable::showLabels() {
+    this->horizontalHeader()->show();
+}
+
 void PriceTable::clear() {
     for(int i = 0; i < tableModel->columnCount(); ++i)
         tableModel->clearItemData(tableModel->index(0, i, QModelIndex()));
+    hideLabels();
 }
-
 
 void PriceTable::resizeEvent(QResizeEvent* event) {
     this->adjustColumnsWidth();
 }
 
 void PriceTable::notifyPriceUpdate(std::shared_ptr <Pair> pair, Price price) {
+    showLabels();
     displayPair(pair);
     displayPrice(price);
 }
