@@ -10,6 +10,7 @@
 #include "parser_json.h"
 #include "observer_price.h"
 #include "observer_single_pair_price.h"
+#include "tracker_ohlc.h"
 #include "tracker_latest_price.h"
 #include "tracker_lowest_price.h"
 #include "tracker_highest_price.h"
@@ -55,12 +56,15 @@ private:
     void createSinglePairPriceChangeTracker(std::shared_ptr <Pair>);
     void createLowestPriceTracker(std::shared_ptr <Pair>);
     void createHighestPriceTracker(std::shared_ptr <Pair>);
+    void createOHLCTracker(std::shared_ptr <Pair>);
 
     void deleteSinglePairPriceTracker();
     void deleteSinglePairPriceChangeTracker();
     void deleteLowestPriceTracker();
     void deleteHighestPriceTracker();
+    void deleteOHLCTracker();
 
+    void handleOHLCUpdate();
     void handleSinglePairPriceUpdate(Price price);
     void handleSinglePairPriceChangeUpdate(PriceChange priceChange);
     void handleLowestPriceUpdate(Price price);
@@ -80,10 +84,12 @@ private:
     QList <PriceObserver*> priceObservers;
     QList <SinglePairPriceObserver*> singlePairPriceObservers;
 
+    OHLCTracker* ohlcTracker = nullptr;
     LatestPriceTracker* singlePairPriceTracker = nullptr;
     LowestPriceTracker* lowestPriceTracker = nullptr;
     HighestPriceTracker* highestPriceTracker = nullptr;
     PriceChangeTracker* singlePairPriceChangeTracker = nullptr;
+
     std::shared_ptr <AllPricesTracker> pricesTracker = nullptr;
     std::shared_ptr <AllPriceChangesTracker> priceChangesTracker = nullptr;
 };

@@ -1,7 +1,9 @@
 #ifndef ROUTES_CRYPTOWATCH_H
 #define ROUTES_CRYPTOWATCH_H
 
+#include <QList>
 #include <QString>
+#include <QUrlQuery>
 #include "routes.h"
 
 class CryptowatchRoutes : public Routes
@@ -55,6 +57,35 @@ public:
         return getPairPriceChange(exchange_symbol, pair);
     }
 
+    QString getOHLCBasePath(QString exchangeSymbol, QString pair) {
+        return getBasePath() + marketsPath + "/" 
+                + exchangeSymbol + "/" + pair + ohlcPath;
+    }
+
+    QString getOHLCPath(
+        QString exchangeSymbol, QString pair, int period, qint64 after) {
+        QList <QPair <QString, QString> > qItems = {
+            QPair <QString, QString> (periodParam, QString::number(period)),
+            QPair <QString, QString> (afterParam, QString::number(after))
+        };
+        QUrlQuery q;
+        q.setQueryItems(qItems);
+        return getOHLCBasePath(exchangeSymbol, pair) + "?" + q.toString();
+    }
+
+    QString getOHLCPath(
+        QString exchangeSymbol, QString pair,
+        int period, qint64 after, qint64 before) {
+        QList <QPair <QString, QString> > qItems {
+            QPair <QString, QString> (periodParam, QString::number(period)),
+            QPair <QString, QString> (afterParam, QString::number(after)),
+            QPair <QString, QString> (beforeParam, QString::number(before))
+        };
+        QUrlQuery q;
+        q.setQueryItems(qItems);
+        return getOHLCBasePath(exchangeSymbol, pair) + "?" + q.toString();
+    }
+
 private:
     QString basePath = "https://api.cryptowat.ch";
     QString exchangeListPath = "/exchanges";
@@ -65,6 +96,11 @@ private:
     QString summaryPath = "/summary";
     QString summariesPath = "/summaries";
     QString pairsPath = "/pairs";
+    QString ohlcPath = "/ohlc";
+
+    QString periodParam = "periods";
+    QString beforeParam = "before";
+    QString afterParam = "after";
 };
 
 #endif
