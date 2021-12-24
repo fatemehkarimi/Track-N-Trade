@@ -29,6 +29,9 @@ void MainWindow::setUpWindow() {
     QVBoxLayout* priceLayout = new QVBoxLayout();
     QVBoxLayout* chartLayout = new QVBoxLayout();
 
+    this->setUpCandleStick("candleStickChart");
+    mainLayout->addLayout(this->candlestickController->getView());
+
     pairInfoLayout->addLayout(priceLayout);
     pairInfoLayout->addLayout(chartLayout);
 
@@ -53,13 +56,18 @@ void MainWindow::setUpWindow() {
         exchangeMenu->setEnabled(true);
     });
 
+
     QObject::connect(searchBox, &SearchBox::textChanged,
         marketTable, &MarketTable::setFilter);
 
-    mainLayout->setStretchFactor(pairInfoLayout, 1);
+    mainLayout->setStretchFactor(pairInfoLayout, 2);
     mainLayout->setStretchFactor(marketLayout, 1);
 
     fetchExchangeList();
+}
+
+void MainWindow::setUpCandleStick(QString objectName) {
+    candlestickController = new CandleStickController(objectName);
 }
 
 void MainWindow::setUpExchangeMenu(QString objectName) {

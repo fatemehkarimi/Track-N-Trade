@@ -2,10 +2,13 @@
 #define CHART_CANDLESTICK_H
 
 #include <QCandlestickSeries>
+#include <QVBoxLayout>
 
-class CandleStick : public QCandlestickSeries
+class CandleStickChart : public QVBoxLayout
 {
 public:
+    explicit CandleStickChart(QString objectName);
+
 private:
 };
 

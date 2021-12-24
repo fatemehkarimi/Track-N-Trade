@@ -10,6 +10,7 @@
 #include <components/tables/table_market/table_market.h>
 #include <components/tables/table_price/table_price.h>
 #include <components/search_box/search_box.h>
+#include <components/charts/candlestick/controller_candlestick.h>
 
 class MainWindow : public QObject
 {
@@ -32,6 +33,7 @@ private:
     void fetchExchangeList();
     void setUpExchangeMenu(QString objectName);
     void setUpPriceTable(QString objectName);
+    void setUpCandleStick(QString objectName);
 
     Controller* controller;
     APIManager* apiModel;
@@ -39,6 +41,7 @@ private:
     QComboBox* exchangeMenu;
     MarketTable* marketTable;
     PriceTable* priceTable;
+    CandleStickController* candlestickController;
     Settings::Window* settings;
 };
 
