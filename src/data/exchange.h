@@ -64,7 +64,7 @@ private:
     void deleteHighestPriceTracker();
     void deleteOHLCTracker();
 
-    void handleOHLCUpdate();
+    void handleOHLCUpdate(QList <OHLC> ohlcData);
     void handleSinglePairPriceUpdate(Price price);
     void handleSinglePairPriceChangeUpdate(PriceChange priceChange);
     void handleLowestPriceUpdate(Price price);

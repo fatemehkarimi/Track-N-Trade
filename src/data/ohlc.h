@@ -8,9 +8,16 @@
 class OHLC
 {
 public:
-    explicit OHLC(
+    explicit OHLC();
+    OHLC(
         QDateTime closeTime, Price openPrice,
         Price highPrice, Price lowPrice, Price closePrice);
+
+    QDateTime setCloseTime(QDateTime closeTime);
+    void setOpenPrice(Price openPrice);
+    void setHighPrice(Price highPrice);
+    void setLowPrice(Price lowPrice);
+    void setClosePrice(Price closePrice);
 
     QDateTime getCloseTime();
     Price getOpenPrice();

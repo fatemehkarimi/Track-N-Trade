@@ -255,6 +255,5 @@ void Exchange::handleHighestPriceUpdate(Price price) {
             highestPriceTracker->getPair(), price);
 }
 
-void Exchange::handleOHLCUpdate() {
-
+void Exchange::handleOHLCUpdate(QList <OHLC> ohlcList) {
 }

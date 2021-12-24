@@ -14,8 +14,10 @@ public:
 
     bool parseAssetsJson(QJsonObject json,
         Container <Asset> * assetList) override;
+
     QMap <QString, QMap <QString, double> > 
         parseAllPairPrices(QJsonObject json) override;
+
     QMap <QString, QMap <QString, double> >
         parseAllPriceChanges(QJsonObject json) override;
 
@@ -24,6 +26,7 @@ public:
     double parsePairLowestPrice(QJsonObject) override;
     double parsePairHighestPrice(QJsonObject) override;
     QMap <QString, double> parsePairSummary(QJsonObject) override;
+    QList <OHLC> parseOHLC(QJsonObject) override;
 };
 
 #endif

@@ -166,3 +166,27 @@ double CryptowatchParser::parsePairHighestPrice(QJsonObject json) {
     QMap <QString, double> summary = parsePairSummary(json);
     return summary["high"];
 }
+
+QList <OHLC> CryptowatchParser::parseOHLC(QJsonObject json) {
+    QList <OHLC> result;
+    QJsonObject ohlcObject = json["result"].toObject();
+    foreach(const QString& period, ohlcObject.keys()) {
+        QJsonArray ohlcArray = ohlcObject[period].toArray();
+        foreach(const QJsonValue& value, ohlcArray) {
+            QJsonArray ohlcData = value.toArray();
+
+            QDateTime closeTime;
+            closeTime.setSecsSinceEpoch(ohlcData[0].toVariant().toLongLong());
+
+            Price openPrice, highPrice, lowPrice, closePrice;
+            openPrice.updatePrice(ohlcData[1].toDouble());
+            highPrice.updatePrice(ohlcData[2].toDouble());
+            lowPrice.updatePrice(ohlcData[3].toDouble());
+            closePrice.updatePrice(ohlcData[4].toDouble());
+            
+            OHLC ohlc(closeTime, openPrice, highPrice, lowPrice, closePrice);
+            result.append(ohlc);
+        }
+    }
+    return result;
+}

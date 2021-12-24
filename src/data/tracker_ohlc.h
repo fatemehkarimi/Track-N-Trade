@@ -19,7 +19,7 @@ public:
     void handleJsonResponse(QString url, QJsonObject json) override;
 
 signals:
-    void ohlcUpdated();
+    void ohlcUpdated(QList <OHLC>);
 
 private:
     Routes* routes = nullptr;
