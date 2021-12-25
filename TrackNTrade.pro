@@ -14,6 +14,7 @@ HEADERS += $$PWD/src/components/tables/table_price/*.h
 HEADERS += $$PWD/src/components/tables/table_delegates/*.h
 HEADERS += $$PWD/src/components/charts/*.h
 HEADERS += $$PWD/src/components/charts/candlestick/*.h
+HEADERS += $$PWD/src/utils/*.h
 
 SOURCES += $$PWD/src/*.cpp
 SOURCES += $$PWD/src/data/*.cpp
@@ -25,6 +26,7 @@ SOURCES += $$PWD/src/components/tables/table_market/*.cpp
 SOURCES += $$PWD/src/components/tables/table_price/*.cpp
 SOURCES += $$PWD/src/components/tables/table_delegates/*.cpp
 SOURCES += $$PWD/src/components/charts/candlestick/*.cpp
+SOURCES += $$PWD/src/utils/*.cpp
 
 RESOURCES += \
         resources.qrc
