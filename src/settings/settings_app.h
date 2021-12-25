@@ -4,6 +4,7 @@
 #include <QTime>
 #include <QString>
 #include "settings_font.h"
+#include "settings_chart.h"
 
 namespace Settings
 {
@@ -50,6 +51,10 @@ public:
         return fontSettings;
     }
 
+    Settings::Chart& getChartSettings() {
+        return chartSettings;
+    }
+
 private:
     explicit App(){}
 
@@ -66,6 +71,7 @@ private:
     QTime allPriceChangeRefreshRate = QTime(0, 1, 0);
 
     Settings::Font fontSettings;
+    Settings::Chart chartSettings;
 };
 }
 
