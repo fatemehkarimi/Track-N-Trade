@@ -30,7 +30,7 @@ void MainWindow::setUpWindow() {
     QVBoxLayout* chartLayout = new QVBoxLayout();
 
     this->setUpCandleStick("candleStickChart");
-    mainLayout->addLayout(this->candlestickController->getView());
+    chartLayout->addLayout(this->candlestickController->getView());
 
     pairInfoLayout->addLayout(priceLayout);
     pairInfoLayout->addLayout(chartLayout);

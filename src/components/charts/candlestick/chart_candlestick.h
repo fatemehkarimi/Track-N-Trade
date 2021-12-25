@@ -1,8 +1,10 @@
 #ifndef CHART_CANDLESTICK_H
 #define CHART_CANDLESTICK_H
 
-#include <QCandlestickSeries>
 #include <QVBoxLayout>
+#include <QCandlestickSeries>
+#include <QChart>
+#include <QChartView>
 
 class CandleStickChart : public QVBoxLayout
 {
@@ -10,6 +12,8 @@ public:
     explicit CandleStickChart(QString objectName);
 
 private:
+    QtCharts::QChart* chart = nullptr;
+    QtCharts::QChartView* view = nullptr;
 };
 
 #endif
