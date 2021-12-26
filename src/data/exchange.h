@@ -52,14 +52,14 @@ signals:
     void pairListReady(Container <Pair>);
 
 private:
-    void createSinglePairPriceTracker(std::shared_ptr <Pair>);
-    void createSinglePairPriceChangeTracker(std::shared_ptr <Pair>);
+    void createLatestPriceTracker(std::shared_ptr <Pair>);
+    void createPriceChangeTracker(std::shared_ptr <Pair>);
     void createLowestPriceTracker(std::shared_ptr <Pair>);
     void createHighestPriceTracker(std::shared_ptr <Pair>);
     void createOHLCTracker(std::shared_ptr <Pair>);
 
-    void deleteSinglePairPriceTracker();
-    void deleteSinglePairPriceChangeTracker();
+    void deleteLatestPriceTracker();
+    void deletePriceChangeTracker();
     void deleteLowestPriceTracker();
     void deleteHighestPriceTracker();
     void deleteOHLCTracker();
@@ -85,10 +85,10 @@ private:
     QList <SinglePairPriceObserver*> singlePairPriceObservers;
 
     OHLCTracker* ohlcTracker = nullptr;
-    LatestPriceTracker* singlePairPriceTracker = nullptr;
+    LatestPriceTracker* latestPriceTracker = nullptr;
     LowestPriceTracker* lowestPriceTracker = nullptr;
     HighestPriceTracker* highestPriceTracker = nullptr;
-    PriceChangeTracker* singlePairPriceChangeTracker = nullptr;
+    PriceChangeTracker* priceChangeTracker = nullptr;
 
     std::shared_ptr <AllPricesTracker> pricesTracker = nullptr;
     std::shared_ptr <AllPriceChangesTracker> priceChangesTracker = nullptr;
