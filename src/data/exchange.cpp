@@ -37,7 +37,21 @@ Exchange::Exchange(Routes* apiRoutes, APIManager* refAPI, JsonParser* jsonParser
 }
 
 Exchange::~Exchange() {
-    deactivateSinglePairTracking();
+    delete ohlcTracker;
+    ohlcTracker = nullptr;
+
+    delete latestPriceTracker;
+    latestPriceTracker = nullptr;
+
+    delete lowestPriceTracker;
+    lowestPriceTracker = nullptr;
+
+    delete highestPriceTracker;
+    highestPriceTracker = nullptr;
+
+    delete priceChangeTracker;
+    priceChangeTracker = nullptr;
+
     delete network;
     network = nullptr;
 }
@@ -171,60 +185,44 @@ void Exchange::createOHLCTracker(std::shared_ptr <Pair> pair) {
         this, &Exchange::handleOHLCUpdate);
 }
 
-void Exchange::activateSinglePairTracking(std::shared_ptr <Pair> pair) {
-    deactivateSinglePairTracking();
-    this->createLatestPriceTracker(pair);
+void Exchange::activateLatestPriceTracker(std::shared_ptr <Pair> pair) {
+    createLatestPriceTracker(pair);
     latestPriceTracker->run();
-
-    this->createPriceChangeTracker(pair);
-    priceChangeTracker->run();
-
-    this->createLowestPriceTracker(pair);
-    lowestPriceTracker->run();
-
-    this->createHighestPriceTracker(pair);
-    highestPriceTracker->run();
-
-    this->createOHLCTracker(pair);
 }
 
-void Exchange::deleteLatestPriceTracker() {
+void Exchange::activateLowestPriceTracker(std::shared_ptr <Pair> pair) {
+    createLowestPriceTracker(pair);
+    lowestPriceTracker->run();
+}
+
+void Exchange::activateHighestPriceTracker(std::shared_ptr <Pair> pair) {
+    createHighestPriceTracker(pair);
+    highestPriceTracker->run();
+}
+
+void Exchange::activatePriceChangeTracker(std::shared_ptr <Pair> pair) {
+    createPriceChangeTracker(pair);
+    priceChangeTracker->run();
+}
+
+void Exchange::deactivateLatestPriceTracker() {
     delete latestPriceTracker;
     latestPriceTracker = nullptr;
 }
 
-void Exchange::deletePriceChangeTracker() {
-    delete priceChangeTracker;
-    priceChangeTracker = nullptr;
-}
-
-void Exchange::deleteLowestPriceTracker() {
+void Exchange::deactivateLowestPriceTracker() {
     delete lowestPriceTracker;
     lowestPriceTracker = nullptr;
 }
 
-void Exchange::deleteHighestPriceTracker() {
-    if(highestPriceTracker == nullptr)
-        return;
-    QObject::disconnect(highestPriceTracker);
+void Exchange::deactivateHighestPriceTracker() {
     delete highestPriceTracker;
     highestPriceTracker = nullptr;
 }
 
-void Exchange::deleteOHLCTracker() {
-    if(ohlcTracker == nullptr)
-        return;
-    QObject::disconnect(ohlcTracker);
-    delete ohlcTracker;
-    ohlcTracker = nullptr;
-}
-
-void Exchange::deactivateSinglePairTracking() {
-    deleteLatestPriceTracker();
-    deletePriceChangeTracker();
-    deleteLowestPriceTracker();
-    deleteHighestPriceTracker();
-    deleteOHLCTracker();
+void Exchange::deactivatePriceChangeTracker() {
+    delete priceChangeTracker;
+    priceChangeTracker = nullptr;
 }
 
 void Exchange::handleSinglePairPriceUpdate(Price price) {

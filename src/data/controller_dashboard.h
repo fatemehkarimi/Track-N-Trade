@@ -31,6 +31,8 @@ signals:
     void selectedExchangeChanged();
 
 private:
+    void neglectSinglePair();
+
     std::shared_ptr <Exchange> selectedExchange;
     APIManager* refAPI;
     MainWindow* view;
