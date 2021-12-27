@@ -1,6 +1,7 @@
 #ifndef OBSERVER_SINGLE_PAIR_PRICE_H
 #define OBSERVER_SINGLE_PAIR_PRICE_H
 
+#include "ohlc.h"
 #include "pair.h"
 #include "price.h"
 #include "price_change.h"

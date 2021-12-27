@@ -87,6 +87,8 @@ void DashboardController::trackSinglePair(QString pairSymbol) {
 
     std::shared_ptr <Pair> pair = selectedExchange->getPair(pairSymbol);
     if(pair != nullptr) {
+        selectedExchange->activateOHLCTracker(pair);
+        selectedExchange->registerOHLCObserver(view->getCandleStickController());
         selectedExchange->activateLatestPriceTracker(pair);
         selectedExchange->activateLowestPriceTracker(pair);
         selectedExchange->activateHighestPriceTracker(pair);
@@ -98,6 +100,7 @@ void DashboardController::neglectSinglePair() {
     if(selectedExchange == nullptr)
         return;
 
+    selectedExchange->deactivateOHLCTracker();
     selectedExchange->deactivateLatestPriceTracker();
     selectedExchange->deactivateLowestPriceTracker();
     selectedExchange->deactivateHighestPriceTracker();

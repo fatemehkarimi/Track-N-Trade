@@ -24,6 +24,7 @@ public:
     void setExchangeMenuOptions(QList <QPair <QString, QVariant> > options);
     MarketTable* getMarketTable();
     PriceTable* getPriceTable();
+    CandleStickController* getCandleStickController();
 
 private slots:
     void exchangeListFetched(Container <Exchange>);

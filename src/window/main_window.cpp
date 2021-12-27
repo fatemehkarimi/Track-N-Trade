@@ -97,6 +97,10 @@ MarketTable* MainWindow::getMarketTable() {
     return marketTable;
 }
 
+CandleStickController* MainWindow::getCandleStickController() {
+    return candlestickController;
+}
+
 void MainWindow::setExchangeMenuOptions(QList <QPair <QString, QVariant> > options) {
     exchangeMenu->clear();
     for(auto option : options) {

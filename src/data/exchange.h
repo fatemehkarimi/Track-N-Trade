@@ -38,20 +38,24 @@ public:
     QMap <QString, Price> getPrices();
     QMap <QString, PriceChange> getPriceChanges();
     std::shared_ptr <Pair> getPair(QString symbol);
+    void getOHLCAsync(int period, QDateTime after, QDateTime before);
     
     void activateAllPairTracking();
     void deactivateAllPairTracking();
 
+    void activateOHLCTracker(std::shared_ptr <Pair> pair);
     void activateLatestPriceTracker(std::shared_ptr <Pair> pair);
     void activateLowestPriceTracker(std::shared_ptr <Pair> pair);
     void activateHighestPriceTracker(std::shared_ptr <Pair> pair);
     void activatePriceChangeTracker(std::shared_ptr <Pair> pair);
     
+    void deactivateOHLCTracker();
     void deactivateLatestPriceTracker();
     void deactivateLowestPriceTracker();
     void deactivateHighestPriceTracker();
     void deactivatePriceChangeTracker();
 
+    void registerOHLCObserver(OHLCObserver* observer);
     void registerPriceObserver(PriceObserver* observer);
     void registerSinglePairPriceObserver(SinglePairPriceObserver* observer);
     
@@ -68,7 +72,6 @@ private:
     void createHighestPriceTracker(std::shared_ptr <Pair>);
     void createOHLCTracker(std::shared_ptr <Pair>);
 
-    void handleOHLCUpdate(QList <OHLC> ohlcData);
     void handleSinglePairPriceUpdate(Price price);
     void handleSinglePairPriceChangeUpdate(PriceChange priceChange);
     void handleLowestPriceUpdate(Price price);

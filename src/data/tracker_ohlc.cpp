@@ -11,6 +11,15 @@ OHLCTracker::OHLCTracker(Routes* routes, JsonParser* parser,
     network = std::make_shared <NetworkWrapper>();
 }
 
+void OHLCTracker::registerObserver(OHLCObserver* observer) {
+    observerList.append(observer);
+}
+
+void OHLCTracker::notifyObservers(QList <OHLC> ohlcData) {
+    for(auto observer : observerList)
+        observer->notifyOHLCUpdate(pair, ohlcData);
+}
+
 void OHLCTracker::getOHLCAsync(int period, QDateTime after) {
     network->fetchJson(
         routes->getOHLCPath(
@@ -62,5 +71,5 @@ void OHLCTracker::handleJsonResponse(QString url, QJsonObject json) {
         ohlcData.setLowPrice(lowPrice);
         ohlcData.setClosePrice(closePrice);
     }
-    emit ohlcUpdated(result);
+    notifyObservers(result);
 }

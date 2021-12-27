@@ -80,6 +80,10 @@ QMap <QString, PriceChange> Exchange::getPriceChanges() {
     return priceChangesTracker->getPriceChanges();
 }
 
+void Exchange::getOHLCAsync(int period, QDateTime after, QDateTime before) {
+    ohlcTracker->getOHLCAsync(period, after, before);
+}
+
 void Exchange::parseJson(QString url, QJsonObject json) {
     if(url == routes->getExchangePairsPath(symbol)){
         pairContainer.clearAll();
@@ -124,6 +128,12 @@ void Exchange::deactivateAllPairTracking() {
 
     if(pricesTracker->getState() != Tracker::STOPPED)
         pricesTracker->stop();
+}
+
+void Exchange::registerOHLCObserver(OHLCObserver* observer) {
+    if(ohlcTracker == nullptr)
+        return;
+    ohlcTracker->registerObserver(observer);
 }
 
 void Exchange::registerPriceObserver(PriceObserver* observer) {
@@ -180,9 +190,10 @@ void Exchange::createHighestPriceTracker(std::shared_ptr <Pair> pair) {
 
 void Exchange::createOHLCTracker(std::shared_ptr <Pair> pair) {
     ohlcTracker = new OHLCTracker(routes, parser, getSymbol(), pair);
+}
 
-    QObject::connect(ohlcTracker, &OHLCTracker::ohlcUpdated,
-        this, &Exchange::handleOHLCUpdate);
+void Exchange::activateOHLCTracker(std::shared_ptr <Pair> pair) {
+    createOHLCTracker(pair);
 }
 
 void Exchange::activateLatestPriceTracker(std::shared_ptr <Pair> pair) {
@@ -203,6 +214,11 @@ void Exchange::activateHighestPriceTracker(std::shared_ptr <Pair> pair) {
 void Exchange::activatePriceChangeTracker(std::shared_ptr <Pair> pair) {
     createPriceChangeTracker(pair);
     priceChangeTracker->run();
+}
+
+void Exchange::deactivateOHLCTracker() {
+    delete ohlcTracker;
+    ohlcTracker = nullptr;
 }
 
 void Exchange::deactivateLatestPriceTracker() {
@@ -246,7 +262,4 @@ void Exchange::handleHighestPriceUpdate(Price price) {
     for(auto observer : singlePairPriceObservers)
         observer->notifyHighestPriceUpdate(
             highestPriceTracker->getPair(), price);
-}
-
-void Exchange::handleOHLCUpdate(QList <OHLC> ohlcList) {
 }

@@ -7,3 +7,9 @@ CandleStickController::CandleStickController(QString objectName) {
 QVBoxLayout* CandleStickController::getView() {
     return candlestickChart;
 }
+
+void CandleStickController::notifyOHLCUpdate(
+    std::shared_ptr <Pair> pair, QList <OHLC> ohlcData)
+{
+    qDebug() << "received data = " << ohlcData.size();
+}

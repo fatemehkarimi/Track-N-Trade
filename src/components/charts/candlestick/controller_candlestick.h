@@ -2,10 +2,11 @@
 #define CONTROLLER_CANDLESTICK_H
 
 #include <QtWidgets>
+#include <data/observer_ohlc.h>
 #include <utils/time_interval.h>
 #include "chart_candlestick.h"
 
-class CandleStickController {
+class CandleStickController : public OHLCObserver {
 public:
     enum PERIOD {
         M_1 = 60,
@@ -24,6 +25,9 @@ public:
     };
 
     explicit CandleStickController(QString objectName);
+    void notifyOHLCUpdate(
+        std::shared_ptr <Pair> pair, QList <OHLC> ohlcData) override;
+
     QVBoxLayout* getView();
 
     void setPeriod(PERIOD);
