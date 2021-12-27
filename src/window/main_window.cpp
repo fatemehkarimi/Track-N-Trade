@@ -55,6 +55,8 @@ void MainWindow::setUpWindow() {
     QObject::connect(marketTable, &MarketTable::assetListUpdated, this, [=](){
         exchangeMenu->setEnabled(true);
     });
+    QObject::connect(marketTable, &MarketTable::pairSelected,
+        this, &MainWindow::handlePairSelected);
 
 
     QObject::connect(searchBox, &SearchBox::textChanged,
@@ -140,4 +142,10 @@ void MainWindow::exchangeChanged(int) {
     exchangeMenu->setEnabled(false);
     marketTable->clear();
     priceTable->clear();
+    candlestickController->clear();
+}
+
+void MainWindow::handlePairSelected(QString pairSymbol) {
+    candlestickController->reset();
+    controller->handlePairSelected(pairSymbol);
 }

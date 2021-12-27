@@ -2,6 +2,8 @@
 
 CandleStickController::CandleStickController(QString objectName) {
     candlestickChart = new CandleStickChart(objectName);
+    int day_1 = 86400;
+    setTimeLength(day_1);
 }
 
 QVBoxLayout* CandleStickController::getView() {
@@ -11,5 +13,42 @@ QVBoxLayout* CandleStickController::getView() {
 void CandleStickController::notifyOHLCUpdate(
     std::shared_ptr <Pair> pair, QList <OHLC> ohlcData)
 {
-    qDebug() << "received data = " << ohlcData.size();
+
+}
+
+void CandleStickController::setPeriod(CandleStickController::PERIOD p) {
+    this->period = p;
+}
+
+CandleStickController::PERIOD CandleStickController::getPeriod() {
+    return period;
+}
+
+void CandleStickController::clear() {
+    /* staff to clear diagram */
+    this->reset();
+}
+
+void CandleStickController::reset() {
+    this->interval.setEndTime(QDateTime::currentDateTime());
+}
+
+void CandleStickController::setStartTime(QDateTime time) {
+    this->interval.setStartTime(time);
+}
+
+QDateTime CandleStickController::getStartTime() {
+    return this->interval.getStartTime();
+}
+
+QDateTime CandleStickController::getEndTime() {
+    return this->interval.getEndTime();
+}
+
+void CandleStickController::setTimeLength(qint64 length) {
+    this->interval.setLength(length);
+}
+
+qint64 CandleStickController::getTimeLength() {
+    return this->interval.getLength();
 }

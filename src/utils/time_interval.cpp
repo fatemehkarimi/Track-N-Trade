@@ -11,6 +11,10 @@ void TimeInterval::setStartTime(QDateTime startTime) {
     this->startTime = startTime.toSecsSinceEpoch();
 }
 
+void TimeInterval::setEndTime(QDateTime endTime) {
+    this->startTime = endTime.toSecsSinceEpoch() - this->length;
+}
+
 void TimeInterval::setLength(qint64 length) {
     this->length = length;
 }

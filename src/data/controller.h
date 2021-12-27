@@ -7,7 +7,8 @@
 class Controller
 {
 public:
-    virtual void setExchange(QString exchange_name) = 0;
+    virtual void setExchange(QString exchangeName) = 0;
+    virtual void handlePairSelected(QString pairSymbol) = 0;
     virtual void getAssetList() = 0;
 };
 

@@ -10,6 +10,7 @@ public:
     TimeInterval(QDateTime startTime, qint64 length);
 
     void setStartTime(QDateTime startTime);
+    void setEndTime(QDateTime endTime);
     void setLength(qint64 length);
 
     QDateTime getStartTime();
@@ -21,7 +22,7 @@ public:
 
 private:
     qint64 startTime;   // start time is inclusive, but end time is exclusive
-    qint64 length;      // unit of length: secs
+    qint64 length = 0;      // unit of length: secs
 };
 
 #endif

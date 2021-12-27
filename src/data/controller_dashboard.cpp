@@ -7,10 +7,6 @@ DashboardController::DashboardController(APIManager* refAPI)
     Settings::Window* windowSettings = new Settings::Window(0.8, 0.8);
     view = new MainWindow(windowSettings, this, refAPI);
     view->show();
-
-    MarketTable* marketTable = view->getMarketTable();
-    QObject::connect(marketTable, &MarketTable::pairSelected,
-        this, &DashboardController::trackSinglePair);
 }
 
 void DashboardController::setExchange(QString exchangeSymbol) {
@@ -79,16 +75,25 @@ void DashboardController::setPriceChangesToTable() {
         marketTable->updatePairPriceChange(*priceChanges.find(key));
 }
 
+void DashboardController::handlePairSelected(QString pairSymbol) {
+    this->trackSinglePair(pairSymbol);
+}
+
 void DashboardController::trackSinglePair(QString pairSymbol) {
     if(selectedExchange == nullptr)
         return;
 
     this->neglectSinglePair();
-
     std::shared_ptr <Pair> pair = selectedExchange->getPair(pairSymbol);
+
     if(pair != nullptr) {
         selectedExchange->activateOHLCTracker(pair);
         selectedExchange->registerOHLCObserver(view->getCandleStickController());
+        this->getOHLCDataAsync(
+            view->getCandleStickController()->getPeriod(),
+            view->getCandleStickController()->getStartTime(),
+            view->getCandleStickController()->getEndTime());
+
         selectedExchange->activateLatestPriceTracker(pair);
         selectedExchange->activateLowestPriceTracker(pair);
         selectedExchange->activateHighestPriceTracker(pair);
@@ -105,4 +110,12 @@ void DashboardController::neglectSinglePair() {
     selectedExchange->deactivateLowestPriceTracker();
     selectedExchange->deactivateHighestPriceTracker();
     selectedExchange->deactivatePriceChangeTracker();
+}
+
+void DashboardController::getOHLCDataAsync(
+    int period, QDateTime after, QDateTime before)
+{
+    if(selectedExchange == nullptr)
+        return;
+    selectedExchange->getOHLCAsync(period, after, before);
 }

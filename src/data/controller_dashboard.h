@@ -18,8 +18,7 @@ public:
     explicit DashboardController(APIManager* refAPI);
     void setExchange(QString exchangeSymbol);
     void getAssetList();
-    void setPricesToTable();
-    void setPriceChangesToTable();
+    void handlePairSelected(QString pairSymbol) override;
 
 private slots:
     void exchangeFetched(std::shared_ptr <Exchange> exchange);
@@ -32,6 +31,9 @@ signals:
 
 private:
     void neglectSinglePair();
+    void setPricesToTable();
+    void setPriceChangesToTable();
+    void getOHLCDataAsync(int period, QDateTime after, QDateTime before);
 
     std::shared_ptr <Exchange> selectedExchange;
     APIManager* refAPI;

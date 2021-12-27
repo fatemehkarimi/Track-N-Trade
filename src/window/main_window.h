@@ -26,6 +26,9 @@ public:
     PriceTable* getPriceTable();
     CandleStickController* getCandleStickController();
 
+public slots:
+    void handlePairSelected(QString pairSymbol);
+
 private slots:
     void exchangeListFetched(Container <Exchange>);
     void exchangeChanged(int index);

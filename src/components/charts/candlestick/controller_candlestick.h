@@ -29,19 +29,22 @@ public:
         std::shared_ptr <Pair> pair, QList <OHLC> ohlcData) override;
 
     QVBoxLayout* getView();
+    void clear();
+    void reset();
 
     void setPeriod(PERIOD);
     PERIOD getPeriod();
 
     void setStartTime(QDateTime time);
-    void getStartTime();
+    QDateTime getStartTime();
+    QDateTime getEndTime();
 
     void setTimeLength(qint64 length);
     qint64 getTimeLength();
 
 private:
     CandleStickChart* candlestickChart = nullptr;
-    PERIOD period;
+    PERIOD period = PERIOD::H_6;
     TimeInterval interval;
 };
 
