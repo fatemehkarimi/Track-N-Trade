@@ -2,8 +2,8 @@
 
 CandleStickController::CandleStickController(QString objectName) {
     candlestickChart = new CandleStickChart(objectName);
-    int day_1 = 86400;
-    setTimeLength(day_1);
+    int week_1 = 604800;
+    setTimeLength(week_1);
 }
 
 QVBoxLayout* CandleStickController::getView() {
@@ -13,7 +13,8 @@ QVBoxLayout* CandleStickController::getView() {
 void CandleStickController::notifyOHLCUpdate(
     std::shared_ptr <Pair> pair, QList <OHLC> ohlcData)
 {
-
+    candlestickChart->setPair(pair);
+    candlestickChart->setOHLCData(ohlcData);
 }
 
 void CandleStickController::setPeriod(CandleStickController::PERIOD p) {

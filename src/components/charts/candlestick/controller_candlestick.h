@@ -44,7 +44,7 @@ public:
 
 private:
     CandleStickChart* candlestickChart = nullptr;
-    PERIOD period = PERIOD::H_6;
+    PERIOD period = PERIOD::H_1;
     TimeInterval interval;
 };
 
