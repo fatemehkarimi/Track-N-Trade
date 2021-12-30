@@ -3,10 +3,8 @@
 
 #include <QtWidgets>
 #include <QFont>
+#include "settings_constants.h"
 
-#define RALEWAY "Raleway-Regular"
-#define ROBOTOCONDENSED "Roboto Condensed"
-#define OPENSANSCONDENSED "Open Sans Condensed"
 
 namespace Settings {
 class Font

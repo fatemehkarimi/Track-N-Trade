@@ -6,6 +6,10 @@ using namespace QtCharts;
 
 CandleStickChart::CandleStickChart(QString objectName) {
     chart = new QtCharts::QChart();
+    chart->setAnimationOptions(QChart::SeriesAnimations);
+    chart->setTitleFont(
+        Settings::App::getInstance()->
+            getChartSettings().getChartTitleFont());
 
     view = new QtCharts::QChartView(chart);
     this->addWidget(view);
@@ -40,20 +44,12 @@ void CandleStickChart::setOHLCData(QList <OHLC> ohlcData) {
         
         if(set) {
             candlestick->append(set);
-            categories << ohlc.getCloseTime().toString("d MMM");
+            categories << ohlc.getCloseTime().toString("h:m ap d MMM");
         }
     }
     chart->addSeries(candlestick);
+    this->createAxes(categories);
     chart->setTitle(pair->getBase()->getName());
-    chart->setAnimationOptions(QChart::SeriesAnimations);
-    chart->createDefaultAxes();
-
-    QBarCategoryAxis *axisX = qobject_cast<QBarCategoryAxis *>(chart->axes(Qt::Horizontal).at(0));
-    axisX->setCategories(categories);
-
-    QValueAxis *axisY = qobject_cast<QValueAxis *>(chart->axes(Qt::Vertical).at(0));
-    axisY->setMax(axisY->max() * 1.01);
-    axisY->setMin(axisY->min() * 0.99);
 
     chart->legend()->setVisible(true);
     chart->legend()->setAlignment(Qt::AlignBottom);
@@ -67,4 +63,44 @@ void CandleStickChart::clearCandlestick() {
     candlestick->clear();
     delete candlestick;
     candlestick = nullptr;
+}
+
+void CandleStickChart::createAxes(QStringList categories) {
+    chart->createDefaultAxes();
+    this->setupXAxis(categories);
+    this->setupYAxis();
+}
+
+void CandleStickChart::setupXAxis(QStringList categories) {
+    QBarCategoryAxis *axisX = 
+        qobject_cast<QBarCategoryAxis *>(chart->axes(Qt::Horizontal).at(0));
+    axisX->setCategories(categories);
+}
+
+void CandleStickChart::setupYAxis() {
+    QValueAxis *axisY = 
+        qobject_cast<QValueAxis *>(chart->axes(Qt::Vertical).at(0));
+    axisY->setMax(axisY->max() * 1.01);
+    axisY->setMin(axisY->min() * 0.99);
+}
+
+void CandleStickChart::clearAxes() {
+    QBarCategoryAxis *axisX = 
+        qobject_cast<QBarCategoryAxis *>(chart->axes(Qt::Horizontal).at(0));
+    if(axisX == nullptr)
+        return;
+
+    chart->removeAxis(axisX);
+
+    QValueAxis *axisY = 
+        qobject_cast<QValueAxis *>(chart->axes(Qt::Vertical).at(0));
+    if(axisY == nullptr)
+        return;
+    chart->removeAxis(axisY);
+}
+
+void CandleStickChart::clear() {
+    this->clearAxes();
+    this->clearCandlestick();
+    chart->setTitle("");
 }

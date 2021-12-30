@@ -19,10 +19,16 @@ public:
     explicit CandleStickChart(QString objectName);
     void setPair(std::shared_ptr <Pair> pair);
     void setOHLCData(QList <OHLC> ohlcData);
+    void clear();
 
 private:
     void setupCandlestick();
     void clearCandlestick();
+    void createAxes(QStringList categories);
+    void setupXAxis(QStringList categories);
+    void setupYAxis();
+    void clearAxes();
+
     QtCharts::QChart* chart = nullptr;
     QtCharts::QCandlestickSeries* candlestick = nullptr;
     QtCharts::QChartView* view = nullptr;

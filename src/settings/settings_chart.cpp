@@ -9,3 +9,7 @@ QColor Settings::Chart::getIncreasingColor() {
 QColor Settings::Chart::getDecreasingColor() {
     return decreaseColor;
 }
+
+QFont Settings::Chart::getChartTitleFont() {
+    return QFont(ROBOTOCONDENSED, 32, QFont::Normal);
+}

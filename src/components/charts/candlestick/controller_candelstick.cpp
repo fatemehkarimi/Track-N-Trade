@@ -2,7 +2,7 @@
 
 CandleStickController::CandleStickController(QString objectName) {
     candlestickChart = new CandleStickChart(objectName);
-    int week_1 = 604800;
+    int week_1 = 259200;
     setTimeLength(week_1);
 }
 
@@ -27,6 +27,7 @@ CandleStickController::PERIOD CandleStickController::getPeriod() {
 
 void CandleStickController::clear() {
     /* staff to clear diagram */
+    candlestickChart->clear();
     this->reset();
 }
 
