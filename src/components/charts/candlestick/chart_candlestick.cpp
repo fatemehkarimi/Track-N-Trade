@@ -2,11 +2,10 @@
 #include "settings/settings_app.h"
 #include "settings/settings_chart.h"
 
-using namespace QtCharts;
-
 CandleStickChart::CandleStickChart(QString objectName) {
     chart = new QtCharts::QChart();
-    chart->setAnimationOptions(QChart::SeriesAnimations);
+    chart->legend()->hide();
+    chart->setAnimationOptions(QtCharts::QChart::SeriesAnimations);
     chart->setTitleFont(
         Settings::App::getInstance()->
             getChartSettings().getChartTitleFont());
@@ -15,24 +14,44 @@ CandleStickChart::CandleStickChart(QString objectName) {
     this->addWidget(view);
 }
 
-void CandleStickChart::setupCandlestick() {
-    candlestick = new QtCharts::QCandlestickSeries();
-    Settings::Chart chartSettings = 
-        Settings::App::getInstance()->getChartSettings();
-
-    candlestick->setIncreasingColor(chartSettings.getIncreasingColor());
-    candlestick->setDecreasingColor(chartSettings.getDecreasingColor());
-}
-
 void CandleStickChart::setPair(std::shared_ptr <Pair> pair) {
     this->pair = pair;
 }
 
-void CandleStickChart::setOHLCData(QList <OHLC> ohlcData) {
-    this->clearCandlestick();
-    setupCandlestick();
+void CandleStickChart::setupCandlestickSeries() {
+    candlestickSeries = new QtCharts::QCandlestickSeries();
+    Settings::Chart chartSettings = 
+        Settings::App::getInstance()->getChartSettings();
 
-    QStringList categories;
+    candlestickSeries->setIncreasingColor(chartSettings.getIncreasingColor());
+    candlestickSeries->setDecreasingColor(chartSettings.getDecreasingColor());
+}
+
+void CandleStickChart::setupTimeSeries() {
+    timeSeries = new QtCharts::QLineSeries();
+}
+
+void CandleStickChart::setupTimeAxis() {
+    timeAxis = new QtCharts::QDateTimeAxis();
+    timeAxis->setFormat("MMM dd");
+    timeAxis->setGridLineVisible(false);
+}
+
+void CandleStickChart::setupCandleAxis() {
+    candleAxis = new QtCharts::QValueAxis();
+}
+
+void CandleStickChart::setOHLCData(QList <OHLC> ohlcData) {
+    chart->removeAllSeries();
+    clearAxes();
+    setupCandlestickSeries();
+    setupTimeSeries();
+
+    setupTimeAxis();
+    setupCandleAxis();
+    chart->addAxis(timeAxis, Qt::AlignBottom);
+    chart->addAxis(candleAxis, Qt::AlignLeft);
+
     foreach(OHLC ohlc, ohlcData) {
         qreal timestamp = ohlc.getCloseTime().toMSecsSinceEpoch();
         qreal open = ohlc.getOpenPrice().getLatestPrice();
@@ -43,64 +62,44 @@ void CandleStickChart::setOHLCData(QList <OHLC> ohlcData) {
             new QtCharts::QCandlestickSet(open, high, low, close, timestamp);
         
         if(set) {
-            candlestick->append(set);
-            categories << ohlc.getCloseTime().toString("h:m ap d MMM");
+            candlestickSeries->append(set);
+            *timeSeries << QPointF(timestamp, 0);
         }
     }
-    chart->addSeries(candlestick);
-    this->createAxes(categories);
+
+    chart->addSeries(candlestickSeries);
+    chart->addSeries(timeSeries);
+
+    candlestickSeries->attachAxis(candleAxis);
+    candlestickSeries->attachAxis(timeAxis);
+    timeSeries->attachAxis(timeAxis);
+
     chart->setTitle(pair->getBase()->getName());
-
-    chart->legend()->setVisible(true);
-    chart->legend()->setAlignment(Qt::AlignBottom);
-}
-
-void CandleStickChart::clearCandlestick() {
-    if(candlestick == nullptr)
-        return;
-
-    chart->removeSeries(candlestick);
-    candlestick->clear();
-    delete candlestick;
-    candlestick = nullptr;
-}
-
-void CandleStickChart::createAxes(QStringList categories) {
-    chart->createDefaultAxes();
-    this->setupXAxis(categories);
-    this->setupYAxis();
-}
-
-void CandleStickChart::setupXAxis(QStringList categories) {
-    QBarCategoryAxis *axisX = 
-        qobject_cast<QBarCategoryAxis *>(chart->axes(Qt::Horizontal).at(0));
-    axisX->setCategories(categories);
-}
-
-void CandleStickChart::setupYAxis() {
-    QValueAxis *axisY = 
-        qobject_cast<QValueAxis *>(chart->axes(Qt::Vertical).at(0));
-    axisY->setMax(axisY->max() * 1.01);
-    axisY->setMin(axisY->min() * 0.99);
 }
 
 void CandleStickChart::clearAxes() {
-    QBarCategoryAxis *axisX = 
-        qobject_cast<QBarCategoryAxis *>(chart->axes(Qt::Horizontal).at(0));
-    if(axisX == nullptr)
-        return;
+    clearTimeAxis();
+    clearCandleAxis();
+}
 
-    chart->removeAxis(axisX);
+void CandleStickChart::clearTimeAxis() {
+    if(timeAxis != nullptr) {
+        chart->removeAxis(timeAxis);
+        delete timeAxis;
+        timeAxis = nullptr;
+    }
+}
 
-    QValueAxis *axisY = 
-        qobject_cast<QValueAxis *>(chart->axes(Qt::Vertical).at(0));
-    if(axisY == nullptr)
-        return;
-    chart->removeAxis(axisY);
+void CandleStickChart::clearCandleAxis() {
+    if(candleAxis != nullptr) {
+        chart->removeAxis(candleAxis);
+        delete candleAxis;
+        candleAxis = nullptr;
+    }
 }
 
 void CandleStickChart::clear() {
-    this->clearAxes();
-    this->clearCandlestick();
+    chart->removeAllSeries();
+    clearAxes();
     chart->setTitle("");
 }

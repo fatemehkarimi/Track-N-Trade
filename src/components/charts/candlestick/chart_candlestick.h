@@ -4,10 +4,12 @@
 #include <memory>
 #include <QtGlobal>
 #include <QVBoxLayout>
+#include <QLineSeries>
 #include <QCandlestickSeries>
 #include <QCandlestickSet>
 #include <QBarCategoryAxis>
 #include <QValueAxis>
+#include <QDateTimeAxis>
 #include <QChart>
 #include <QChartView>
 #include <data/pair.h>
@@ -22,18 +24,23 @@ public:
     void clear();
 
 private:
-    void setupCandlestick();
-    void clearCandlestick();
-    void createAxes(QStringList categories);
-    void setupXAxis(QStringList categories);
-    void setupYAxis();
+    void setupCandlestickSeries();
+    void setupTimeSeries();
+    void setupTimeAxis();
+    void setupCandleAxis();
     void clearAxes();
-
-    QtCharts::QChart* chart = nullptr;
-    QtCharts::QCandlestickSeries* candlestick = nullptr;
-    QtCharts::QChartView* view = nullptr;
+    void clearTimeAxis();
+    void clearCandleAxis();
 
     std::shared_ptr <Pair> pair;
+
+    QtCharts::QChart* chart = nullptr;
+    QtCharts::QCandlestickSeries* candlestickSeries = nullptr;
+    QtCharts::QChartView* view = nullptr;
+    QtCharts::QLineSeries* timeSeries = nullptr;
+
+    QtCharts::QDateTimeAxis* timeAxis = nullptr;
+    QtCharts::QValueAxis* candleAxis = nullptr;
 };
 
 #endif
