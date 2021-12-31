@@ -1,5 +1,6 @@
 # TrackNTrade
 desktop application to Track Cryptocurrency prices
+![TrackNTrade](screenshots/trackntrade.png)
 ## Third-party
 - Qt 5.12.8
 - QMake
