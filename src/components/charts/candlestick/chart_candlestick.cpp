@@ -41,6 +41,12 @@ void CandleStickChart::setupCandleAxis() {
     candleAxis = new QtCharts::QValueAxis();
 }
 
+void CandleStickChart::setCandleAxisBoundries() {
+    candleAxis->setMin(candleAxis->min() * 0.98);
+    candleAxis->setMax(candleAxis->max() * 1.02);
+}
+
+
 void CandleStickChart::setOHLCData(QList <OHLC> ohlcData) {
     chart->removeAllSeries();
     clearAxes();
@@ -73,6 +79,8 @@ void CandleStickChart::setOHLCData(QList <OHLC> ohlcData) {
     candlestickSeries->attachAxis(candleAxis);
     candlestickSeries->attachAxis(timeAxis);
     timeSeries->attachAxis(timeAxis);
+
+    setCandleAxisBoundries();
 
     chart->setTitle(pair->getBase()->getName());
 }

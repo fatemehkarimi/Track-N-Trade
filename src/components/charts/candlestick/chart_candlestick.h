@@ -31,6 +31,7 @@ private:
     void clearAxes();
     void clearTimeAxis();
     void clearCandleAxis();
+    void setCandleAxisBoundries();
 
     std::shared_ptr <Pair> pair;
 
