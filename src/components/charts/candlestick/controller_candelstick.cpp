@@ -2,8 +2,8 @@
 
 CandleStickController::CandleStickController(QString objectName) {
     candlestickChart = new CandleStickChart(objectName);
-    int week_1 = 259200;
-    setTimeLength(week_1);
+    int day_4 = 345600;
+    setTimeLength(day_4);
 }
 
 QVBoxLayout* CandleStickController::getView() {
@@ -26,7 +26,6 @@ CandleStickController::PERIOD CandleStickController::getPeriod() {
 }
 
 void CandleStickController::clear() {
-    /* staff to clear diagram */
     candlestickChart->clear();
     this->reset();
 }
