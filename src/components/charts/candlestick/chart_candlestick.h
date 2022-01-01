@@ -14,6 +14,7 @@
 #include <QChartView>
 #include <data/pair.h>
 #include <data/ohlc.h>
+#include "chart_control.h"
 
 class CandleStickChart : public QVBoxLayout
 {
@@ -42,6 +43,8 @@ private:
 
     QtCharts::QDateTimeAxis* timeAxis = nullptr;
     QtCharts::QValueAxis* candleAxis = nullptr;
+
+    ChartControl* chartControl = nullptr;
 };
 
 #endif

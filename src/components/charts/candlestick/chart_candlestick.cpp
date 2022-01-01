@@ -12,6 +12,9 @@ CandleStickChart::CandleStickChart(QString objectName) {
 
     view = new QtCharts::QChartView(chart);
     this->addWidget(view);
+
+    chartControl = new ChartControl();
+    this->addLayout(chartControl);
 }
 
 void CandleStickChart::setPair(std::shared_ptr <Pair> pair) {

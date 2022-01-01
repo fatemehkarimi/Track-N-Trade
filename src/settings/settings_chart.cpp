@@ -13,3 +13,7 @@ QColor Settings::Chart::getDecreasingColor() {
 QFont Settings::Chart::getChartTitleFont() {
     return QFont(ROBOTOCONDENSED, 32, QFont::Normal);
 }
+
+QFont Settings::Chart::getChartLabelFont() {
+    return QFont(ROBOTOCONDENSED, 24, QFont::Normal);
+}
