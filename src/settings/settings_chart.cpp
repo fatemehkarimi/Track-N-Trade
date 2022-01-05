@@ -15,5 +15,9 @@ QFont Settings::Chart::getChartTitleFont() {
 }
 
 QFont Settings::Chart::getChartLabelFont() {
-    return QFont(ROBOTOCONDENSED, 24, QFont::Normal);
+    return QFont(ROBOTOCONDENSED, 12, QFont::Normal);
+}
+
+QFont Settings::Chart::getIntervalButtonFont() {
+    return QFont(ROBOTOCONDENSED, 12, QFont::Normal);
 }

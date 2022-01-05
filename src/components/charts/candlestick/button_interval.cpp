@@ -2,6 +2,7 @@
 
 
 IntervalButton::IntervalButton(IntervalButton::INTERVAL i) {
+    this->setObjectName("intervalButton");
     this->interval = i;
     QString text = "";
     switch(interval){
@@ -25,6 +26,9 @@ IntervalButton::IntervalButton(IntervalButton::INTERVAL i) {
             break;
     }
     this->setText(text);
+    this->setFont(Settings::App::getInstance()->
+        getChartSettings().getIntervalButtonFont());
+
     QObject::connect(
         this, &QPushButton::clicked,
         this, &IntervalButton::setChartInterval);

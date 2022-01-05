@@ -2,6 +2,7 @@
 #define BUTTON_INTERVAL_H
 
 #include <QPushButton>
+#include <settings/settings_app.h>
 
 class IntervalButton : public QPushButton
 {

@@ -12,6 +12,7 @@ public:
     QColor getDecreasingColor();
     QFont getChartTitleFont();
     QFont getChartLabelFont();
+    QFont getIntervalButtonFont();
 
 private:
     QColor increaseColor = QColor(70, 203, 130);

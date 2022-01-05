@@ -46,3 +46,12 @@ QComboBox#exchangeMenu::item {
 QComboBox#exchangeMenu::item:selected {
     background-color: #f0f1f2;
 }
+
+QPushButton#intervalButton {
+    border:none;
+    background-color: transparent;
+}
+
+QPushButton#intervalButton:hover {
+    color: #d4a737;
+}

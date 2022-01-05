@@ -19,6 +19,7 @@ ChartControl::ChartControl(CandleStickController* controller) {
     this->addWidget(ib4);
     this->addWidget(ib5);
     this->addWidget(ib6);
+    this->addStretch(1);
 }
 
 void ChartControl::setupLabel() {
