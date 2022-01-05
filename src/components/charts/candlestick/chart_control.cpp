@@ -2,24 +2,25 @@
 
 ChartControl::ChartControl(CandleStickController* controller) {
     this->controller = controller;
+    layout = new QHBoxLayout(this);
 
     setupLabel();
-    this->addWidget(label);
+    layout->addWidget(label);
 
-    IntervalButton* ib1 = new IntervalButton(IntervalButton::m_15);
-    IntervalButton* ib2 = new IntervalButton(IntervalButton::h_1);
-    IntervalButton* ib3 = new IntervalButton(IntervalButton::h_4);
-    IntervalButton* ib4 = new IntervalButton(IntervalButton::d_1);
-    IntervalButton* ib5 = new IntervalButton(IntervalButton::w_1);
-    IntervalButton* ib6 = new IntervalButton(IntervalButton::M_1);
+    ibM15 = new IntervalButton(IntervalButton::m_15);
+    ibH1 = new IntervalButton(IntervalButton::h_1);
+    ibH4 = new IntervalButton(IntervalButton::h_4);
+    ibD1 = new IntervalButton(IntervalButton::d_1);
+    ibW1 = new IntervalButton(IntervalButton::w_1);
+    ibMon1 = new IntervalButton(IntervalButton::M_1);
 
-    this->addWidget(ib1);
-    this->addWidget(ib2);
-    this->addWidget(ib3);
-    this->addWidget(ib4);
-    this->addWidget(ib5);
-    this->addWidget(ib6);
-    this->addStretch(1);
+    layout->addWidget(ibM15);
+    layout->addWidget(ibH1);
+    layout->addWidget(ibH4);
+    layout->addWidget(ibD1);
+    layout->addWidget(ibW1);
+    layout->addWidget(ibMon1);
+    layout->addStretch(1);
 }
 
 void ChartControl::setupLabel() {

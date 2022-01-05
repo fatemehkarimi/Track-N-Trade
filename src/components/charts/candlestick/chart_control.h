@@ -9,14 +9,21 @@
 
 class CandleStickController;
 
-class ChartControl : public QHBoxLayout
+class ChartControl : public QWidget
 {
 public:
     explicit ChartControl(CandleStickController* controller);
 
 private:
     void setupLabel();
+    QHBoxLayout* layout;
     QLabel* label;
+    IntervalButton* ibM15 = nullptr;
+    IntervalButton* ibH1 = nullptr;
+    IntervalButton* ibH4 = nullptr;
+    IntervalButton* ibD1 = nullptr;
+    IntervalButton* ibW1 = nullptr;
+    IntervalButton* ibMon1 = nullptr;
     CandleStickController* controller;
 };
 

@@ -3,6 +3,7 @@
 CandleStickController::CandleStickController(QString objectName) {
     candlestickChart = new CandleStickChart();
     chartControl = new ChartControl(this);
+    chartControl->setEnabled(false);
 
     buildView();
     int day_4 = 345600;
@@ -12,7 +13,7 @@ CandleStickController::CandleStickController(QString objectName) {
 void CandleStickController::buildView() {
     viewLayout = new QVBoxLayout();
     viewLayout->addWidget(candlestickChart->getView());
-    viewLayout->addLayout(chartControl);
+    viewLayout->addWidget(chartControl);
 }
 
 QVBoxLayout* CandleStickController::getView() {
@@ -22,6 +23,7 @@ QVBoxLayout* CandleStickController::getView() {
 void CandleStickController::notifyOHLCUpdate(
     std::shared_ptr <Pair> pair, QList <OHLC> ohlcData)
 {
+    chartControl->setEnabled(true);
     candlestickChart->setPair(pair);
     candlestickChart->setOHLCData(ohlcData);
 }
@@ -35,6 +37,7 @@ CandleStickController::PERIOD CandleStickController::getPeriod() {
 }
 
 void CandleStickController::clear() {
+    chartControl->setEnabled(false);
     candlestickChart->clear();
     this->reset();
 }
