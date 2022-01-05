@@ -2,7 +2,7 @@
 #include "settings/settings_app.h"
 #include "settings/settings_chart.h"
 
-CandleStickChart::CandleStickChart(QString objectName) {
+CandleStickChart::CandleStickChart() {
     chart = new QtCharts::QChart();
     chart->legend()->hide();
     chart->setAnimationOptions(QtCharts::QChart::SeriesAnimations);
@@ -11,10 +11,10 @@ CandleStickChart::CandleStickChart(QString objectName) {
             getChartSettings().getChartTitleFont());
 
     view = new QtCharts::QChartView(chart);
-    this->addWidget(view);
+}
 
-    chartControl = new ChartControl();
-    this->addLayout(chartControl);
+QtCharts::QChartView* CandleStickChart::getView() {
+    return view;
 }
 
 void CandleStickChart::setPair(std::shared_ptr <Pair> pair) {

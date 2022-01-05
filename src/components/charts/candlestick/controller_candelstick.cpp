@@ -1,13 +1,22 @@
 #include "controller_candlestick.h"
 
 CandleStickController::CandleStickController(QString objectName) {
-    candlestickChart = new CandleStickChart(objectName);
+    candlestickChart = new CandleStickChart();
+    chartControl = new ChartControl(this);
+
+    buildView();
     int day_4 = 345600;
     setTimeLength(day_4);
 }
 
+void CandleStickController::buildView() {
+    viewLayout = new QVBoxLayout();
+    viewLayout->addWidget(candlestickChart->getView());
+    viewLayout->addLayout(chartControl);
+}
+
 QVBoxLayout* CandleStickController::getView() {
-    return candlestickChart;
+    return viewLayout;
 }
 
 void CandleStickController::notifyOHLCUpdate(

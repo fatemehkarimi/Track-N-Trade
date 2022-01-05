@@ -14,15 +14,15 @@
 #include <QChartView>
 #include <data/pair.h>
 #include <data/ohlc.h>
-#include "chart_control.h"
 
-class CandleStickChart : public QVBoxLayout
+class CandleStickChart
 {
 public:
-    explicit CandleStickChart(QString objectName);
+    explicit CandleStickChart();
     void setPair(std::shared_ptr <Pair> pair);
     void setOHLCData(QList <OHLC> ohlcData);
     void clear();
+    QtCharts::QChartView* getView();
 
 private:
     void setupCandlestickSeries();
@@ -43,8 +43,6 @@ private:
 
     QtCharts::QDateTimeAxis* timeAxis = nullptr;
     QtCharts::QValueAxis* candleAxis = nullptr;
-
-    ChartControl* chartControl = nullptr;
 };
 
 #endif

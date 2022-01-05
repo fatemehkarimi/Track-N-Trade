@@ -46,7 +46,3 @@ QComboBox#exchangeMenu::item {
 QComboBox#exchangeMenu::item:selected {
     background-color: #f0f1f2;
 }
-
-QLabel#chartTimeLabel {
-    padding-right: 5px;
-}

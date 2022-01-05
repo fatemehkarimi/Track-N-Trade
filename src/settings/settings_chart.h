@@ -12,7 +12,7 @@ public:
     QColor getDecreasingColor();
     QFont getChartTitleFont();
     QFont getChartLabelFont();
-    
+
 private:
     QColor increaseColor = QColor(70, 203, 130);
     QColor decreaseColor = QColor(217, 61, 74);

@@ -5,6 +5,9 @@
 #include <data/observer_ohlc.h>
 #include <utils/time_interval.h>
 #include "chart_candlestick.h"
+#include "chart_control.h"
+
+class ChartControl;
 
 class CandleStickController : public OHLCObserver {
 public:
@@ -28,7 +31,9 @@ public:
     void notifyOHLCUpdate(
         std::shared_ptr <Pair> pair, QList <OHLC> ohlcData) override;
 
+    void buildView();
     QVBoxLayout* getView();
+
     void clear();
     void reset();
 
@@ -43,6 +48,8 @@ public:
     qint64 getTimeLength();
 
 private:
+    QVBoxLayout* viewLayout = nullptr;
+    ChartControl* chartControl = nullptr;
     CandleStickChart* candlestickChart = nullptr;
     PERIOD period = PERIOD::H_1;
     TimeInterval interval;
