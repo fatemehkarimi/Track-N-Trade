@@ -1,5 +1,5 @@
-#ifndef CHART_CONTROL_H
-#define CHART_CONTROL_H
+#ifndef INTERVAL_CONTROL_H
+#define INTERVAL_CONTROL_H
 
 #include <QHBoxLayout>
 #include <QLabel>
@@ -9,11 +9,21 @@
 
 class CandleStickController;
 
-class ChartControl : public QWidget
+class IntervalControl : public QWidget
 {
     Q_OBJECT
 public:
-    explicit ChartControl(CandleStickController* controller);
+    enum INTERVAL {
+        m_15,
+        h_1,
+        h_4,
+        d_1,
+        w_1,
+        M_1,
+    };
+
+    explicit IntervalControl(CandleStickController* controller);
+    qint64 getIntervalValue(INTERVAL i);  // Interval value is in secs
 
 private slots:
     void handleIntervalChange(qint64 iSecs);

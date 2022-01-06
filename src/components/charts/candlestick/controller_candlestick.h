@@ -2,12 +2,13 @@
 #define CONTROLLER_CANDLESTICK_H
 
 #include <QtWidgets>
+#include <data/controller.h>
 #include <data/observer_ohlc.h>
 #include <utils/time_interval.h>
 #include "chart_candlestick.h"
-#include "chart_control.h"
+#include "interval_control.h"
 
-class ChartControl;
+class IntervalControl;
 
 class CandleStickController : public OHLCObserver {
 public:
@@ -27,7 +28,7 @@ public:
         W_1 = 604800
     };
 
-    explicit CandleStickController(QString objectName);
+    explicit CandleStickController(Controller* controller);
     void notifyOHLCUpdate(
         std::shared_ptr <Pair> pair, QList <OHLC> ohlcData) override;
 
@@ -49,8 +50,9 @@ public:
 
 private:
     QVBoxLayout* viewLayout = nullptr;
-    ChartControl* chartControl = nullptr;
+    IntervalControl* intervalController = nullptr;
     CandleStickChart* candlestickChart = nullptr;
+    Controller* controller = nullptr;
     PERIOD period = PERIOD::H_1;
     TimeInterval interval;
 };

@@ -1,9 +1,11 @@
 #include "controller_candlestick.h"
 
-CandleStickController::CandleStickController(QString objectName) {
+CandleStickController::CandleStickController(Controller* controller)
+    : controller(controller)
+{
     candlestickChart = new CandleStickChart();
-    chartControl = new ChartControl(this);
-    chartControl->setEnabled(false);
+    intervalController = new IntervalControl(this);
+    intervalController->setEnabled(false);
 
     buildView();
     int day_4 = 345600;
@@ -13,7 +15,7 @@ CandleStickController::CandleStickController(QString objectName) {
 void CandleStickController::buildView() {
     viewLayout = new QVBoxLayout();
     viewLayout->addWidget(candlestickChart->getView());
-    viewLayout->addWidget(chartControl);
+    viewLayout->addWidget(intervalController);
 }
 
 QVBoxLayout* CandleStickController::getView() {
@@ -23,7 +25,7 @@ QVBoxLayout* CandleStickController::getView() {
 void CandleStickController::notifyOHLCUpdate(
     std::shared_ptr <Pair> pair, QList <OHLC> ohlcData)
 {
-    chartControl->setEnabled(true);
+    intervalController->setEnabled(true);
     candlestickChart->setPair(pair);
     candlestickChart->setOHLCData(ohlcData);
 }
@@ -37,7 +39,7 @@ CandleStickController::PERIOD CandleStickController::getPeriod() {
 }
 
 void CandleStickController::clear() {
-    chartControl->setEnabled(false);
+    intervalController->setEnabled(false);
     candlestickChart->clear();
     this->reset();
 }
@@ -60,6 +62,8 @@ QDateTime CandleStickController::getEndTime() {
 
 void CandleStickController::setTimeLength(qint64 length) {
     this->interval.setLength(length);
+    controller->handleOHLCDataRequest(
+        period, interval.getStartTime(), interval.getEndTime());
 }
 
 qint64 CandleStickController::getTimeLength() {

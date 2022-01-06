@@ -45,10 +45,6 @@ void DashboardController::exchangeFetched(std::shared_ptr <Exchange> exchange) {
     emit selectedExchangeChanged();
 }
 
-void DashboardController::getAssetList() {
-    
-}
-
 void DashboardController::notifyPriceUpdates() {
     this->setPricesToTable();
 }
@@ -118,4 +114,10 @@ void DashboardController::getOHLCDataAsync(
     if(selectedExchange == nullptr)
         return;
     selectedExchange->getOHLCAsync(period, after, before);
+}
+
+void DashboardController::handleOHLCDataRequest(
+    int period, QDateTime after, QDateTime before)
+{
+    getOHLCDataAsync(period, after, before);
 }

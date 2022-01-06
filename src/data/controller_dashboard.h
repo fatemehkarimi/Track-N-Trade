@@ -16,9 +16,9 @@ class DashboardController : public QObject,
     Q_OBJECT
 public:
     explicit DashboardController(APIManager* refAPI);
-    void setExchange(QString exchangeSymbol);
-    void getAssetList();
+    void setExchange(QString exchangeSymbol) override;
     void handlePairSelected(QString pairSymbol) override;
+    void handleOHLCDataRequest(int period, QDateTime after, QDateTime before) override;
 
 private slots:
     void exchangeFetched(std::shared_ptr <Exchange> exchange);

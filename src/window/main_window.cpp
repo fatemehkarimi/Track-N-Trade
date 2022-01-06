@@ -69,7 +69,7 @@ void MainWindow::setUpWindow() {
 }
 
 void MainWindow::setUpCandleStick(QString objectName) {
-    candlestickController = new CandleStickController(objectName);
+    candlestickController = new CandleStickController(controller);
 }
 
 void MainWindow::setUpExchangeMenu(QString objectName) {
