@@ -6,18 +6,23 @@
 
 class IntervalButton : public QPushButton
 {
+    Q_OBJECT
 public:
     enum INTERVAL {
-        m_15 = 900,
-        h_1 = 3600,
-        h_4 = 14400,
-        d_1 = 86400,
-        w_1 = 604800,
-        M_1 = 2592000
+        m_15,
+        h_1,
+        h_4,
+        d_1,
+        w_1,
+        M_1,
     };
 
     IntervalButton(INTERVAL i);
-    void setChartInterval();
+    qint64 getIntervalValue();  // Interval value is in secs
+    void handleClicked();
+
+signals:
+    void notifyInterval(qint64 value);
 
 private:
     INTERVAL interval;

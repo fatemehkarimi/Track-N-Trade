@@ -14,6 +14,30 @@ ChartControl::ChartControl(CandleStickController* controller) {
     ibW1 = new IntervalButton(IntervalButton::w_1);
     ibMon1 = new IntervalButton(IntervalButton::M_1);
 
+    QObject::connect(
+        ibM15, &IntervalButton::notifyInterval,
+        this, &ChartControl::handleIntervalChange);
+    
+    QObject::connect(
+        ibH1, &IntervalButton::notifyInterval,
+        this, &ChartControl::handleIntervalChange);
+
+    QObject::connect(
+        ibH4, &IntervalButton::notifyInterval,
+        this, &ChartControl::handleIntervalChange);
+
+    QObject::connect(
+        ibD1, &IntervalButton::notifyInterval,
+        this, &ChartControl::handleIntervalChange);
+
+    QObject::connect(
+        ibW1, &IntervalButton::notifyInterval,
+        this, &ChartControl::handleIntervalChange);
+
+    QObject::connect(
+        ibMon1, &IntervalButton::notifyInterval,
+        this, &ChartControl::handleIntervalChange);
+
     layout->addWidget(ibM15);
     layout->addWidget(ibH1);
     layout->addWidget(ibH4);
@@ -30,4 +54,8 @@ void ChartControl::setupLabel() {
         Settings::App::getInstance()->
             getChartSettings().getChartLabelFont());
     label->setAlignment(Qt::AlignLeft);
+}
+
+void ChartControl::handleIntervalChange(qint64 iSecs) {
+    
 }

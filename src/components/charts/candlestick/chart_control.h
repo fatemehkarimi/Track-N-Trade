@@ -11,8 +11,12 @@ class CandleStickController;
 
 class ChartControl : public QWidget
 {
+    Q_OBJECT
 public:
     explicit ChartControl(CandleStickController* controller);
+
+private slots:
+    void handleIntervalChange(qint64 iSecs);
 
 private:
     void setupLabel();

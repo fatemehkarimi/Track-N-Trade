@@ -31,9 +31,26 @@ IntervalButton::IntervalButton(IntervalButton::INTERVAL i) {
 
     QObject::connect(
         this, &QPushButton::clicked,
-        this, &IntervalButton::setChartInterval);
+        this, &IntervalButton::handleClicked);
 }
 
-void IntervalButton::setChartInterval() {
-    
+qint64 IntervalButton::getIntervalValue() {
+    switch(interval){
+        case INTERVAL::m_15:
+            return 900;
+        case INTERVAL::h_1:
+            return 3600;
+        case INTERVAL::h_4:
+            return 14400;
+        case INTERVAL::d_1:
+            return 86400;
+        case INTERVAL::w_1:
+            return 604800;
+        case INTERVAL::M_1:
+            return 2592000;
+    }
+}
+
+void IntervalButton::handleClicked() {
+    emit notifyInterval(getIntervalValue());
 }
