@@ -1,15 +1,14 @@
-#ifndef INTERVAL_CONTROL_H
-#define INTERVAL_CONTROL_H
+#ifndef INTERVAL_CONTROLLER_H
+#define INTERVAL_CONTROLLER_H
 
-#include <QHBoxLayout>
 #include <QLabel>
+#include <QHBoxLayout>
 #include <settings/settings_app.h>
-#include "controller_candlestick.h"
+#include <utils/time_interval.h>
 #include "button_interval.h"
 
-class CandleStickController;
 
-class IntervalControl : public QWidget
+class IntervalController : public QWidget
 {
     Q_OBJECT
 public:
@@ -22,11 +21,18 @@ public:
         M_1,
     };
 
-    explicit IntervalControl(CandleStickController* controller);
+    explicit IntervalController();
     qint64 getIntervalValue(INTERVAL i);  // Interval value is in secs
+    INTERVAL getSelectedInterval();
+    void reset();
+    QDateTime getStartTime();
+    QDateTime getEndTime();
 
 private slots:
     void handleIntervalChange(qint64 iSecs);
+
+signals:
+    void intervalChanged();
 
 private:
     void setupLabel();
@@ -38,7 +44,9 @@ private:
     IntervalButton* ibD1 = nullptr;
     IntervalButton* ibW1 = nullptr;
     IntervalButton* ibMon1 = nullptr;
-    CandleStickController* controller;
+
+    INTERVAL selectedInterval = INTERVAL::d_1;
+    TimeInterval interval;
 };
 
 #endif

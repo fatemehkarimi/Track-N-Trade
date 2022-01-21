@@ -85,11 +85,8 @@ void DashboardController::trackSinglePair(QString pairSymbol) {
     if(pair != nullptr) {
         selectedExchange->activateOHLCTracker(pair);
         selectedExchange->registerOHLCObserver(view->getCandleStickController());
-        this->getOHLCDataAsync(
-            view->getCandleStickController()->getPeriod(),
-            view->getCandleStickController()->getStartTime(),
-            view->getCandleStickController()->getEndTime());
-
+        view->getCandleStickController()->getOHLCDataAsync();
+        
         selectedExchange->activateLatestPriceTracker(pair);
         selectedExchange->activateLowestPriceTracker(pair);
         selectedExchange->activateHighestPriceTracker(pair);

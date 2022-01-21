@@ -4,13 +4,12 @@
 #include <QtWidgets>
 #include <data/controller.h>
 #include <data/observer_ohlc.h>
-#include <utils/time_interval.h>
 #include "chart_candlestick.h"
-#include "interval_control.h"
+#include "interval_controller.h"
 
-class IntervalControl;
 
-class CandleStickController : public OHLCObserver {
+class CandleStickController : public QObject, public OHLCObserver {
+    Q_OBJECT
 public:
     enum PERIOD {
         M_1 = 60,
@@ -29,8 +28,10 @@ public:
     };
 
     explicit CandleStickController(Controller* controller);
+    void getOHLCDataAsync();
     void notifyOHLCUpdate(
         std::shared_ptr <Pair> pair, QList <OHLC> ohlcData) override;
+    
 
     void buildView();
     QVBoxLayout* getView();
@@ -41,20 +42,18 @@ public:
     void setPeriod(PERIOD);
     PERIOD getPeriod();
 
-    void setStartTime(QDateTime time);
-    QDateTime getStartTime();
-    QDateTime getEndTime();
+    friend class CandleStickChart;
 
-    void setTimeLength(qint64 length);
-    qint64 getTimeLength();
+protected:
+    QString getChartTimeFormat();
+    void setTimeScale();
 
 private:
     QVBoxLayout* viewLayout = nullptr;
-    IntervalControl* intervalController = nullptr;
+    IntervalController* intervalController = nullptr;
     CandleStickChart* candlestickChart = nullptr;
     Controller* controller = nullptr;
     PERIOD period = PERIOD::H_1;
-    TimeInterval interval;
 };
 
 #endif

@@ -34,9 +34,9 @@ void CandleStickChart::setupTimeSeries() {
     timeSeries = new QtCharts::QLineSeries();
 }
 
-void CandleStickChart::setupTimeAxis() {
+void CandleStickChart::setupTimeAxis(QString timeFormat) {
     timeAxis = new QtCharts::QDateTimeAxis();
-    timeAxis->setFormat("MMM dd");
+    timeAxis->setFormat(timeFormat);
     timeAxis->setGridLineVisible(false);
 }
 
@@ -50,13 +50,13 @@ void CandleStickChart::setCandleAxisBoundries() {
 }
 
 
-void CandleStickChart::setOHLCData(QList <OHLC> ohlcData) {
+void CandleStickChart::setOHLCData(QList <OHLC> ohlcData, QString timeFormat) {
     chart->removeAllSeries();
     clearAxes();
     setupCandlestickSeries();
     setupTimeSeries();
 
-    setupTimeAxis();
+    setupTimeAxis(timeFormat);
     setupCandleAxis();
     chart->addAxis(timeAxis, Qt::AlignBottom);
     chart->addAxis(candleAxis, Qt::AlignLeft);

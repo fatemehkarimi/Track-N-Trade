@@ -20,14 +20,14 @@ class CandleStickChart
 public:
     explicit CandleStickChart();
     void setPair(std::shared_ptr <Pair> pair);
-    void setOHLCData(QList <OHLC> ohlcData);
+    void setOHLCData(QList <OHLC> ohlcData, QString timeFormat);
     void clear();
     QtCharts::QChartView* getView();
 
 private:
     void setupCandlestickSeries();
     void setupTimeSeries();
-    void setupTimeAxis();
+    void setupTimeAxis(QString timeFormat);
     void setupCandleAxis();
     void clearAxes();
     void clearTimeAxis();
