@@ -6,30 +6,22 @@
 #include <settings/settings_app.h>
 #include <utils/time_interval.h>
 #include "button_interval.h"
+#include "chart_common.h"
 
 
 class IntervalController : public QWidget
 {
     Q_OBJECT
 public:
-    enum INTERVAL {
-        m_15,
-        h_1,
-        h_4,
-        d_1,
-        w_1,
-        M_1,
-    };
 
     explicit IntervalController();
-    qint64 getIntervalValue(INTERVAL i);  // Interval value is in secs
-    INTERVAL getSelectedInterval();
+    candlestick::INTERVAL getSelectedInterval();
     void reset();
     QDateTime getStartTime();
     QDateTime getEndTime();
 
 private slots:
-    void handleIntervalChange(qint64 iSecs);
+    void handleIntervalChange(candlestick::INTERVAL i);
 
 signals:
     void intervalChanged();
@@ -45,7 +37,7 @@ private:
     IntervalButton* ibW1 = nullptr;
     IntervalButton* ibMon1 = nullptr;
 
-    INTERVAL selectedInterval = INTERVAL::d_1;
+    candlestick::INTERVAL selectedInterval = candlestick::INTERVAL::d_1;
     TimeInterval interval;
 };
 

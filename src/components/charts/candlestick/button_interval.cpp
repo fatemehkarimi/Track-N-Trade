@@ -1,7 +1,7 @@
 #include "button_interval.h"
 
 
-IntervalButton::IntervalButton(qint64 i, QString text) {
+IntervalButton::IntervalButton(candlestick::INTERVAL i, QString text) {
     this->setObjectName("intervalButton");
     this->interval = i;
     this->setText(text);

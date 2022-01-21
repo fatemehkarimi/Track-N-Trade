@@ -61,39 +61,39 @@ void CandleStickController::getOHLCDataAsync() {
 
 QString CandleStickController::getChartTimeFormat() {
     switch(intervalController->getSelectedInterval()){
-        case IntervalController::m_15:
+        case candlestick::INTERVAL::m_15:
             return "hh:mm";
-        case IntervalController::h_1:
+        case candlestick::INTERVAL::h_1:
             return "hh:mm";
-        case IntervalController::h_4:
+        case candlestick::INTERVAL::h_4:
             return "hh:mm";
-        case IntervalController::d_1:
-            return "hh:mm";
-        case IntervalController::w_1:
+        case candlestick::INTERVAL::d_1:
+            return "MMM d hh:mm";
+        case candlestick::INTERVAL::w_1:
             return "MMM d";
-        case IntervalController::M_1:
+        case candlestick::INTERVAL::M_1:
             return "MMM d";
     }
 }
 
 void CandleStickController::setTimeScale() {
     switch(intervalController->getSelectedInterval()) {
-        case IntervalController::m_15:
+        case candlestick::INTERVAL::m_15:
             setPeriod(CandleStickController::M_1);
             break;
-        case IntervalController::h_1:
+        case candlestick::INTERVAL::h_1:
             setPeriod(CandleStickController::M_1);
             break;
-        case IntervalController::h_4:
+        case candlestick::INTERVAL::h_4:
             setPeriod(CandleStickController::M_1);
             break;
-        case IntervalController::d_1:
+        case candlestick::INTERVAL::d_1:
             setPeriod(CandleStickController::M_1);
             break;
-        case IntervalController::w_1:
+        case candlestick::INTERVAL::w_1:
             setPeriod(CandleStickController::M_3);
             break;
-        case IntervalController::M_1:
+        case candlestick::INTERVAL::M_1:
             setPeriod(CandleStickController::M_30);
             break;
     }

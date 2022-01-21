@@ -6,7 +6,7 @@
 #include <data/observer_ohlc.h>
 #include "chart_candlestick.h"
 #include "interval_controller.h"
-
+#include "chart_common.h"
 
 class CandleStickController : public QObject, public OHLCObserver {
     Q_OBJECT

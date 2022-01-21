@@ -6,12 +6,12 @@ IntervalController::IntervalController() {
     setupLabel();
     layout->addWidget(label);
 
-    ibM15 = new IntervalButton(getIntervalValue(IntervalController::m_15), "15m");
-    ibH1 = new IntervalButton(getIntervalValue(IntervalController::h_1), "1h");
-    ibH4 = new IntervalButton(getIntervalValue(IntervalController::h_4), "4h");
-    ibD1 = new IntervalButton(getIntervalValue(IntervalController::d_1), "1d");
-    ibW1 = new IntervalButton(getIntervalValue(IntervalController::w_1), "1w");
-    ibMon1 = new IntervalButton(getIntervalValue(IntervalController::M_1), "1M");
+    ibM15 = new IntervalButton(candlestick::INTERVAL::m_15, "15m");
+    ibH1 = new IntervalButton(candlestick::INTERVAL::h_1, "1h");
+    ibH4 = new IntervalButton(candlestick::INTERVAL::h_4, "4h");
+    ibD1 = new IntervalButton(candlestick::INTERVAL::d_1, "1d");
+    ibW1 = new IntervalButton(candlestick::INTERVAL::w_1, "1w");
+    ibMon1 = new IntervalButton(candlestick::INTERVAL::M_1, "1M");
 
     QObject::connect(
         ibM15, &IntervalButton::notifyInterval,
@@ -57,36 +57,20 @@ void IntervalController::setupLabel() {
     label->setAlignment(Qt::AlignLeft);
 }
 
-void IntervalController::handleIntervalChange(qint64 iSecs) {
+void IntervalController::handleIntervalChange(candlestick::INTERVAL i) {
+    selectedInterval = i;
     emit intervalChanged();
 }
 
-qint64 IntervalController::getIntervalValue(IntervalController::INTERVAL i) {
-    switch(i){
-        case IntervalController::INTERVAL::m_15:
-            return 900;
-        case IntervalController::INTERVAL::h_1:
-            return 3600;
-        case IntervalController::INTERVAL::h_4:
-            return 14400;
-        case IntervalController::INTERVAL::d_1:
-            return 86400;
-        case IntervalController::INTERVAL::w_1:
-            return 604800;
-        case IntervalController::INTERVAL::M_1:
-            return 2592000;
-    }
-}
-
-IntervalController::INTERVAL IntervalController::getSelectedInterval() {
+candlestick::INTERVAL IntervalController::getSelectedInterval() {
     return selectedInterval;
 }
 
 void IntervalController::reset() {
-    selectedInterval = INTERVAL::d_1;
+    selectedInterval = candlestick::INTERVAL::d_1;
     interval = TimeInterval(
         QDateTime::currentDateTime(),
-        getIntervalValue(selectedInterval));
+        candlestick::getChartIntervalValue(selectedInterval));
     interval.moveIntervalBackward();
 }
 

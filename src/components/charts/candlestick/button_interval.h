@@ -3,19 +3,19 @@
 
 #include <QPushButton>
 #include <settings/settings_app.h>
-
+#include "chart_common.h"
 class IntervalButton : public QPushButton
 {
     Q_OBJECT
 public:
-    IntervalButton(qint64 i, QString text);
+    IntervalButton(candlestick::INTERVAL i, QString text);
     void handleClicked();
 
 signals:
-    void notifyInterval(qint64 value);
+    void notifyInterval(candlestick::INTERVAL i);
 
 private:
-    qint64 interval;
+    candlestick::INTERVAL interval;
 };
 
 #endif
