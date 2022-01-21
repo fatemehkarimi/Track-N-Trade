@@ -146,6 +146,5 @@ void MainWindow::exchangeChanged(int) {
 }
 
 void MainWindow::handlePairSelected(QString pairSymbol) {
-    candlestickController->reset();
     controller->handlePairSelected(pairSymbol);
 }
