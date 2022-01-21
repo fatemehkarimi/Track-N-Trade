@@ -85,16 +85,16 @@ void CandleStickController::setTimeScale() {
             setPeriod(CandleStickController::M_1);
             break;
         case candlestick::INTERVAL::h_4:
-            setPeriod(CandleStickController::M_1);
-            break;
-        case candlestick::INTERVAL::d_1:
-            setPeriod(CandleStickController::M_1);
-            break;
-        case candlestick::INTERVAL::w_1:
             setPeriod(CandleStickController::M_3);
             break;
+        case candlestick::INTERVAL::d_1:
+            setPeriod(CandleStickController::M_15);
+            break;
+        case candlestick::INTERVAL::w_1:
+            setPeriod(CandleStickController::H_2);
+            break;
         case candlestick::INTERVAL::M_1:
-            setPeriod(CandleStickController::M_30);
+            setPeriod(CandleStickController::H_6);
             break;
     }
 }

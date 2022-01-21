@@ -59,6 +59,10 @@ void IntervalController::setupLabel() {
 
 void IntervalController::handleIntervalChange(candlestick::INTERVAL i) {
     selectedInterval = i;
+    interval = TimeInterval(
+        QDateTime::currentDateTime(),
+        candlestick::getChartIntervalValue(selectedInterval));
+    interval.moveIntervalBackward();
     emit intervalChanged();
 }
 
