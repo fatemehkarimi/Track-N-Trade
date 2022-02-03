@@ -16,6 +16,13 @@ Throbber::Throbber() {
     timer.start(TIMER_INTERVAL);
 }
 
+Throbber::~Throbber() {
+    delete series;
+    delete view;
+    series = nullptr;
+    view = nullptr;
+}
+
 void Throbber::handleTimeout() {
     timer.start(TIMER_INTERVAL);
     addSlice();

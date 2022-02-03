@@ -12,6 +12,7 @@
 class Throbber : public QWidget {
 public:
     explicit Throbber();
+    ~Throbber();
 
 private slots:
     void handleTimeout();
