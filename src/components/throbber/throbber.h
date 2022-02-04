@@ -1,6 +1,7 @@
 #ifndef THROBBER_H
 #define THROBBER_H
 
+#include <QGraphicsLayout>
 #include <QWidget>
 #include <QChart>
 #include <QChartView>

@@ -20,7 +20,10 @@ Throbber::Throbber(QWidget* parent)
 void Throbber::setupView() {
     view = new QtCharts::QChartView();
     view->setRenderHint(QPainter::Antialiasing);
+
     view->chart()->legend()->hide();
+    view->chart()->setBackgroundRoundness(0);
+    view->chart()->layout()->setContentsMargins(0, 0, 0, 0);
 
     QColor white = QColor(255, 255, 255);
     white.setAlphaF(0.5);
