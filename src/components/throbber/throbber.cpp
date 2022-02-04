@@ -1,19 +1,30 @@
 #include "throbber.h"
 
-Throbber::Throbber() {    
+Throbber::Throbber(QWidget* parent)
+    : QWidget(parent)
+{
     series = new QtCharts::QPieSeries();
     series->setHoleSize(0.5);
 
-    view = new QtCharts::QChartView();
-    view->setRenderHint(QPainter::Antialiasing);
-    view->chart()->legend()->hide();
+    setupView();
     view->chart()->addSeries(series);
+    setStyleSheet("background-color: rgba(0, 0, 0, 0)");
 
     QHBoxLayout* layout = new QHBoxLayout(this);
     layout->addWidget(view);
-    view->chart()->legend()->setBackgroundVisible(false);
+    
     QObject::connect(&timer, &QTimer::timeout, this, &Throbber::handleTimeout);
     timer.start(TIMER_INTERVAL);
+}
+
+void Throbber::setupView() {
+    view = new QtCharts::QChartView();
+    view->setRenderHint(QPainter::Antialiasing);
+    view->chart()->legend()->hide();
+
+    QColor white = QColor(255, 255, 255);
+    white.setAlphaF(0.5);
+    view->chart()->setBackgroundBrush(QBrush(white));
 }
 
 Throbber::~Throbber() {

@@ -10,8 +10,9 @@
 #include <QColor>
 
 class Throbber : public QWidget {
+    Q_OBJECT
 public:
-    explicit Throbber();
+    explicit Throbber(QWidget* parent=nullptr);
     ~Throbber();
 
 private slots:
@@ -19,6 +20,7 @@ private slots:
 
 private:
     void addSlice();
+    void setupView();
 
     const int TIMER_INTERVAL = 120;
     const int COUNT_SLICES = 13;
