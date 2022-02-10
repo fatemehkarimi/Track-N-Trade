@@ -15,6 +15,7 @@ public:
     virtual void clear() = 0;
     virtual void setPair(std::shared_ptr <Pair> pair) = 0;
     virtual void setOHLCData(QList <OHLC> ohlcData, QString timeFormat) = 0;
+    virtual void awaitLoadingData() = 0;    
 };
 
 

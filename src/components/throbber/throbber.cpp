@@ -31,9 +31,7 @@ void Throbber::setupView() {
 }
 
 Throbber::~Throbber() {
-    delete series;
     delete view;
-    series = nullptr;
     view = nullptr;
 }
 
@@ -46,7 +44,8 @@ void Throbber::addSlice() {
     series->clear();
 
     for(int i = 0; i < current; ++i) {
-        QtCharts::QPieSlice* slice = series->append("", TOTAL_VALUE / (COUNT_SLICES - 1));
+        QtCharts::QPieSlice* slice = 
+            series->append("", TOTAL_VALUE / (COUNT_SLICES - 1));
         slice->setColor(SHADES[i]);
     }
 

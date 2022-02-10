@@ -23,6 +23,7 @@ public:
     void clear() override;
     void setPair(std::shared_ptr <Pair> pair) override;
     void setOHLCData(QList <OHLC> ohlcData, QString timeFormat) override;
+    void awaitLoadingData() override;
 
 private:
     void setupCandlestickSeries();

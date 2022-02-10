@@ -3,9 +3,10 @@
 
 #include <QList>
 #include <memory>
-#include <QHBoxLayout>
+#include <QGridLayout>
 #include <data/ohlc.h>
 #include <data/pair.h>
+#include <components/throbber/throbber.h>
 #include "view_candlestick.h"
 #include "chart_candlestick.h"
 
@@ -16,10 +17,15 @@ public:
     void clear() override;
     void setPair(std::shared_ptr <Pair> pair) override;
     void setOHLCData(QList <OHLC> ohlcData, QString timeFormat) override;
+    void awaitLoadingData() override;
 
 private:
+    void setupLoadingObject();
+    void removeLoadingObject();
+
     CandlestickView* candlestick = nullptr;
-    QHBoxLayout* layout = nullptr;
+    QGridLayout* layout = nullptr;
+    Throbber* loadingThrobber = nullptr;
 };
 
 

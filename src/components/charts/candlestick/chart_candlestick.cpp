@@ -113,3 +113,7 @@ void CandleStickChart::clear() {
     clearAxes();
     chart->setTitle("");
 }
+
+void CandleStickChart::awaitLoadingData() {
+    
+}

@@ -48,7 +48,7 @@ protected:
     void setTimeScale();
 
 private:
-    QGridLayout* viewLayout = nullptr;
+    QVBoxLayout* viewLayout = nullptr;
     CandlestickView* candlestickView = nullptr;
     IntervalController* intervalController = nullptr;
     Controller* controller = nullptr;

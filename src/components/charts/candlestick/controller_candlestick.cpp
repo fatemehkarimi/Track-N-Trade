@@ -12,17 +12,13 @@ CandleStickController::CandleStickController(Controller* controller)
         this, &CandleStickController::getOHLCDataAsync);
 
     buildView();
-    getOHLCDataAsync();
+    // getOHLCDataAsync();
 }
 
 void CandleStickController::buildView() {
-    viewLayout = new QGridLayout();
-    
-    viewLayout->addWidget(
-        candlestickView, 0, 0, 30, -1);
-
-    viewLayout->addWidget(
-        intervalController, 30, 0, 1, -1);
+    viewLayout = new QVBoxLayout();    
+    viewLayout->addWidget(candlestickView);
+    viewLayout->addWidget(intervalController);
 }
 
 QLayout* CandleStickController::getView() {
@@ -56,6 +52,9 @@ void CandleStickController::reset() {
 }
 
 void CandleStickController::getOHLCDataAsync() {
+    candlestickView->awaitLoadingData();
+    intervalController->setEnabled(false);
+
     setTimeScale();
     controller->handleOHLCDataRequest(
         period,
