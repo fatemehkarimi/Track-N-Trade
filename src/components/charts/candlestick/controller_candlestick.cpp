@@ -3,7 +3,7 @@
 CandleStickController::CandleStickController(Controller* controller)
     : controller(controller)
 {
-    candlestickChart = new CandleStickChart();
+    candlestickView = new CandlestickViewProxy();
     intervalController = new IntervalController();
     intervalController->setEnabled(false);
     QObject::connect(
@@ -16,12 +16,16 @@ CandleStickController::CandleStickController(Controller* controller)
 }
 
 void CandleStickController::buildView() {
-    viewLayout = new QVBoxLayout();
-    viewLayout->addWidget(candlestickChart->getView());
-    viewLayout->addWidget(intervalController);
+    viewLayout = new QGridLayout();
+    
+    viewLayout->addWidget(
+        candlestickView, 0, 0, 30, -1);
+
+    viewLayout->addWidget(
+        intervalController, 30, 0, 1, -1);
 }
 
-QVBoxLayout* CandleStickController::getView() {
+QLayout* CandleStickController::getView() {
     return viewLayout;
 }
 
@@ -29,8 +33,8 @@ void CandleStickController::notifyOHLCUpdate(
     std::shared_ptr <Pair> pair, QList <OHLC> ohlcData)
 {
     intervalController->setEnabled(true);
-    candlestickChart->setPair(pair);
-    candlestickChart->setOHLCData(ohlcData, getChartTimeFormat());
+    candlestickView->setPair(pair);
+    candlestickView->setOHLCData(ohlcData, getChartTimeFormat());
 }
 
 void CandleStickController::setPeriod(CandleStickController::PERIOD p) {
@@ -43,7 +47,7 @@ CandleStickController::PERIOD CandleStickController::getPeriod() {
 
 void CandleStickController::clear() {
     intervalController->setEnabled(false);
-    candlestickChart->clear();
+    candlestickView->clear();
     this->reset();
 }
 

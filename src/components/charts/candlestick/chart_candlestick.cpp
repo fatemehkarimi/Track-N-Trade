@@ -11,10 +11,9 @@ CandleStickChart::CandleStickChart() {
             getChartSettings().getChartTitleFont());
 
     view = new QtCharts::QChartView(chart);
-}
 
-QtCharts::QChartView* CandleStickChart::getView() {
-    return view;
+    QHBoxLayout* layout = new QHBoxLayout(this);
+    layout->addWidget(view);
 }
 
 void CandleStickChart::setPair(std::shared_ptr <Pair> pair) {

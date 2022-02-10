@@ -4,7 +4,8 @@
 #include <QtWidgets>
 #include <data/controller.h>
 #include <data/observer_ohlc.h>
-#include "chart_candlestick.h"
+#include "view_candlestick.h"
+#include "proxy_view_candlestick.h"
 #include "interval_controller.h"
 #include "chart_common.h"
 
@@ -34,7 +35,7 @@ public:
     
 
     void buildView();
-    QVBoxLayout* getView();
+    QLayout* getView();
 
     void clear();
     void reset();
@@ -42,16 +43,14 @@ public:
     void setPeriod(PERIOD);
     PERIOD getPeriod();
 
-    friend class CandleStickChart;
-
 protected:
     QString getChartTimeFormat();
     void setTimeScale();
 
 private:
-    QVBoxLayout* viewLayout = nullptr;
+    QGridLayout* viewLayout = nullptr;
+    CandlestickView* candlestickView = nullptr;
     IntervalController* intervalController = nullptr;
-    CandleStickChart* candlestickChart = nullptr;
     Controller* controller = nullptr;
     PERIOD period = PERIOD::H_1;
 };

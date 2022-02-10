@@ -3,7 +3,7 @@
 
 #include <memory>
 #include <QtGlobal>
-#include <QVBoxLayout>
+#include <QHBoxLayout>
 #include <QLineSeries>
 #include <QCandlestickSeries>
 #include <QCandlestickSet>
@@ -14,15 +14,15 @@
 #include <QChartView>
 #include <data/pair.h>
 #include <data/ohlc.h>
+#include "view_candlestick.h"
 
-class CandleStickChart
+class CandleStickChart : public CandlestickView
 {
 public:
     explicit CandleStickChart();
-    void setPair(std::shared_ptr <Pair> pair);
-    void setOHLCData(QList <OHLC> ohlcData, QString timeFormat);
-    void clear();
-    QtCharts::QChartView* getView();
+    void clear() override;
+    void setPair(std::shared_ptr <Pair> pair) override;
+    void setOHLCData(QList <OHLC> ohlcData, QString timeFormat) override;
 
 private:
     void setupCandlestickSeries();
