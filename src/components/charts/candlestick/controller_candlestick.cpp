@@ -12,7 +12,6 @@ CandleStickController::CandleStickController(Controller* controller)
         this, &CandleStickController::getOHLCDataAsync);
 
     buildView();
-    // getOHLCDataAsync();
 }
 
 void CandleStickController::buildView() {
