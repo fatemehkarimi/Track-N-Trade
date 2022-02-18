@@ -3,11 +3,10 @@
 Throbber::Throbber(QWidget* parent)
     : QWidget(parent)
 {
-    series = new QtCharts::QPieSeries();
-    series->setHoleSize(0.5);
+    registerAsMetaType();
+    setupSeriesHandler();
 
     setupView();
-    view->chart()->addSeries(series);
     setStyleSheet("background-color: rgba(0, 0, 0, 0)");
 
     QHBoxLayout* layout = new QHBoxLayout(this);
@@ -30,28 +29,52 @@ void Throbber::setupView() {
     view->chart()->setBackgroundBrush(QBrush(white));
 }
 
+void Throbber::setupSeriesHandler() {
+    seriesHandler = new SeriesHandler();
+    seriesHandler->moveToThread(&seriesHandlerThread);
+    QObject::connect(
+        this,
+        &Throbber::updateSeries,
+        seriesHandler,
+        &SeriesHandler::handle);
+
+    QObject::connect(
+        seriesHandler,
+        &SeriesHandler::seriesReady,
+        this,
+        &Throbber::handleSeriesUpdate);
+    
+    seriesHandlerThread.start();
+}
+
 Throbber::~Throbber() {
+    seriesHandlerThread.quit();
+    seriesHandlerThread.wait();
+
     delete view;
     view = nullptr;
+
+    delete seriesHandler;
+    seriesHandler = nullptr;
 }
 
 void Throbber::handleTimeout() {
+    emit updateSeries(current);
+    current = (current + 1) % COUNT_SLICES;
     timer.start(TIMER_INTERVAL);
-    addSlice();
 }
 
-void Throbber::addSlice() {
-    series->clear();
+void Throbber::handleSeriesUpdate(QtCharts::QPieSeries* series) {
+    if(!view->chart()->series().isEmpty())
+        view->chart()->removeAllSeries();
 
-    for(int i = 0; i < current; ++i) {
-        QtCharts::QPieSlice* slice = 
-            series->append("", TOTAL_VALUE / (COUNT_SLICES - 1));
-        slice->setColor(SHADES[i]);
+    view->chart()->addSeries(series);
+}
+
+void Throbber::registerAsMetaType() {
+    static bool registered = false;
+    if(!registered) {
+        registered = true;
+        qRegisterMetaType <QtCharts::QPieSeries*>("QtCharts::QPieSeries*");
     }
-
-    QtCharts::QPieSlice* emptySlice = series->append(
-        "", TOTAL_VALUE - series->count() * TOTAL_VALUE / (COUNT_SLICES - 1));
-    emptySlice->setColor(EMPTY_SHADE);
-
-    current = (current + 1) % COUNT_SLICES;
 }

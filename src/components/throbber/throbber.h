@@ -1,6 +1,8 @@
 #ifndef THROBBER_H
 #define THROBBER_H
 
+#include <QDebug>
+#include <QThread>
 #include <QGraphicsLayout>
 #include <QWidget>
 #include <QChart>
@@ -9,21 +11,35 @@
 #include <QHBoxLayout>
 #include <QTimer>
 #include <QColor>
+#include <QApplication>
 
-class Throbber : public QWidget {
+
+class SeriesHandler : public QObject {
     Q_OBJECT
-public:
-    explicit Throbber(QWidget* parent=nullptr);
-    ~Throbber();
+public slots:
+    void handle(int current) {
+        QtCharts::QPieSeries* series = new QtCharts::QPieSeries();
+        series->setHoleSize(0.5);
 
-private slots:
-    void handleTimeout();
+        for(int i = 0; i < current; ++i) {
+            QtCharts::QPieSlice* slice = 
+                series->append("", TOTAL_VALUE / (COUNT_SLICES - 1));
+            slice->setColor(SHADES[i]);
+        }
 
+        QtCharts::QPieSlice* emptySlice = series->append(
+            "",
+            TOTAL_VALUE - series->count() * TOTAL_VALUE / (COUNT_SLICES - 1));
+        emptySlice->setColor(EMPTY_SHADE);
+
+        series->moveToThread(QApplication::instance()->thread());
+        emit seriesReady(series);
+    }
+
+signals:
+    void seriesReady(QtCharts::QPieSeries* series);
+    
 private:
-    void addSlice();
-    void setupView();
-
-    const int TIMER_INTERVAL = 120;
     const int COUNT_SLICES = 13;
     const double TOTAL_VALUE = 120;
     const QColor SHADES[12] = {
@@ -42,13 +58,37 @@ private:
     };
 
     const QColor EMPTY_SHADE = QColor(225, 230, 237);
+};
 
+class Throbber : public QWidget {
+    Q_OBJECT
+public:
+    explicit Throbber(QWidget* parent=nullptr);
+    ~Throbber();
+
+private slots:
+    void handleTimeout();
+
+signals:
+    void updateSeries(int current);
+
+private:
+    static void registerAsMetaType();
+    void setupView();
+    void setupSeriesHandler();
+    void handleSeriesUpdate(QtCharts::QPieSeries* series);
+
+    const int COUNT_SLICES = 13;
+    const int TIMER_INTERVAL = 120;
     int current = 0;
 
+    SeriesHandler* seriesHandler = nullptr;
+    QThread seriesHandlerThread;
+
     QTimer timer;
-    QtCharts::QPieSeries* series;
     QtCharts::QChartView* view;
 };
 
+Q_DECLARE_METATYPE(QtCharts::QPieSeries*)
 
 #endif
